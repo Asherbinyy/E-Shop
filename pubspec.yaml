@@ -1,0 +1,48 @@
+name: e_shop
+description: A new Flutter project.
+
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.12.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # Icons And Fonts
+  cupertino_icons: ^1.0.2
+  google_fonts: ^2.1.0
+  # State management
+  bloc: ^7.1.0
+  flutter_bloc: ^7.2.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+
+  fonts:
+    - family: Montserrat
+      fonts:
+        - asset: assets/google_fonts/Montserrat-Thin.ttf
+        - asset: assets/google_fonts/Montserrat-ExtraLight.ttf
+        - asset: assets/google_fonts/Montserrat-Light.ttf
+        - asset: assets/google_fonts/Montserrat-Medium.ttf
+        - asset: assets/google_fonts/Montserrat-Regular.ttf
+        - asset: assets/google_fonts/Montserrat-Bold.ttf
+          weight: 700
+
+
+    - family: Cairo
+      fonts:
+        - asset: assets/google_fonts/Cairo-Regular.ttf
+
