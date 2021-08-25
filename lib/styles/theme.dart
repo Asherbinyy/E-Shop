@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 ThemeData lightMode = ThemeData(
-
   scaffoldBackgroundColor: kLightPrimaryColor,
   backgroundColor: kLightPrimaryColor,
   primaryColor: kPrimaryColor,
@@ -12,7 +11,7 @@ ThemeData lightMode = ThemeData(
   bottomNavigationBarTheme: BottomNavigationBarThemeData(
     showSelectedLabels: false,
     showUnselectedLabels: false,
-    backgroundColor:kLightPrimaryColor,
+    backgroundColor: kLightPrimaryColor,
     selectedItemColor: kPrimaryColor,
     unselectedItemColor: kSecondaryColor,
     elevation: 5.0,
@@ -23,8 +22,9 @@ ThemeData lightMode = ThemeData(
     backwardsCompatibility: false,
     elevation: 0.0,
     centerTitle: true,
-    titleTextStyle: TextStyle(color: Colors.black87, fontSize: 18.0, fontWeight: FontWeight.bold),
-    iconTheme: IconThemeData(color:kDarkPrimaryColor),
+    titleTextStyle: TextStyle(
+        color: Colors.black87, fontSize: 18.0, fontWeight: FontWeight.bold),
+    iconTheme: IconThemeData(color: kDarkPrimaryColor),
     systemOverlayStyle: SystemUiOverlayStyle(
       statusBarColor: kLightPrimaryColor,
       statusBarIconBrightness: Brightness.dark,
@@ -33,53 +33,61 @@ ThemeData lightMode = ThemeData(
   ),
   tabBarTheme: TabBarTheme(
     labelColor: kPrimaryColor,
-    unselectedLabelColor:kSecondaryColor,
+    unselectedLabelColor: kSecondaryColor,
   ),
   textTheme: TextTheme(
     bodyText1: TextStyle(color: kLightPrimaryColor),
     bodyText2: TextStyle(color: kDarkPrimaryColor),
     headline5: TextStyle(color: kLightPrimaryColor),
-    headline6: TextStyle(color:kDarkSecondaryColor),
+    headline6: TextStyle(color: kDarkSecondaryColor),
     subtitle1: TextStyle(fontWeight: FontWeight.bold),
     button: TextStyle(fontSize: 12),
   ),
   popupMenuTheme: PopupMenuThemeData(
-    color:kLightSecondaryColor,
+    color: kLightSecondaryColor,
     textStyle: TextStyle(color: kThirdColor),
   ),
   iconTheme: IconThemeData(color: kDarkPrimaryColor),
-  outlinedButtonTheme: OutlinedButtonThemeData(style: OutlinedButton.styleFrom(
-      shadowColor: kPrimaryColor.withOpacity(0.1),
-      elevation: 2.0,
-      side: BorderSide(width: 1.0,color: kDarkSecondaryColor.withOpacity(0.05),)
-  )),
-
+  outlinedButtonTheme: OutlinedButtonThemeData(
+      style: OutlinedButton.styleFrom(
+          shadowColor: kPrimaryColor.withOpacity(0.1),
+          elevation: 2.0,
+          side: BorderSide(
+            width: 1.0,
+            color: kDarkSecondaryColor.withOpacity(0.05),
+          ))),
 );
 
 ThemeData darkMode = ThemeData(
-  scaffoldBackgroundColor:kDarkPrimaryColor,
-  backgroundColor:kDarkPrimaryColor,
+  scaffoldBackgroundColor: kDarkPrimaryColor,
+  backgroundColor: kDarkPrimaryColor,
   primarySwatch: Colors.teal,
   cardColor: kDarkPrimaryColor,
   fontFamily: fontFamily,
   bottomNavigationBarTheme: BottomNavigationBarThemeData(
     showSelectedLabels: false,
     showUnselectedLabels: false,
-    backgroundColor:kDarkPrimaryColor,
+    backgroundColor: kDarkPrimaryColor,
     selectedItemColor: kPrimaryColor,
     unselectedItemColor: kSecondaryColor,
     elevation: 5.0,
     type: BottomNavigationBarType.fixed,
   ),
   appBarTheme: AppBarTheme(
-    backgroundColor:kDarkPrimaryColor,
+    backgroundColor: kDarkPrimaryColor,
     backwardsCompatibility: false,
     elevation: 0.0,
     centerTitle: true,
-    titleTextStyle: TextStyle(color: kLightPrimaryColor, fontSize: 18.0, fontWeight: FontWeight.bold),
-    iconTheme: IconThemeData(color: kLightPrimaryColor,),
+    titleTextStyle: TextStyle(
+      color: kLightPrimaryColor,
+      fontSize: 18.0,
+      fontWeight: FontWeight.bold,
+    ),
+    iconTheme: IconThemeData(
+      color: kLightPrimaryColor,
+    ),
     systemOverlayStyle: SystemUiOverlayStyle(
-      statusBarColor:kDarkPrimaryColor,
+      statusBarColor: kDarkPrimaryColor,
       statusBarIconBrightness: Brightness.light,
       statusBarBrightness: Brightness.light,
     ),
@@ -90,11 +98,12 @@ ThemeData darkMode = ThemeData(
   ),
   textTheme: TextTheme(
     caption: TextStyle(color: Colors.grey),
-    bodyText1: TextStyle(color:kDarkPrimaryColor),
+    bodyText1: TextStyle(color: kDarkPrimaryColor),
     bodyText2: TextStyle(color: kLightPrimaryColor),
-    headline5: TextStyle(color:kDarkPrimaryColor),
-    headline6: TextStyle(color:kLightSecondaryColor),
-    subtitle1: TextStyle(fontWeight: FontWeight.bold,color: kLightPrimaryColor),
+    headline5: TextStyle(color: kDarkPrimaryColor),
+    headline6: TextStyle(color: kLightSecondaryColor),
+    subtitle1:
+        TextStyle(fontWeight: FontWeight.bold, color: kLightPrimaryColor),
     subtitle2: TextStyle(color: kLightPrimaryColor),
     button: TextStyle(fontSize: 12),
   ),
@@ -103,10 +112,10 @@ ThemeData darkMode = ThemeData(
     textStyle: TextStyle(),
   ),
   iconTheme: IconThemeData(color: kLightPrimaryColor),
-  outlinedButtonTheme: OutlinedButtonThemeData(style: OutlinedButton.styleFrom(
-      shadowColor: kPrimaryColor.withOpacity(0.1),
-      elevation: 2.0,
-      side: BorderSide(width: 1,color: kLightSecondaryColor.withOpacity(0.1))
-  )),
-
+  outlinedButtonTheme: OutlinedButtonThemeData(
+      style: OutlinedButton.styleFrom(
+          shadowColor: kPrimaryColor.withOpacity(0.1),
+          elevation: 2.0,
+          side: BorderSide(
+              width: 1, color: kLightSecondaryColor.withOpacity(0.1)))),
 );

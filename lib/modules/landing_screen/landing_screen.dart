@@ -8,8 +8,6 @@ class LandingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var _theme = Theme.of(context);
-    var height = MediaQuery.of(context).size.height;
-    var width = MediaQuery.of(context).size.width;
     return Container(
         width: double.infinity,
         decoration: BoxDecoration(
