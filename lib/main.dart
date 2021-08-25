@@ -27,7 +27,7 @@ class EShop extends StatelessWidget {
         LayoutScreen.id:(context)=>LayoutScreen(),
         LoginScreen.id:(context) =>LoginScreen(),
       },
-      home: LoginScreen(),
+      home: LandingScreen(),
     );
   }
 }
