@@ -1,5 +1,6 @@
 import 'package:e_shop/layout/layout_screen.dart';
 import 'package:e_shop/modules/landing_screen/landing_screen.dart';
+import 'package:e_shop/modules/register_screen/register_screen.dart';
 import 'package:e_shop/styles/theme.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -26,8 +27,9 @@ class EShop extends StatelessWidget {
         LandingScreen.id:(context)=>LandingScreen(),
         LayoutScreen.id:(context)=>LayoutScreen(),
         LoginScreen.id:(context) =>LoginScreen(),
+        RegisterScreen.id:(context) =>RegisterScreen(),
       },
-      home: LandingScreen(),
+      home: LoginScreen(),
     );
   }
 }
