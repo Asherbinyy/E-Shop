@@ -1,4 +1,4 @@
-# e_shop
+# E_shop
 
 E-Commerce Shop Application.
 

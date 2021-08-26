@@ -18,6 +18,11 @@ dependencies:
   # State management
   bloc: ^7.1.0
   flutter_bloc: ^7.2.0
+  #styling
+  smooth_page_indicator: ^0.3.0-nullsafety.0
+  # networking
+  shared_preferences:
+  dio:
 
 dev_dependencies:
   flutter_test:

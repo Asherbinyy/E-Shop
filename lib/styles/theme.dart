@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 ThemeData lightMode = ThemeData(
-
   scaffoldBackgroundColor: kLightPrimaryColor,
   backgroundColor: kLightPrimaryColor,
   primaryColor: kPrimaryColor,
