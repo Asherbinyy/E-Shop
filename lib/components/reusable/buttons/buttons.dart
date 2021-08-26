@@ -1,4 +1,5 @@
 import 'package:e_shop/components/reusable/colors/color.dart';
+import 'package:e_shop/styles/constants.dart';
 import 'package:flutter/material.dart';
 
 class DefaultLoginButton extends StatelessWidget {
@@ -21,18 +22,27 @@ class DefaultLoginButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: width,
-      decoration: mixedColors(
-        startAngle: startAngel,
-        endAngle: endAngle,
-
-      ),
-      child: MaterialButton(
-        child: Text(title,style: Theme.of(context).textTheme.bodyText1!.copyWith(
-          color: textColor,fontWeight: FontWeight.bold
-        ),),
-        onPressed: onPressed,
+    return Material(
+      borderRadius: BorderRadius.circular(25.0),
+      shadowColor: kSecondaryColor,
+      elevation: 5.0,
+      child: Container(
+        width: width,
+        decoration: mixedColors(
+          startAngle: startAngel,
+          endAngle: endAngle,
+        ),
+        child: MaterialButton(
+          child: Text(
+            title,
+            style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                  color: textColor,
+                  fontWeight: FontWeight.bold,
+              fontSize: 16.5
+                ),
+          ),
+          onPressed: onPressed,
+        ),
       ),
     );
   }

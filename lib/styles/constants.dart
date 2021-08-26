@@ -22,45 +22,45 @@ const String fontFamily = 'Montserrat' ;
 // Pics
 const String defaultImage = 'assets/images/default.jpg';
 
-const v1Space = SizedBox(
-  height: 10.0,
-);// padding vertical  by 10
-const v2Space = SizedBox(
-  height: 15.0,
-);// padding vertical  by 15
-const v3Space = SizedBox(
-  height: 20.0,
-);// padding vertical  by 20
-const v4Space = SizedBox(
-  height: 25.0,
-);// padding vertical  by 25
-const v5Space = SizedBox(
-  height: 30.0,
-);// padding vertical  by 30
-const v6Space = SizedBox(
-  height: double.infinity,
-);// padding vertical  by infinity
-const h0Space = SizedBox(
-  width: 5.0,
-);// padding horizontal by 5
-const h1Space = SizedBox(
-  width: 10.0,
-);// padding horizontal by 10
-const h2Space = SizedBox(
-  width: 15.0,
-);// padding horizontal by 15
-const h3Space = SizedBox(
-  width: 20.0,
-);// padding horizontal by 20
-const h4Space = SizedBox(
-  width: 25.0,
-);// padding horizontal by 25
-const h5Space = SizedBox(
-  width: 30.0,
-);// padding horizontal by 30
-const h6Space = SizedBox(
-  width: 50.0,
-);// padding horizontal by 50
-const h7Space = SizedBox(
-  width: double.infinity,
-);// padding horizontal by infinity
+// const v1Space = SizedBox(
+//   height: 10.0,
+// );// padding vertical  by 10
+// const v2Space = SizedBox(
+//   height: 15.0,
+// );// padding vertical  by 15
+// const v3Space = SizedBox(
+//   height: 20.0,
+// );// padding vertical  by 20
+// const v4Space = SizedBox(
+//   height: 25.0,
+// );// padding vertical  by 25
+// const v5Space = SizedBox(
+//   height: 30.0,
+// );// padding vertical  by 30
+// const v6Space = SizedBox(
+//   height: double.infinity,
+// );// padding vertical  by infinity
+// const h0Space = SizedBox(
+//   width: 5.0,
+// );// padding horizontal by 5
+// const h1Space = SizedBox(
+//   width: 10.0,
+// );// padding horizontal by 10
+// const h2Space = SizedBox(
+//   width: 15.0,
+// );// padding horizontal by 15
+// const h3Space = SizedBox(
+//   width: 20.0,
+// );// padding horizontal by 20
+// const h4Space = SizedBox(
+//   width: 25.0,
+// );// padding horizontal by 25
+// const h5Space = SizedBox(
+//   width: 30.0,
+// );// padding horizontal by 30
+// const h6Space = SizedBox(
+//   width: 50.0,
+// );// padding horizontal by 50
+// const h7Space = SizedBox(
+//   width: double.infinity,
+// );// padding horizontal by infinity //
