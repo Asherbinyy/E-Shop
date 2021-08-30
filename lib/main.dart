@@ -62,7 +62,7 @@ class EShop extends StatelessWidget {
               LoginScreen.id: (context) => LoginScreen(),
               RegisterScreen.id: (context) => RegisterScreen(),
             },
-            home: LayoutScreen(),
+            home: LoginScreen(),
           );
         },
       ),

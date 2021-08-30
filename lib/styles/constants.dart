@@ -70,3 +70,7 @@ const kLoadingFadingCircle = SpinKitFadingCircle(
   color: kThirdColor,
   size: 25.0,
 );
+
+// ******* My Account **********
+// username : ahmedshiko@gmail.com
+// password : 123456

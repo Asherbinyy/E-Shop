@@ -146,6 +146,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "fluttertoast",
+      "rootUri": "file:///C:/src/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/fluttertoast-8.0.8",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "font_awesome_flutter",
       "rootUri": "file:///C:/src/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/font_awesome_flutter-9.1.0",
       "packageUri": "lib/",
@@ -416,7 +422,7 @@
       "languageVersion": "2.12"
     }
   ],
-  "generated": "2021-08-29T21:41:01.469800Z",
+  "generated": "2021-08-30T15:15:02.072825Z",
   "generator": "pub",
   "generatorVersion": "2.13.4"
 }
