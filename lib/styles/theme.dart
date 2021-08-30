@@ -22,6 +22,7 @@ ThemeData lightMode = ThemeData(
     backwardsCompatibility: false,
     elevation: 0.0,
     centerTitle: true,
+
     titleTextStyle: TextStyle(
         color: Colors.black87, fontSize: 18.0, fontWeight: FontWeight.bold),
     iconTheme: IconThemeData(color: kDarkPrimaryColor),
