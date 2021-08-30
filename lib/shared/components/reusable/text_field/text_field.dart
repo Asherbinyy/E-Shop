@@ -58,7 +58,6 @@ class DefaultTextField extends StatelessWidget {
             shadowColor: formFieldShadowColor,
             borderRadius: BorderRadius.circular(25.0),
             child: Container(
-              height: MediaQuery.of(context).size.height / 14.2,
               width: MediaQuery.of(context).size.width / 1.4,
               child: TextFormField(
                 cursorHeight: MediaQuery.of(context).size.height / 30.0,

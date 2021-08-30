@@ -170,6 +170,13 @@
             </list>
           </value>
         </entry>
+        <entry key="fluttertoast">
+          <value>
+            <list>
+              <option value="C:/src/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/fluttertoast-8.0.8/lib" />
+            </list>
+          </value>
+        </entry>
         <entry key="font_awesome_flutter">
           <value>
             <list>
@@ -501,6 +508,7 @@
       <root url="file://C:/src/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_bloc-7.1.0/lib" />
       <root url="file://C:/src/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_spinkit-5.1.0/lib" />
       <root url="file://C:/src/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_svg-0.22.0/lib" />
+      <root url="file://C:/src/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/fluttertoast-8.0.8/lib" />
       <root url="file://C:/src/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/font_awesome_flutter-9.1.0/lib" />
       <root url="file://C:/src/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/freezed_annotation-0.14.2/lib" />
       <root url="file://C:/src/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/google_fonts-2.1.0/lib" />

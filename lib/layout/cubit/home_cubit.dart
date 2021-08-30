@@ -3,7 +3,6 @@ import 'package:e_shop/models/api/banners_model.dart';
 import 'package:e_shop/models/api/categories_model.dart';
 import 'package:e_shop/network/remote/dio_helper.dart';
 import 'package:e_shop/network/remote/end_points.dart';
-import 'package:e_shop/styles/constants.dart';
 import '/layout/cubit/home_states.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

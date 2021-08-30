@@ -1,18 +1,22 @@
-
+import 'package:e_shop/modules/landing/landing_screen.dart';
+import 'package:e_shop/modules/register/register_screen.dart';
 import 'package:e_shop/shared/components/reusable/buttons/buttons.dart';
 import 'package:e_shop/shared/components/reusable/text_field/text_field.dart';
 import 'package:e_shop/styles/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'cubit/login_cubit.dart';
 import 'cubit/login_states.dart';
 
 class LoginScreen extends StatelessWidget {
-
   static String id = 'LoginScreen';
+ static var formKey = GlobalKey<FormState>();
+ static var passwordLogInController = TextEditingController();
+ static var emailLogInController = TextEditingController();
   const LoginScreen({Key? key}) : super(key: key);
 
   @override
@@ -20,18 +24,44 @@ class LoginScreen extends StatelessWidget {
     var screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     return BlocProvider(
-      create: (context)=> LoginCubit(),
-      child: BlocConsumer<LoginCubit,LoginStates>(
-        listener:(context,state){
-          if (state is PasswordValidatorState){print('password validator');}
-        } ,
-        builder: (context,state){
+      create: (context) => LoginCubit(),
+      child: BlocConsumer<LoginCubit, LoginStates>(
+        listener: (context, state) {
+          if (state is LoginSuccessState) {
+           if (state.loginModel.status!) {
+             print(state.loginModel.message);
+             print(state.loginModel.data!.token);
+             Fluttertoast.showToast(
+                 msg: state.loginModel.message!,
+                 toastLength: Toast.LENGTH_LONG,
+                 gravity: ToastGravity.BOTTOM,
+                 timeInSecForIosWeb: 5,
+                 backgroundColor: Colors.green,
+                 textColor: Colors.white,
+                 fontSize: 16.0
+             );
+           }
+           else{
+             print(state.loginModel.message);
+             Fluttertoast.showToast(
+                 msg: state.loginModel.message!,
+                 toastLength: Toast.LENGTH_LONG,
+                 gravity: ToastGravity.BOTTOM,
+                 timeInSecForIosWeb: 5,
+                 backgroundColor: Colors.red,
+                 textColor: Colors.white,
+                 fontSize: 16.0
+             );
+           }
+          }
+        },
+        builder: (context, state) {
           return Scaffold(
             backgroundColor: Colors.white,
             body: SingleChildScrollView(
               physics: BouncingScrollPhysics(),
               child: Form(
-                key: LoginCubit.get(context).formKey,
+                key: formKey,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -46,7 +76,8 @@ class LoginScreen extends StatelessWidget {
                           Center(
                             heightFactor: 1.35,
                             child: Material(
-                              borderRadius: BorderRadius.circular(screenWidth / 5),
+                              borderRadius:
+                                  BorderRadius.circular(screenWidth / 5),
                               shadowColor: kPrimaryColor.withRed(1),
                               elevation: 12.0,
                               child: CircleAvatar(
@@ -74,18 +105,17 @@ class LoginScreen extends StatelessWidget {
                     ),
                     Text('Welcome Back!',
                         style: Theme.of(context).textTheme.headline6!.copyWith(
-                          fontWeight: FontWeight.bold,
-
-                        )),
+                              fontWeight: FontWeight.bold,
+                          color: Colors.black54
+                            )),
                     SizedBox(
                       height: MediaQuery.of(context).size.height / 150.0,
                     ),
                     Text('Login to your account',
                         style: Theme.of(context).textTheme.button!.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.grey,
-                          fontSize: 10.0
-                        )),
+                            fontWeight: FontWeight.bold,
+                            color: Colors.grey,
+                            fontSize: 10.0)),
                     SizedBox(
                       height: MediaQuery.of(context).size.height / 25.0,
                     ),
@@ -97,9 +127,10 @@ class LoginScreen extends StatelessWidget {
                       formFieldShadowColor: kPrimaryColor.withRed(1),
                       cursorColor: kPrimaryColor.withRed(1),
                       iconShadowColor: kPrimaryColor.withRed(1),
-                      controller: LoginCubit.get(context).emailLogInController ,
+                      controller: emailLogInController,
                       keyboardType: TextInputType.emailAddress,
-                      validator: LoginCubit.get(context).validator('You should Enter Email Address'),
+                      validator: LoginCubit.get(context)
+                          .validator('You should Enter Email Address'),
                       onFieldSubmitted: (value) {
                         print(value);
                       },
@@ -120,11 +151,18 @@ class LoginScreen extends StatelessWidget {
                       formFieldShadowColor: kSecondaryColor.withRed(1),
                       iconShadowColor: kSecondaryColor.withRed(1),
                       cursorColor: kSecondaryColor.withRed(1),
-                      controller: LoginCubit.get(context).passwordLogInController ,
+                      controller: passwordLogInController,
                       keyboardType: TextInputType.visiblePassword,
-                      validator:LoginCubit.get(context).validator('You should Enter Password') ,
-                      onFieldSubmitted: LoginCubit.get(context).onFieldSubmitted(),
-                      onChanged:LoginCubit.get(context).onChanged() ,
+                      validator: LoginCubit.get(context)
+                          .validator('You should Enter Password'),
+                      onFieldSubmitted:(value){
+                        if (formKey.currentState!.validate()) {
+                          LoginCubit.get(context).userLogin(
+                              email: emailLogInController.text,
+                              password: passwordLogInController.text);
+                              print(value);
+                        }
+                      },
                       suffixPressed: () {
                         LoginCubit.get(context).suffixPressed();
                       },
@@ -145,21 +183,27 @@ class LoginScreen extends StatelessWidget {
                                 onChanged: (isCheckBox) {
                                   LoginCubit.get(context).checkBox();
                                 }),
-                            Text('Remember Me',
+                            Text(
+                              'Remember Me',
                               style: Theme.of(context)
-                                  .textTheme.bodyText1!.copyWith(
-                                  color: Colors.black54,
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.bold),
+                                  .textTheme
+                                  .bodyText1!
+                                  .copyWith(
+                                      color: Colors.black54,
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.bold),
                             ),
                           ],
                         ),
                         TextButton(
                           child: Text(
                             'Forget Password ?',
-                            style: Theme.of(context).textTheme.bodyText2!.copyWith(
-                                fontWeight: FontWeight.bold,
-                                color: kPrimaryColor.withRed(1)),
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText2!
+                                .copyWith(
+                                    fontWeight: FontWeight.bold,
+                                    color: kPrimaryColor.withRed(1)),
                           ),
                           onPressed: () {},
                         ), // forget password Button
@@ -168,16 +212,30 @@ class LoginScreen extends StatelessWidget {
                     SizedBox(
                       height: MediaQuery.of(context).size.height / 150.0,
                     ),
-                    DefaultLoginButton(
-                      title: 'Sign in',
-                      width: screenWidth / 2.5,
-                      onPressed: () {
-                        if (LoginCubit.get(context).formKey.currentState!.validate()) {
-                          print(LoginCubit.get(context).passwordLogInController.text);
-                          print(LoginCubit.get(context).emailLogInController.text);
-                          Navigator.pushNamed(context,"RegisterScreen" );
-                        }
-                      },
+                    MyConditionalBuilder(
+                      condition: state is !LoginLoadingState ,
+                      builder: DefaultLoginButton(
+                        title: 'Sign in',
+                        width: screenWidth / 2.5,
+                        onPressed: () {
+                          if (formKey.currentState!.validate()) {
+                            LoginCubit.get(context).userLogin(
+                                email: emailLogInController.text,
+                                password: passwordLogInController.text);
+                            print(passwordLogInController.text);
+                            print(emailLogInController.text);
+                            // Navigator.pushAndRemoveUntil(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //       builder: (context) => LayoutScreen(),
+                            //     ),
+                            //     (route) => false);
+                          }
+                        },
+                      ),
+                       feedback: Center(child: CircularProgressIndicator(
+                         color: kSecondaryColor.withRed(1),
+                       )),
                     ),
                     SizedBox(
                       height: MediaQuery.of(context).size.height / 40.0,
@@ -194,12 +252,15 @@ class LoginScreen extends StatelessWidget {
                         SizedBox(
                           width: screenWidth / 30.0,
                         ),
-                        Text('or Sign in with',
+                        Text(
+                          'or Sign in with',
                           style: Theme.of(context)
-                              .textTheme.bodyText1!.copyWith(
-                              color: Colors.black54,
-                              fontSize: 13,
-                              fontWeight: FontWeight.bold),
+                              .textTheme
+                              .bodyText1!
+                              .copyWith(
+                                  color: Colors.black54,
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.bold),
                         ),
                         SizedBox(
                           width: screenWidth / 30.0,
@@ -256,21 +317,28 @@ class LoginScreen extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text('Do not have an account?',
+                        Text(
+                          'Do not have an account?',
                           style: Theme.of(context)
-                              .textTheme.bodyText1!.copyWith(
-                              color: Colors.black54,
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold),
+                              .textTheme
+                              .bodyText1!
+                              .copyWith(
+                                  color: Colors.black54,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold),
                         ),
                         TextButton(
-                          child: Text('Sign up',
-                            style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                              color: kSecondaryColor.withRed(1),
-                              fontWeight: FontWeight.bold
-                          ),),
-                          onPressed: (){
-                            Navigator.pushNamed(context, LoginScreen.id);
+                          child: Text(
+                            'Sign up',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText1!
+                                .copyWith(
+                                    color: kSecondaryColor.withRed(1),
+                                    fontWeight: FontWeight.bold),
+                          ),
+                          onPressed: () {
+                            Navigator.pushNamed(context, RegisterScreen.id);
                           },
                         )
                       ],
