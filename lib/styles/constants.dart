@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:e_shop/shared/cubit/app_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -41,17 +44,30 @@ const List<String> kBannerImages = [
   'assets/images/banner.jpg',
   'assets/images/bannerr.jpg',
 ];
+const List<String> kWelcomeMessageImages = [
+  'assets/images/midnight.JPG',
+  'assets/images/morning.JPG',
+  'assets/images/day.JPG',
+  'assets/images/night.JPG',
+];
+const String kNoConnectionImage = 'assets/images/1_No Connection.png';
+const String kNoImageFound = 'assets/images/no_image.png';
+//Lottie Animation
+const String kSuccessLottie = 'assets/animation/success.json';
+const String kFailedLottie = 'assets/animation/failed.json';
 
 //methods :
 // hide & show status bar :
 void hideStatusBar ()=> SystemChrome.setEnabledSystemUIOverlays([]);
 Future<void> showStatusBar()=> SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
+ String getOs ()=>Platform.operatingSystem;
+
 
 //enums
 enum BNB {HOME,FAVOURITES,CART,SETTINGS}
 
 // user experience
-const String token = '';
+ String ? token = '';
 const String appLang ='en';
 
 
@@ -70,6 +86,87 @@ const kLoadingFadingCircle = SpinKitFadingCircle(
   color: kThirdColor,
   size: 25.0,
 );
+
+// Decorations
+
+Decoration productCardDecoration(bool isDark) => BoxDecoration(
+  borderRadius: BorderRadius.circular(10.0),
+  color: isDark ? kDarkThirdColor.withOpacity(0.7) : kLightSecondaryColor,
+  boxShadow: [
+    BoxShadow(
+      color: kSecondaryColorDarker.withOpacity(0.2),
+      blurRadius: 7,
+      spreadRadius: 1,
+      offset: Offset(0, 0),
+    ),
+  ],
+);
+Decoration welcomeCardDecoration(bool isDark,String imageUrl, {Color glowColor = Colors.white}) => BoxDecoration(
+    borderRadius: BorderRadius.circular(8.0),
+    boxShadow: [
+      BoxShadow(
+        color: glowColor,
+        blurRadius: 5,
+        spreadRadius: 0.2,
+        offset: Offset(2, 2),
+      ),
+      BoxShadow(
+        color: glowColor,
+        blurRadius: 5,
+        spreadRadius: 0.2,
+        offset: Offset(-2, -2),
+      ),
+    ],
+    image: DecorationImage(
+      colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.7), BlendMode.dstATop),
+      image: AssetImage(
+          imageUrl),fit: BoxFit.cover,
+    )
+);
+//not used
+Decoration defaultCardDecoration(bool isDark) => BoxDecoration(
+  borderRadius: BorderRadius.circular(8.0),
+  boxShadow: [
+    BoxShadow(
+      color: kSecondaryColorDarker.withOpacity(0.2),
+      blurRadius: 7,
+      spreadRadius: 1,
+      offset: Offset(0, 0),
+    ),
+  ],
+  gradient: LinearGradient(
+    begin:  AlignmentDirectional.topEnd,
+    end: AlignmentDirectional.bottomCenter,
+    colors:  [
+      isDark ? kSecondaryColorDarker.withOpacity(0.4)
+          : kSecondaryColorDarker.withOpacity(0.1),
+      isDark ? kSecondaryColorDarker : kSecondaryColorDarker,
+    ],),
+  // image: DecorationImage(
+  //     image: AssetImage(
+  //         kWelcomeMessageImages[3]),fit: BoxFit.cover,
+  //
+  // )
+);
+Widget curvedBottomSheetDecoration (bool isDark,{Widget ? child}){
+  return Container(
+    decoration: BoxDecoration(
+      color: isDark?Color(0xff001414):Color(0xff757575),
+    ),
+    child: Container(
+      decoration: BoxDecoration(
+        color: isDark?kDarkSecondaryColor:kLightSecondaryColor,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20.0),
+          topRight: Radius.circular(20.0),
+        ),
+      ),
+      child: child?? null,
+    ),
+  );
+}
+
+
 
 // ******* My Account **********
 // username : ahmedshiko@gmail.com

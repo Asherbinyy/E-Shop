@@ -9,7 +9,6 @@ class DioHelper {
       BaseOptions(
           baseUrl: URL,
           receiveDataWhenStatusError: true,
-        headers: InitialHeaders,
       ),
     );
   }
@@ -17,10 +16,11 @@ class DioHelper {
   static Future<Response> getData({
   required String url,
    Map <String,dynamic> ? query,
-}) async {
+    String token = '',
+  }) async {
     _dio.options.headers= {
-      'lang': appLang,
       'Content-Type':'application/json',
+      'lang': appLang,
       'Authorization':token,
     };
    return await _dio.get(url,queryParameters: query);

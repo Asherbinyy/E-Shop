@@ -1,24 +1,30 @@
-import 'package:e_shop/modules/landing/landing_screen.dart';
-import 'package:e_shop/modules/register/register_screen.dart';
-import 'package:e_shop/shared/components/reusable/buttons/buttons.dart';
-import 'package:e_shop/shared/components/reusable/text_field/text_field.dart';
-import 'package:e_shop/styles/constants.dart';
+import 'package:e_shop/layout/layout_screen.dart';
+import 'package:e_shop/network/local/cache_helper.dart';
+import 'package:e_shop/network/local/cached_values.dart';
+
+import '/modules/error/error_screen.dart';
+import '/shared/components/methods/methods.dart';
+import '/shared/components/reusable/dialogue/default_dialogue.dart';
+import '/shared/cubit/app_cubit.dart';
+import '/modules/landing/landing_screen.dart';
+import '/modules/register/register_screen.dart';
+import '/shared/components/reusable/buttons/default_login_button.dart';
+import '/shared/components/reusable/text_field/text_field.dart';
+import '/styles/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
 import 'cubit/login_cubit.dart';
 import 'cubit/login_states.dart';
 
+ var formKey = GlobalKey<FormState>();
+ var passwordLogInController = TextEditingController();
+ var emailLogInController = TextEditingController();
+
 class LoginScreen extends StatelessWidget {
   static String id = 'LoginScreen';
- static var formKey = GlobalKey<FormState>();
- static var passwordLogInController = TextEditingController();
- static var emailLogInController = TextEditingController();
   const LoginScreen({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     var screenWidth = MediaQuery.of(context).size.width;
@@ -26,33 +32,32 @@ class LoginScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => LoginCubit(),
       child: BlocConsumer<LoginCubit, LoginStates>(
-        listener: (context, state) {
+        listener: (context, state){
+          /// In case Status code is 200
           if (state is LoginSuccessState) {
            if (state.loginModel.status!) {
-             print(state.loginModel.message);
-             print(state.loginModel.data!.token);
-             Fluttertoast.showToast(
-                 msg: state.loginModel.message!,
-                 toastLength: Toast.LENGTH_LONG,
-                 gravity: ToastGravity.BOTTOM,
-                 timeInSecForIosWeb: 5,
-                 backgroundColor: Colors.green,
-                 textColor: Colors.white,
-                 fontSize: 16.0
-             );
+                   if (LoginCubit.get(context).isCheckBox){
+                     CacheHelper.saveData(TOKEN, state.loginModel.data?.token).then((value) {
+                       if (value) {
+                         token = state.loginModel.data?.token;
+                         navigateToAndFinish(context, LayoutScreen());
+                       }
+                     });
+                   }
+                   else {
+                     token = state.loginModel.data?.token;
+                     navigateToAndFinish(context, LayoutScreen());
+                   }
            }
            else{
-             print(state.loginModel.message);
-             Fluttertoast.showToast(
-                 msg: state.loginModel.message!,
-                 toastLength: Toast.LENGTH_LONG,
-                 gravity: ToastGravity.BOTTOM,
-                 timeInSecForIosWeb: 5,
-                 backgroundColor: Colors.red,
-                 textColor: Colors.white,
-                 fontSize: 16.0
-             );
+             DefaultDialogue.showSnackBar(context,state.loginModel.message!,dialogueStates: DialogueStates.ERROR,isDark: AppCubit.get(context).isDark);
            }
+          }
+          /// In case Status code isNot 200 (connection lost)
+          if (state is LoginErrorState){
+            passwordLogInController.clear();
+            emailLogInController.clear();
+            navigateToAndFinish(context, ErrorScreen());
           }
         },
         builder: (context, state) {
@@ -160,7 +165,7 @@ class LoginScreen extends StatelessWidget {
                           LoginCubit.get(context).userLogin(
                               email: emailLogInController.text,
                               password: passwordLogInController.text);
-                              print(value);
+
                         }
                       },
                       suffixPressed: () {

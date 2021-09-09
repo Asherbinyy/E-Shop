@@ -1,3 +1,5 @@
+
+/// Used in signup / login cause both have the same response ..
 class LoginModel {
   bool? status;
   String? message;
@@ -21,16 +23,7 @@ class UserData {
   int? credit;
   String? token;
 
-  // UserData({
-  //   this.id,
-  //   this.name,
-  //   this.email,
-  //   this.phone,
-  //   this.image,
-  //   this.points,
-  //   this.credit,
-  //   this.token,
-  // });
+
 
   UserData.formJson(Map<String,dynamic> json ){
     id = json['id'];

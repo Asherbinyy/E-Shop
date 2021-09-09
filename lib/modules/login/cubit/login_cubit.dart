@@ -1,6 +1,6 @@
-import 'package:e_shop/models/api/login_model.dart';
-import 'package:e_shop/network/remote/dio_helper.dart';
-import 'package:e_shop/network/remote/end_points.dart';
+import '/models/api/login.dart';
+import '/network/remote/dio_helper.dart';
+import '/network/remote/end_points.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -34,7 +34,7 @@ class LoginCubit extends Cubit<LoginStates> {
       emit(LoginSuccessState(loginModel!));
     }).catchError((error) {
       emit(LoginErrorState(error.toString()));
-      print(error.toString());
+      print('Error in LoginScreen is : ${error.toString()}');
     });
   }
 

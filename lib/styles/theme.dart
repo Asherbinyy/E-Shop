@@ -39,14 +39,14 @@ ThemeData lightMode = ThemeData(
   textTheme: TextTheme(
     bodyText1: TextStyle(color: kLightPrimaryColor),
     bodyText2: TextStyle(color: kDarkPrimaryColor),
-    headline5: TextStyle(color: kLightPrimaryColor),
+    headline5: TextStyle(color: kDarkSecondaryColor),
     headline6: TextStyle(color: kDarkSecondaryColor),
     subtitle1: TextStyle(fontWeight: FontWeight.bold),
     button: TextStyle(fontSize: 12),
   ),
   popupMenuTheme: PopupMenuThemeData(
     color: kLightSecondaryColor,
-    textStyle: TextStyle(color: kThirdColor),
+    textStyle: TextStyle(),
   ),
   iconTheme: IconThemeData(color: kDarkPrimaryColor),
   outlinedButtonTheme: OutlinedButtonThemeData(
@@ -101,7 +101,7 @@ ThemeData darkMode = ThemeData(
     caption: TextStyle(color: Colors.grey),
     bodyText1: TextStyle(color: kDarkPrimaryColor),
     bodyText2: TextStyle(color: kLightPrimaryColor),
-    headline5: TextStyle(color: kDarkPrimaryColor),
+    headline5: TextStyle(color: kLightSecondaryColor),
     headline6: TextStyle(color: kLightSecondaryColor),
     subtitle1:
         TextStyle(fontWeight: FontWeight.bold, color: kLightPrimaryColor),

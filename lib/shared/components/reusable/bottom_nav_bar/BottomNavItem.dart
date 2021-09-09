@@ -1,8 +1,8 @@
-import 'package:e_shop/layout/cubit/home_cubit.dart';
-import 'package:e_shop/models/app/bottom_nav_model.dart';
-import 'package:e_shop/modules/landing/landing_screen.dart';
-import 'package:e_shop/shared/cubit/app_cubit.dart';
-import 'package:e_shop/styles/constants.dart';
+import '/layout/cubit/home_cubit.dart';
+import '/models/app/bottom_nav_model.dart';
+import '/modules/landing/landing_screen.dart';
+import '/shared/cubit/app_cubit.dart';
+import '/styles/constants.dart';
 import 'package:flutter/material.dart';
 
 class CustomBottomNavBar extends StatelessWidget {
