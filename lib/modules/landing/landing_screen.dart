@@ -1,4 +1,6 @@
 import 'package:e_shop/modules/register/register_screen.dart';
+import 'package:e_shop/network/local/cached_values.dart';
+import 'package:e_shop/shared/components/methods/methods.dart';
 
 import '/models/app/landing_model.dart';
 import '/network/local/cache_helper.dart';
@@ -58,11 +60,14 @@ class LandingScreen extends StatelessWidget {
                                         .subtitle2!
                                         .copyWith(color: kLightSecondaryColor),
                                   ),
-                                  onPressed: ()async {
-                                   await showStatusBar();
-                                    Navigator.pushNamed(
-                                        context, RegisterScreen.id);
-                                   await CacheHelper.saveData('landing', true);
+                                  onPressed: () async {
+                                    showStatusBar();
+                                    await CacheHelper.saveData(LANDING, true)
+                                        .then((value) {
+                                      if (value) {
+                                        Navigator.pushNamed(context, RegisterScreen.id);
+                                      }
+                                    });
                                   },
                                 ),
                               )
@@ -89,10 +94,7 @@ class LandingScreen extends StatelessWidget {
                       child: MyConditionalBuilder(
                           condition: cubit.isFirstDone,
                           builder: _Previewer(cubit, _theme, _pageController),
-                          feedback: _Welcome(
-                            cubit,
-                            _theme,
-                          )),
+                          feedback: _Welcome(cubit, _theme)),
                     ),
                   ),
                 );
@@ -155,7 +157,7 @@ class _Welcome extends StatelessWidget {
           children: [
             Text(
               'Let\'s have a quick tour ',
-              style: theme.textTheme.headline5?.copyWith(color:Colors.white),
+              style: theme.textTheme.headline5?.copyWith(color: Colors.white),
               textAlign: TextAlign.left,
             ),
             const SizedBox(

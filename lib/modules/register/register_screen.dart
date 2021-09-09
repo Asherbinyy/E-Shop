@@ -1,16 +1,28 @@
 import 'dart:ui';
-import 'package:e_shop/layout/layout_screen.dart';
-import 'package:e_shop/modules/login/login_screen.dart';
-import 'package:e_shop/shared/components/methods/methods.dart';
-import 'package:e_shop/shared/components/reusable/buttons/buttons.dart';
-import 'package:e_shop/shared/components/reusable/text_field/text_field.dart';
-import 'package:e_shop/styles/constants.dart';
+import '/modules/error/error_screen.dart';
+import '/network/local/cache_helper.dart';
+import '/network/local/cached_values.dart';
+import '/shared/components/reusable/dialogue/default_dialogue.dart';
+import '/shared/cubit/app_cubit.dart';
+import '/layout/layout_screen.dart';
+import '/modules/login/login_screen.dart';
+import '/shared/components/methods/methods.dart';
+import '/shared/components/reusable/buttons/default_login_button.dart';
+import '/shared/components/reusable/text_field/text_field.dart';
+import '/styles/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'cubit/register_cubit.dart';
 import 'cubit/register_state.dart';
+
+var passwordController = TextEditingController();
+var confirmPasswordRegisterController = TextEditingController();
+final emailRegisterController = TextEditingController();
+final nameRegisterController = TextEditingController();
+final phoneRegisterController = TextEditingController();
+final formKey = GlobalKey<FormState>();
 
 class RegisterScreen extends StatelessWidget {
   static String id = 'RegisterScreen';
@@ -21,22 +33,49 @@ class RegisterScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     var screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
-    return BlocProvider(
+    return BlocProvider (
       create: (context) => RegisterCubit(),
       child: BlocConsumer<RegisterCubit, RegisterState>(
         listener: (context, state) {
+          /// In case Status code is 200
+          if (state is SignUpSuccessState) {
+            if (state.registerModel.status!) {
+              if (RegisterCubit.get(context).isCheckBox){
+                CacheHelper.saveData(TOKEN, state.registerModel.data?.token).then((value) {
+                  if (value) {
+                    token = state.registerModel.data?.token;
+                    navigateToAndFinish(context, LayoutScreen());
+                  }
+                });
+              }
+              else {
+                token = state.registerModel.data?.token;
+                navigateToAndFinish(context, LayoutScreen());
+              }
+            }
+            else{
+              DefaultDialogue.showSnackBar(context,state.registerModel.message!,dialogueStates: DialogueStates.ERROR,isDark: AppCubit.get(context).isDark);
+            }
+          }
+
+          /// In case Status code isNot 200 (connection lost)
+
+          if (state is SignUpErrorState){
+            passwordLogInController.clear();
+            emailLogInController.clear();
+            navigateToAndFinish(context, ErrorScreen());
+          }
 
         },
         builder: (context, state) {
-    var scaffoldKey = GlobalKey<ScaffoldState>();
+          var scaffoldKey = GlobalKey<ScaffoldState>();
 
-
-    return Scaffold(
-            backgroundColor: Colors.white,
+          return Scaffold(
+            backgroundColor: AppCubit.get(context).isDark?kDarkPrimaryColor:Colors.white,
             body: SingleChildScrollView(
               physics: BouncingScrollPhysics(),
               child: Form(
-                key: RegisterCubit.get(context).formKey,
+                key: formKey,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -65,8 +104,7 @@ class RegisterScreen extends StatelessWidget {
                       child: Container(
                         height: screenHeight / 3.1,
                         width: screenWidth / 2.2,
-                        child: Image.asset(kLogoLight),
-
+                        child: Image.asset(AppCubit.get(context).isDark?kLogoDark:kLogoLight),
                       ),
                     ),
                     Text('Welcome!',
@@ -95,8 +133,7 @@ class RegisterScreen extends StatelessWidget {
                       formFieldShadowColor: kPrimaryColor.withRed(1),
                       cursorColor: kPrimaryColor.withRed(1),
                       iconShadowColor: kPrimaryColor.withRed(1),
-                      controller:
-                          RegisterCubit.get(context).nameRegisterController,
+                      controller: nameRegisterController,
                       keyboardType: TextInputType.name,
                       validator: RegisterCubit.get(context)
                           .validator('You Should Enter Your Name '),
@@ -119,8 +156,7 @@ class RegisterScreen extends StatelessWidget {
                       formFieldShadowColor: kPrimaryColor.withRed(1),
                       cursorColor: kPrimaryColor.withRed(1),
                       iconShadowColor: kPrimaryColor.withRed(1),
-                      controller:
-                          RegisterCubit.get(context).phoneRegisterController,
+                      controller: phoneRegisterController,
                       keyboardType: TextInputType.phone,
                       validator: RegisterCubit.get(context)
                           .validator('You should Enter Email Your Phone'),
@@ -142,8 +178,7 @@ class RegisterScreen extends StatelessWidget {
                       formFieldShadowColor: kPrimaryColor.withRed(1),
                       cursorColor: kPrimaryColor.withRed(1),
                       iconShadowColor: kPrimaryColor.withRed(1),
-                      controller:
-                          RegisterCubit.get(context).emailRegisterController,
+                      controller: emailRegisterController,
                       keyboardType: TextInputType.emailAddress,
                       validator: RegisterCubit.get(context)
                           .validator('You should Enter Email Address'),
@@ -167,8 +202,7 @@ class RegisterScreen extends StatelessWidget {
                       formFieldShadowColor: kSecondaryColor.withRed(1),
                       iconShadowColor: kSecondaryColor.withRed(1),
                       cursorColor: kSecondaryColor.withRed(1),
-                      controller:
-                          RegisterCubit.get(context).passwordController,
+                      controller: passwordController,
                       keyboardType: TextInputType.visiblePassword,
                       validator: RegisterCubit.get(context)
                           .validator('You should Enter Password'),
@@ -190,8 +224,7 @@ class RegisterScreen extends StatelessWidget {
                       formFieldShadowColor: kSecondaryColor.withRed(1),
                       iconShadowColor: kSecondaryColor.withRed(1),
                       cursorColor: kSecondaryColor.withRed(1),
-                      controller: RegisterCubit.get(context)
-                          .confirmPasswordRegisterController,
+                      controller:confirmPasswordRegisterController,
                       keyboardType: TextInputType.visiblePassword,
                       validator: RegisterCubit.get(context)
                           .validator('You should Enter Password'),
@@ -200,7 +233,9 @@ class RegisterScreen extends StatelessWidget {
                       },
                       obscureText: RegisterCubit.get(context).showRePassword,
                     ),
-                    SizedBox(height: MediaQuery.of(context).size.height / 100.0,),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height / 100.0,
+                    ),
                     Row(
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -221,50 +256,40 @@ class RegisterScreen extends StatelessWidget {
                                   fontWeight: FontWeight.w600),
                         ),
                         TextButton(
-                          child: Text(
-                            'Terms and Conditions',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyText2!
-                                .copyWith(
-                                    fontWeight: FontWeight.bold,
-                                    color: kSecondaryColor.withRed(1)),
-                          ),
-                          onPressed: () {
-                            showModalBottomSheet(context: context, builder: (context){
-                              return Container(
-                                decoration: BoxDecoration(
-                                  color: Color(0xff757575),
-                                ),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: Colors.grey[200],
-                                    borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(20.0),
-                                        topRight: Radius.circular(20.0),
-                                    ),
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(16.0),
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Text(kDummyText),
-                                     Align(
-                                       alignment: AlignmentDirectional.bottomEnd,
-                                       child: TextButton(onPressed: (){
-                                         Navigator.pop(context);
-                                       }, child: Text('I Understand')),
-                                     ),
-                                      ],
-                                    ),
-                                  ),
-
-                                ),
-                              );
-                            });
-
-                            }
+                            child: Text(
+                              'Terms and Conditions',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText2!
+                                  .copyWith(
+                                      fontWeight: FontWeight.bold,
+                                      color: kSecondaryColor.withRed(1)),
+                            ),
+                            onPressed: () {
+                              showModalBottomSheet(
+                                  context: context,
+                                  builder: (context) {
+                                    return curvedBottomSheetDecoration(AppCubit.get(context).isDark,child:Padding(
+                                      padding: const EdgeInsets.all(16.0),
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Text(kDummyText),
+                                          Align(
+                                            alignment: AlignmentDirectional
+                                                .bottomEnd,
+                                            child: TextButton(
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                child:
+                                                Text('I Understand')),
+                                          ),
+                                        ],
+                                      ),
+                                    ),);
+                                  });
+                            },
                         ),
                       ],
                     ),
@@ -275,25 +300,12 @@ class RegisterScreen extends StatelessWidget {
                       title: 'Sign up',
                       width: screenWidth / 2.5,
                       onPressed: () {
-                        if (RegisterCubit.get(context)
-                            .formKey
-                            .currentState!
-                            .validate()) {
-                          print(RegisterCubit.get(context)
-                              .passwordController
-                              .text);
-                          print(RegisterCubit.get(context)
-                              .confirmPasswordRegisterController
-                              .text);
-                          print(RegisterCubit.get(context)
-                              .emailRegisterController
-                              .text);
-                          print(RegisterCubit.get(context)
-                              .phoneRegisterController
-                              .text);
-                          print(RegisterCubit.get(context)
-                              .nameRegisterController
-                              .text);
+                        if (formKey.currentState!.validate()) {
+                        RegisterCubit.get(context).signUpUser(
+                            name: nameRegisterController.text,
+                            email: emailRegisterController.text,
+                            password: passwordController.text,
+                            phone: phoneRegisterController.text);
                         }
                       },
                     ),
@@ -404,10 +416,11 @@ class RegisterScreen extends StatelessWidget {
                         )
                       ],
                     ),
-                 OutlinedButton(
-                     onPressed: ()=>navigateToAndFinish(context, LayoutScreen()),
-                     child: Text('Skip Now'),
-                 ),
+                    OutlinedButton(
+                      onPressed: () =>
+                          navigateToAndFinish(context, LayoutScreen()),
+                      child: Text('Skip Now'),
+                    ),
                   ],
                 ),
               ),

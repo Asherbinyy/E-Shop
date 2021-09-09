@@ -16,16 +16,15 @@ class HomeData {
   List<HomeProducts> ? products=[];
   String ? ad;
 
-
   HomeData.fromJson(Map<String, dynamic> json) {
     if (json['banners'] != null) {
       json['banners'].forEach((element) {
-        banners?.add(new HomeBanners.fromJson(element));
+        banners?.add(HomeBanners.fromJson(element));
       });
     }
     if (json['products'] != null) {
       json['products'].forEach((element) {
-        products?.add(new HomeProducts.fromJson(element));
+        products?.add(HomeProducts.fromJson(element));
       });
     }
     ad = json['ad'];
@@ -48,8 +47,8 @@ class HomeBanners {
 
 class HomeProducts {
   int ? id;
-  double ? price;
-  double ? oldPrice;
+  dynamic price;
+  dynamic oldPrice;
   int ? discount;
   String ? image;
   String ? name;

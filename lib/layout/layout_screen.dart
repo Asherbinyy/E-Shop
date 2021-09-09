@@ -1,17 +1,21 @@
-import 'package:e_shop/models/app/bottom_nav_model.dart';
-import 'package:e_shop/modules/Home/home/home_screen.dart';
-import 'package:e_shop/modules/landing/landing_screen.dart';
-import 'package:e_shop/shared/components/reusable/app_bar/CustomSliverAppBar.dart';
-import 'package:e_shop/shared/components/reusable/bottom_nav_bar/BottomNavItem.dart';
-import 'package:e_shop/shared/components/reusable/drawer/custom_drawer.dart';
-import 'package:e_shop/shared/cubit/app_cubit.dart';
-import 'package:e_shop/shared/cubit/app_state.dart';
+import 'package:e_shop/modules/main_home/home/home_screen.dart';
+import 'package:e_shop/shared/components/methods/methods.dart';
+import 'package:e_shop/shared/components/adaptive/adaptive_search_bar.dart';
+import 'package:e_shop/modules/search/search_screen.dart';
+import '/models/app/bottom_nav_model.dart';
+import '/modules/landing/landing_screen.dart';
+import '/shared/components/reusable/app_bar/CustomSliverAppBar.dart';
+import '/shared/components/reusable/bottom_nav_bar/BottomNavItem.dart';
+import '/shared/components/reusable/drawer/custom_drawer.dart';
+import '/shared/cubit/app_cubit.dart';
+import '/shared/cubit/app_state.dart';
 import 'package:flutter/cupertino.dart';
 import '/layout/cubit/home_cubit.dart';
 import '/layout/cubit/home_states.dart';
 import '/styles/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+final TextEditingController controller = TextEditingController();
 
 class LayoutScreen extends StatelessWidget {
   static String id = 'LayoutScreen';
@@ -31,34 +35,41 @@ class LayoutScreen extends StatelessWidget {
             HomeCubit cubit = HomeCubit.get(context);
             double height = MediaQuery.of(context).size.height;
             double width = MediaQuery.of(context).size.width;
+
             return Scaffold(
               extendBodyBehindAppBar: true,
               endDrawer: CustomDrawer(),
-              bottomNavigationBar: CustomBottomNavBar(cubit,appCubit,height: height*0.08),
-              body: DefaultTabController(
-                length: 3,
-                initialIndex: 0,
-                child: NestedScrollView(
-                  physics: BouncingScrollPhysics(),
-                  // floatHeaderSlivers: true,
-                  headerSliverBuilder: (context, value) {
-                    return [
-                    MyConditionalBuilder(
-                      condition: (cubit.isAppBarShown), /// if we wanted to hide app bar
-                      builder: CustomSliverAppBar(appCubit, cubit,tabWidth: width * 0.25,tabHeight: height*0.04,),
-                     feedback: SliverToBoxAdapter(),
-                    ),
-                    ];
-                  },
-                  body:cubit.isHome?
-                  TabBarView( ///this is all HomeScreen related
-                      children: [
-                    HomeScreen(),
-                    Text('New Products Goes here !'),
-                    Text('Categories here '),
-                  ]) :
-                  BottomNavModel.getList[cubit.currentIndex].screen,
+              bottomNavigationBar:
+                  CustomBottomNavBar(cubit, appCubit, height: height * 0.08),
+              floatingActionButton: FloatingActionButton(
+                onPressed: (){},
+                backgroundColor: Colors.transparent,
+                ///TODO : add to cart using this (Drag and Drop) .
+              ) ,
+              body: MyConditionalBuilder(
+                condition: cubit.tabBarData.length > 0,
+                builder: DefaultTabController(
+                  length: cubit.tabBarData.length,
+                  initialIndex: 0,
+                  child: NestedScrollView(
+                    physics: BouncingScrollPhysics(),
+                    headerSliverBuilder: (context, value) => [
+                      if (cubit.isAppBarShown)
+                        CustomSliverAppBar(
+                            tabWidth: width * 0.29, tabHeight: height * 0.04),
+                      SliverToBoxAdapter(
+                        child: AdaptiveSearchBar(
+                          controller,
+                          onSubmitted: (value) {
+                            navigateTo(context, SearchScreen(value));
+                          },
+                        ),
+                      ),
+                    ],
+                    body: BottomNavModel.getList[cubit.currentIndex].screen,
+                  ),
                 ),
+                feedback: kLoadingWanderingCubes,
               ),
             );
           },
