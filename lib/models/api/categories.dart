@@ -1,5 +1,5 @@
 class CategoriesModel {
-  bool?  status;
+  bool? status;
   CategoryData ? categoriesData;
 
   CategoriesModel.fromJson(Map<String, dynamic> json) {
@@ -10,7 +10,7 @@ class CategoriesModel {
 
 class CategoryData {
   int ? currentPage;
-  List<Data> ? dataList =[];
+  List<DataCategoriesData> ? dataList =[];
   String ? firstPageUrl;
   int ? from;
   int ? lastPage;
@@ -27,7 +27,7 @@ class CategoryData {
     currentPage = json['current_page'];
     if (json['data'] != null) {
       json['data'].forEach((v) {
-        dataList?.add( Data.fromJson(v));
+        dataList?.add( DataCategoriesData.fromJson(v));
       });
     }
     firstPageUrl = json['first_page_url'];
@@ -44,13 +44,13 @@ class CategoryData {
 
 }
 
-class Data {
+class DataCategoriesData {
   int ? id;
   String ? name;
   String ? image;
 
 
-  Data.fromJson(Map<String, dynamic> json) {
+  DataCategoriesData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     image = json['image'];

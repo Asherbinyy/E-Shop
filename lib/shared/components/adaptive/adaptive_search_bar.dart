@@ -27,11 +27,14 @@ class AdaptiveSearchBar extends StatelessWidget {
        );
         break ;
       default : widget = Container(
+
+       height: MediaQuery.of(context).size.height*0.045,
         child: TextFormField(
           style:Theme.of(context).textTheme.subtitle2 ,
           controller: controller,
           // onFieldSubmitted: onSubmitted,
           decoration: InputDecoration(
+            contentPadding:const EdgeInsets.symmetric(horizontal: 4.0),
             filled: true,
             hintText: ' Search anything you want !',
             hintStyle: TextStyle(color: AppCubit.get(context).isDark?Colors.white38:Colors.black38) ,
@@ -40,9 +43,15 @@ class AdaptiveSearchBar extends StatelessWidget {
               borderRadius: BorderRadius.circular(20.0),
               borderSide: BorderSide.none,
             ),
+            prefixIcon: Padding(
+              padding: const EdgeInsetsDirectional.only(),
+              child: Icon(Icons.search,color: Colors.grey,),
+            ),
             suffix: TextButton(
-              child: Text('cancel'.toUpperCase()),
-              onPressed: (){},
+              child: Text('Clear'.toUpperCase()),
+              onPressed: (){
+                controller.clear();
+              },
             ),
           ),
         ),
@@ -51,7 +60,7 @@ class AdaptiveSearchBar extends StatelessWidget {
     }
 
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsetsDirectional.only(start: 8.0,end: 8.0,bottom: 8.0),
       child: SafeArea(
         child: widget,
       ),

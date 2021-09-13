@@ -1,6 +1,6 @@
 import 'package:e_shop/modules/register/register_screen.dart';
 import 'package:e_shop/network/local/cached_values.dart';
-import 'package:e_shop/shared/components/methods/methods.dart';
+import 'package:e_shop/shared/components/methods/navigation.dart';
 
 import '/models/app/landing_model.dart';
 import '/network/local/cache_helper.dart';

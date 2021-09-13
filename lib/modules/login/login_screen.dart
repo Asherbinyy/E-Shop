@@ -3,7 +3,7 @@ import 'package:e_shop/network/local/cache_helper.dart';
 import 'package:e_shop/network/local/cached_values.dart';
 
 import '/modules/error/error_screen.dart';
-import '/shared/components/methods/methods.dart';
+import '/shared/components/methods/navigation.dart';
 import '/shared/components/reusable/dialogue/default_dialogue.dart';
 import '/shared/cubit/app_cubit.dart';
 import '/modules/landing/landing_screen.dart';

@@ -2,7 +2,7 @@ import 'package:e_shop/modules/email_verification/email_verification_screen.dart
 import 'package:e_shop/modules/login/login_screen.dart';
 import 'package:e_shop/network/local/cache_helper.dart';
 import 'package:e_shop/network/local/cached_values.dart';
-import 'package:e_shop/shared/components/methods/methods.dart';
+import 'package:e_shop/shared/components/methods/navigation.dart';
 import 'package:e_shop/shared/components/reusable/dialogue/default_dialogue.dart';
 
 import '/layout/cubit/home_cubit.dart';

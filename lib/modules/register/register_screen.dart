@@ -6,7 +6,7 @@ import '/shared/components/reusable/dialogue/default_dialogue.dart';
 import '/shared/cubit/app_cubit.dart';
 import '/layout/layout_screen.dart';
 import '/modules/login/login_screen.dart';
-import '/shared/components/methods/methods.dart';
+import '/shared/components/methods/navigation.dart';
 import '/shared/components/reusable/buttons/default_login_button.dart';
 import '/shared/components/reusable/text_field/text_field.dart';
 import '/styles/constants.dart';

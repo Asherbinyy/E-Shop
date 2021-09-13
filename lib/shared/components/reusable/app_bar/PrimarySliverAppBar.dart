@@ -9,10 +9,10 @@ import '/styles/constants.dart';
 import 'package:flutter/material.dart';
 
 class CustomSliverAppBar extends StatelessWidget {
-  final double tabWidth ;
+  final double ? tabWidth ;
   final double tabHeight ;
 
-  const CustomSliverAppBar ( {Key? key, this.tabWidth=110, this.tabHeight=30}) : super(key: key);
+  const CustomSliverAppBar ( {Key? key, this.tabWidth, this.tabHeight=30}) : super(key: key);
 
    @override
 
@@ -25,6 +25,7 @@ class CustomSliverAppBar extends StatelessWidget {
 
          return  SliverAppBar(
            pinned: false,
+           // pinned: cubit.isAppBarPinned ? true : false,
            floating: true,
            // stretch: true,
            leadingWidth: 100,
@@ -69,9 +70,9 @@ class CustomSliverAppBar extends StatelessWidget {
              ),
              indicatorPadding:
              EdgeInsets.symmetric(horizontal: 2.0),
-             tabs: cubit.tabBarData.map((e) => TabItem(e.label, tabWidth: tabWidth, tabHeight: tabHeight )).toList(),
+             tabs: cubit.tabBarData.map((e) => TabItem(e.label, tabHeight: tabHeight )).toList(),
            ):null,
-           backwardsCompatibility: false,
+           // backwardsCompatibility: false,
          );
        },
      );

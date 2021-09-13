@@ -33,14 +33,14 @@ class DefaultDialogue {
   static Future<bool?> showToast(
     final String label, {
     required final DialogueStates dialogueStates,
-    required final bool isDark,
+        final bool isDark=false,
   }) {
     return Fluttertoast.showToast(
       msg: label,
       toastLength: Toast.LENGTH_LONG,
       gravity: ToastGravity.TOP,
       timeInSecForIosWeb: 5,
-      backgroundColor: _backgroundColor(dialogueStates, isDark),
+      backgroundColor: _backgroundColor(dialogueStates,isDark),
       textColor:
           dialogueStates == DialogueStates.NONE ? Colors.black87 : Colors.white,
       fontSize: 16.0,
@@ -52,14 +52,14 @@ class DefaultDialogue {
     final BuildContext context,
     final String label, {
     required final DialogueStates dialogueStates,
-    required final bool isDark,
+     final bool isDark=false,
     final Color labelColor = Colors.white,
     final bool isFloating = true,
     final bool isAction = false,
 
     /// Used in case we want user to interact with snackBar
     final String? actionLabel,
-    final VoidCallback? onActionTap,
+        final Function ? onActionTap,
   }) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -67,13 +67,15 @@ class DefaultDialogue {
           label,
           style: TextStyle(color: labelColor),
         ),
-        backgroundColor: _backgroundColor(dialogueStates, isDark),
+        backgroundColor: _backgroundColor(dialogueStates,isDark),
         behavior:
             isFloating ? SnackBarBehavior.floating : SnackBarBehavior.fixed,
         action: isAction
             ? SnackBarAction(
                 label: actionLabel ?? '',
-                onPressed: () => onActionTap,
+                onPressed: () {
+                   onActionTap!();
+                },
                 textColor: labelColor,
               )
             : null,
