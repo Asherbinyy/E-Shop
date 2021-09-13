@@ -68,7 +68,7 @@ class EShop extends StatelessWidget {
         BlocProvider(
           create: (context) => HomeCubit()
             ..getHomeData()
-            ..getProfile()
+            ..getProfile()..getFavourites()
             ..getCategories()
             ..getBanners(),
         ),

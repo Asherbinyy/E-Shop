@@ -7,20 +7,19 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 class CustomPopUpButton extends StatelessWidget {
   final List<PopUpModel> popUps ;
   final IconData icon ;
+  final String ? initialValue ;
   final PopupMenuItemSelected<dynamic>? onSelected;
 
-  const CustomPopUpButton(
-      this.popUps,{Key? key, this.onSelected,this.icon=FontAwesomeIcons.slidersH}) : super(key: key);
+  const CustomPopUpButton({Key? key,required this.popUps, this.onSelected,this.icon=FontAwesomeIcons.slidersH, this.initialValue}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return PopupMenuButton<String>(
-      initialValue: popUps.first.label,
+      initialValue: initialValue,
       iconSize: 20,
       onSelected: onSelected,
       icon: Icon(
         icon,
-        size: 15,
       ),
       itemBuilder: (context) => popUps.map((e) {
         return PopupMenuItem<String>(
@@ -34,7 +33,7 @@ class CustomPopUpButton extends StatelessWidget {
                   size: 20.0,
                 ),
                 XSpace.normal,
-                Text(e.label),
+                Text(e.label,style: Theme.of(context).textTheme.bodyText2,),
               ],
             ),
           ),

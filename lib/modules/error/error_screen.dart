@@ -1,5 +1,5 @@
 import 'package:e_shop/modules/login/login_screen.dart';
-import 'package:e_shop/shared/components/methods/methods.dart';
+import 'package:e_shop/shared/components/methods/navigation.dart';
 import 'package:e_shop/styles/constants.dart';
 import 'package:flutter/material.dart';
 

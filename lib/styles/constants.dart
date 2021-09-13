@@ -1,6 +1,5 @@
 import 'dart:io';
-
-import 'package:e_shop/shared/cubit/app_cubit.dart';
+import 'package:e_shop/models/api/categories.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -19,6 +18,10 @@ const Color kLightThirdColor=Color(0xff686A6C); //TODO 1 : update this
 const Color kDarkPrimaryColor=Color(0xff1D3037); // deep dark
 const Color kDarkSecondaryColor=Color(0xff1F2029); // deep dark
 const Color kDarkThirdColor=Color(0xff686A6C); // light grey
+
+
+// like button
+const Color kLikeButtonColor =  Color(0xffF36054);
 
 
 // Fonts
@@ -50,11 +53,39 @@ const List<String> kWelcomeMessageImages = [
   'assets/images/day.JPG',
   'assets/images/night.JPG',
 ];
+//categories images
+String getCategoryImageUrl (DataCategoriesData category){
+  String _imageUrl ;
+  if (category.name=='electrionic devices') _imageUrl = 'assets/images/electronics.JPG';
+  else if (category.name=='Prevent Corona') _imageUrl = 'assets/images/covid.JPG';
+  else if (category.name=='sports') _imageUrl = 'assets/images/sports.png';
+  else if (category.name=='Best Selling') _imageUrl = 'assets/images/bestsellering.JPG';
+  else if (category.name=='Lighting') _imageUrl = 'assets/images/lightning.JPG';
+  else _imageUrl ='assets/images/category.JPG';
+  return _imageUrl;
+}
+// const String kElectronicsImage = 'assets/images/electronics.JPG';
+// const String kCovidImage = 'assets/images/covid.JPG';
+// const String kSportsImage = 'assets/images/sports.JPG';
+// const String kBestSellingImage = 'assets/images/bestsellering.JPG';
+// const String kLightningImage = 'assets/images/lightning.JPG';
+// const String kCategoryImage = 'assets/images/category.JPG';
+
+
 const String kNoConnectionImage = 'assets/images/1_No Connection.png';
-const String kNoImageFound = 'assets/images/no_image.png';
+const String kNoImageFound = 'https://image.freepik.com/free-vector/no-data-concept-illustration_114360-536.jpg';
 //Lottie Animation
 const String kSuccessLottie = 'assets/animation/success.json';
 const String kFailedLottie = 'assets/animation/failed.json';
+const String kLikeLottie = 'assets/animation/like.json';
+const String kUnlikeLottie = 'assets/animation/unlike.json';
+const String kDeleteLottie = 'assets/animation/delete.json';
+const String kSwipeLeftLottie = 'assets/animation/swipe_left.json';
+const String kEmptyListLottie = 'assets/animation/emptyList.json';
+const String kEmptyCartLottie = 'assets/animation/empty_cart.json';
+const String kEmptySearchLottie = 'assets/animation/emptyseach.json';
+const String kAddedToCartLottie = 'assets/animation/addedtocart.json';
+const String kAddedToCart2Lottie = 'assets/animation/addedtocart2.json';
 
 //methods :
 // hide & show status bar :
@@ -63,7 +94,9 @@ Future<void> showStatusBar()=> SystemChrome.setEnabledSystemUIOverlays(SystemUiO
  String getOs ()=>Platform.operatingSystem;
 
 
+
 //enums
+// not used
 enum BNB {HOME,FAVOURITES,CART,SETTINGS}
 
 // user experience

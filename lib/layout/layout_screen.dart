@@ -1,10 +1,9 @@
-import 'package:e_shop/modules/main_home/home/home_screen.dart';
-import 'package:e_shop/shared/components/methods/methods.dart';
-import 'package:e_shop/shared/components/adaptive/adaptive_search_bar.dart';
-import 'package:e_shop/modules/search/search_screen.dart';
+import '/shared/components/methods/navigation.dart';
+import '/shared/components/adaptive/adaptive_search_bar.dart';
+import '/modules/search/search_screen.dart';
 import '/models/app/bottom_nav_model.dart';
 import '/modules/landing/landing_screen.dart';
-import '/shared/components/reusable/app_bar/CustomSliverAppBar.dart';
+import '/shared/components/reusable/app_bar/PrimarySliverAppBar.dart';
 import '/shared/components/reusable/bottom_nav_bar/BottomNavItem.dart';
 import '/shared/components/reusable/drawer/custom_drawer.dart';
 import '/shared/cubit/app_cubit.dart';
@@ -15,7 +14,6 @@ import '/layout/cubit/home_states.dart';
 import '/styles/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-final TextEditingController controller = TextEditingController();
 
 class LayoutScreen extends StatelessWidget {
   static String id = 'LayoutScreen';
@@ -35,17 +33,18 @@ class LayoutScreen extends StatelessWidget {
             HomeCubit cubit = HomeCubit.get(context);
             double height = MediaQuery.of(context).size.height;
             double width = MediaQuery.of(context).size.width;
+             TextEditingController controller = TextEditingController();
 
             return Scaffold(
               extendBodyBehindAppBar: true,
               endDrawer: CustomDrawer(),
               bottomNavigationBar:
-                  CustomBottomNavBar(cubit, appCubit, height: height * 0.08),
-              floatingActionButton: FloatingActionButton(
-                onPressed: (){},
-                backgroundColor: Colors.transparent,
-                ///TODO : add to cart using this (Drag and Drop) .
-              ) ,
+                  CustomBottomNavBar(cubit,appCubit, height: height * 0.08),
+              // floatingActionButton: FloatingActionButton(
+              //   onPressed: (){},
+              //   backgroundColor: Colors.transparent,
+              //   ///TODO : add to cart using this (Drag and Drop) .
+              // ) ,
               body: MyConditionalBuilder(
                 condition: cubit.tabBarData.length > 0,
                 builder: DefaultTabController(
@@ -54,14 +53,14 @@ class LayoutScreen extends StatelessWidget {
                   child: NestedScrollView(
                     physics: BouncingScrollPhysics(),
                     headerSliverBuilder: (context, value) => [
-                      if (cubit.isAppBarShown)
-                        CustomSliverAppBar(
-                            tabWidth: width * 0.29, tabHeight: height * 0.04),
-                      SliverToBoxAdapter(
+
+                      CustomSliverAppBar(tabWidth: width * 0.29, tabHeight: height * 0.04),
+                      if (! cubit.isHome) SliverToBoxAdapter(
                         child: AdaptiveSearchBar(
                           controller,
-                          onSubmitted: (value) {
-                            navigateTo(context, SearchScreen(value));
+                          onSubmitted: (_) {
+                            cubit.searchProduct(controller.text);
+                            navigateTo(context, SearchScreen(controller));
                           },
                         ),
                       ),

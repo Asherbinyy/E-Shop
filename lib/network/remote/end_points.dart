@@ -9,3 +9,5 @@ const PROFILE = 'profile';
 const LOGOUT = 'logout';
 const VERIFYEMAIL = 'verify-email';
 const VERIFYCODE = 'verify-code';
+const FAVOURITES = 'favorites';
+const SEARCH = 'products/search';

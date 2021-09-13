@@ -19,7 +19,6 @@ ThemeData lightMode = ThemeData(
   ),
   appBarTheme: AppBarTheme(
     backgroundColor: kLightPrimaryColor,
-    backwardsCompatibility: false,
     elevation: 0.0,
     centerTitle: true,
 
@@ -43,7 +42,10 @@ ThemeData lightMode = ThemeData(
     headline6: TextStyle(color: kDarkSecondaryColor),
     subtitle1: TextStyle(fontWeight: FontWeight.bold),
     button: TextStyle(fontSize: 12),
-  ),
+    overline: TextStyle(color: kLightPrimaryColor),
+
+),
+
   popupMenuTheme: PopupMenuThemeData(
     color: kLightSecondaryColor,
     textStyle: TextStyle(),
@@ -56,7 +58,9 @@ ThemeData lightMode = ThemeData(
           side: BorderSide(
             width: 1.0,
             color: kDarkSecondaryColor.withOpacity(0.05),
-          ))),
+          ),
+      ),
+  ),
 );
 
 ThemeData darkMode = ThemeData(
@@ -76,7 +80,6 @@ ThemeData darkMode = ThemeData(
   ),
   appBarTheme: AppBarTheme(
     backgroundColor: kDarkPrimaryColor,
-    backwardsCompatibility: false,
     elevation: 0.0,
     centerTitle: true,
     titleTextStyle: TextStyle(
@@ -107,6 +110,7 @@ ThemeData darkMode = ThemeData(
         TextStyle(fontWeight: FontWeight.bold, color: kLightPrimaryColor),
     subtitle2: TextStyle(color: kLightPrimaryColor),
     button: TextStyle(fontSize: 12),
+    overline: TextStyle(color: kDarkPrimaryColor.withOpacity(0.7)),
   ),
   popupMenuTheme: PopupMenuThemeData(
     color: kDarkSecondaryColor,
@@ -119,4 +123,5 @@ ThemeData darkMode = ThemeData(
           elevation: 2.0,
           side: BorderSide(
               width: 1, color: kLightSecondaryColor.withOpacity(0.1)))),
+
 );

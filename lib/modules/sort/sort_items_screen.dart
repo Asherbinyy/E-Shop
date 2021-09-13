@@ -1,4 +1,5 @@
 import 'package:e_shop/models/api/home.dart';
+import 'package:e_shop/models/app/sort_by_model.dart';
 import 'package:e_shop/styles/constants.dart';
 import 'package:flutter/material.dart';
 
@@ -43,12 +44,11 @@ class _SortItemsScreenState extends State<SortItemsScreen> {
                   setState(() {
                     SortByModel.getOptions.forEach((element) {
                       element.isSelected=false;
-
                     });
                     e.isSelected=true;
+                    Navigator.pop(context);
                   });
                 },) ).toList(),
-
             //   MaterialButton(
             //     // color: kPrimaryColorDarker,
             //     onPressed: (){},
@@ -91,20 +91,4 @@ class _SortItemsScreenState extends State<SortItemsScreen> {
       ),
     );
   }
-}
-class SortByModel {
-  final String title;
-  final HomeProducts ? product;
-   bool isSelected;
-
-  SortByModel(this.title,this.isSelected, { this.product});
-
- static List <SortByModel> _sortByOptions  = [
-   SortByModel('Popular',false,),
-   SortByModel('Random', false,),
-   SortByModel('Offer', false,),
-   SortByModel('Price : Low to High', false),
-   SortByModel('Price : High to Low', false,),
- ];
-  static List <SortByModel> get getOptions => _sortByOptions;
 }
