@@ -2,7 +2,7 @@ import 'package:e_shop/modules/register/register_screen.dart';
 import 'package:e_shop/network/local/cached_values.dart';
 import 'package:e_shop/shared/components/methods/navigation.dart';
 
-import '/models/app/landing_model.dart';
+import '/models/app/landing.dart';
 import '/network/local/cache_helper.dart';
 import '/styles/constants.dart';
 import 'package:flutter/material.dart';

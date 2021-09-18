@@ -15,6 +15,7 @@ class AppCubit extends Cubit <AppStates> {
     isDark = ! isDark;
     emit(AppChangeThemeModeState());
   }
+
 //   IconData modeIcon = Icons.dark_mode ;
 //   bool  changeAppThemeModeSwitch ({ bool ? isDarkFromSharedPref }){
 //

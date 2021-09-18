@@ -1,7 +1,8 @@
 import 'dart:io';
-import 'package:e_shop/models/api/categories.dart';
+import 'package:e_shop/models/api/categories/categories.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_blurhash/flutter_blurhash.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 // Colors
@@ -17,9 +18,7 @@ const Color kLightThirdColor=Color(0xff686A6C); //TODO 1 : update this
 // Dark Mode
 const Color kDarkPrimaryColor=Color(0xff1D3037); // deep dark
 const Color kDarkSecondaryColor=Color(0xff1F2029); // deep dark
-const Color kDarkThirdColor=Color(0xff686A6C); // light grey
-
-
+const Color kDarkThirdColor=Color(0xff767d7d); // light grey
 // like button
 const Color kLikeButtonColor =  Color(0xffF36054);
 
@@ -64,6 +63,7 @@ String getCategoryImageUrl (DataCategoriesData category){
   else _imageUrl ='assets/images/category.JPG';
   return _imageUrl;
 }
+
 // const String kElectronicsImage = 'assets/images/electronics.JPG';
 // const String kCovidImage = 'assets/images/covid.JPG';
 // const String kSportsImage = 'assets/images/sports.JPG';
@@ -74,6 +74,10 @@ String getCategoryImageUrl (DataCategoriesData category){
 
 const String kNoConnectionImage = 'assets/images/1_No Connection.png';
 const String kNoImageFound = 'https://image.freepik.com/free-vector/no-data-concept-illustration_114360-536.jpg';
+//hash Image
+const BlurHash kHashImage = BlurHash(hash: "L84g6F.k%#t7%1%#x]tRjEn+oLoI");
+
+
 //Lottie Animation
 const String kSuccessLottie = 'assets/animation/success.json';
 const String kFailedLottie = 'assets/animation/failed.json';

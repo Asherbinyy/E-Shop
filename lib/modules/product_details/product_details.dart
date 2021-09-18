@@ -1,4 +1,6 @@
+import 'package:e_shop/models/api/products/product_details.dart';
 import 'package:e_shop/modules/landing/landing_screen.dart';
+import 'package:flutter_blurhash/flutter_blurhash.dart';
 import 'package:lottie/lottie.dart';
 import '/shared/components/methods/navigation.dart';
 import '/shared/components/reusable/dialogue/default_dialogue.dart';
@@ -15,11 +17,10 @@ import '/layout/cubit/home_states.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ProductDescription extends StatelessWidget {
-  /// Because Its USed by HomeProducts (HomeModel),(SearchModel)
-  final dynamic product;
+class ProductDetailsScreen extends StatelessWidget {
+  final int productID;
 
-  const ProductDescription(this.product, {Key? key}) : super(key: key);
+  const ProductDetailsScreen(this.productID, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -36,10 +37,11 @@ class ProductDescription extends StatelessWidget {
 
       builder: (context, state) {
         HomeCubit cubit = HomeCubit.get(context);
+       ProductDetailsData? product = cubit.productDetailsModel?.data;
         Widget _likeButton() =>
            MyConditionalBuilder(
              // like action
-             condition: (state is ChangeFavouritesSuccessState ||state is ToggleLikeButtonState ) && cubit.favourites?[product?.id] == true ,
+             condition: (state is ChangeFavouritesSuccessState || state is ToggleLikeButtonState ) && cubit.favourites?[product?.id] == true ,
              builder:SizedBox(
                height: height*0.06,
                child: OutlinedButton(
@@ -56,22 +58,41 @@ class ProductDescription extends StatelessWidget {
                ),
              ),
            );
+        Widget _cartButton() =>
+           MyConditionalBuilder(
+             // cart action
+             condition: (state is ChangeCartSuccessState || state is ToggleCartButtonState ) && cubit.carts?[product?.id] == true ,
+             builder: SizedBox(
+               height: height*0.06,
+               child: OutlinedButton(
+                 child: LottieBuilder.asset(kAddedToCart2Lottie,repeat: false,fit: BoxFit.cover,),
+                 onPressed: () => cubit.changeCarts(product!.id!),
+               ),
+             ) ,
+             feedback:SizedBox(
+               height: height*0.06,
+               child : cubit.carts?[product?.id] == true? OutlinedButton.icon(
+                 style: OutlinedButton.styleFrom(backgroundColor: AppCubit.get(context).isDark?Colors.white12:kPrimaryColorDarker.withOpacity(0.1)),
+                 onPressed: () =>cubit.changeCarts(product!.id!),
+                label: Text('Added to Cart',style: TextStyle(color: Colors.green),),
+                 icon: Icon(Icons.check,color: Colors.green,),
+               ): ElevatedButton.icon(
+                 onPressed: () =>cubit.changeCarts(product!.id!),
+                 label: Text('Add item To Cart'),
+                 icon: Icon(Icons.add_shopping_cart),
+               )
+             ),
+
+           );
 
 
         return Scaffold(
           persistentFooterButtons: [
-            Row(
+           Row(
               children: [
                 Expanded(
                   flex: 3,
-                  child: SizedBox(
-                    height: height*0.06,
-                    child: ElevatedButton.icon(
-                      onPressed: () {},
-                      label: Text('Add item To Cart'),
-                      icon: Icon(Icons.shopping_cart_rounded),
-                    ),
-                  ),
+                  child: _cartButton(),
                 ),
                 XSpace.light,
                 Expanded(child: _likeButton()),
@@ -80,42 +101,50 @@ class ProductDescription extends StatelessWidget {
           ],
           extendBodyBehindAppBar: true,
 
-          appBar:  AppBar(systemOverlayStyle: SystemUiOverlayStyle(statusBarColor: Colors.transparent), backgroundColor: Colors.transparent),
+          appBar: AppBar(
+              systemOverlayStyle: SystemUiOverlayStyle(statusBarColor: Colors.transparent),
+              backgroundColor: Colors.transparent,
+          ),
           body: Stack(
             children: [
               // image
               Column(
                 children: [
-                  Expanded(
+                Expanded(
                     flex: 2,
                     child: PageView.builder(
                         itemCount: product?.images?.length,
                         itemBuilder: (context,index){
-                          return  InkWell(
-                            onTap: ()=>navigateTo(context, ProductImagesPreviewer(images:product?.images)),
-                            child: ColorFiltered(
-                              colorFilter: ColorFilter.mode(
-                                isDark ? Colors.black12 : Colors.black,
-                                BlendMode.difference,
-                              ),
-                              child: Opacity(
-                                opacity: isDark ? 0.8 : 1,
-                                child: Hero(
-                                  tag: '${product?.id}',
-                                  child: Image.network(
-                                    product?.images?[index] ?? kNoImageFound,
-                                    fit: BoxFit.cover,
-                                    width: double.infinity,
-                                    height: double.infinity,
-                                    alignment: AlignmentDirectional.topCenter,
+                          return  MyConditionalBuilder
+                            (condition: product?.images!=null,
+                            builder: InkWell(
+                              onTap: ()=>navigateTo(context, ProductImagesPreviewer(images:product?.images)),
+                              child: ColorFiltered(
+                                colorFilter: ColorFilter.mode(
+                                  isDark ? Colors.black12 : Colors.black,
+                                  BlendMode.difference,
+                                ),
+                                child: Opacity(
+                                  opacity: isDark ? 0.8 : 1,
+                                  child: Hero(
+                                    tag: '$productID',
+                                    child:  Image.network(
+                                      product?.images?[index] ?? kNoImageFound,
+                                      fit: BoxFit.cover,
+                                      width: double.infinity,
+                                      height: double.infinity,
+                                      alignment: AlignmentDirectional.topCenter,
+                                    )
                                   ),
                                 ),
                               ),
                             ),
-                          );
+                            feedback: Hero(tag: '$productID ', child: kHashImage,
+                            ),);
                         }),
-                  ),
+                  ) ,
                   const Expanded(child: SizedBox()),
+
                 ],
               ),
               // page
@@ -125,13 +154,13 @@ class ProductDescription extends StatelessWidget {
                 initialChildSize: 0.5,
                 builder: (context, controller) {
                   Widget _section(
-                    String label, {
+                      String label, {
 
-                    /// if isCustomizable=true provide a proper child widget.details will have no impact .
-                    bool isCustomizable = false,
-                    Widget? child,
-                    String? details,
-                  }) {
+                        /// if isCustomizable=true provide a proper child widget.details will have no impact .
+                        bool isCustomizable = false,
+                        Widget? child,
+                        String? details,
+                      }) {
                     if (details != null) child = null;
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -179,7 +208,7 @@ class ProductDescription extends StatelessWidget {
                       child: Column(
                         children: [
                           // brand name
-                          _section('Brand Name', details: '${product?.name}'),
+                          _section('Brand Name', details: '${product?.name??''}'),
                           //images
                           if (product?.images != null)
                             _section(
@@ -197,15 +226,15 @@ class ProductDescription extends StatelessWidget {
                                     itemCount: product!.images!.length,
                                     itemBuilder: (context, index) {
                                       return InkWell(
-                                        onTap: ()=>navigateTo(context, SingleProductImagePreviewer( product!.images?[index])),
+                                        onTap: ()=>navigateTo(context, SingleProductImagePreviewer( product.images?[index])),
                                         child: Hero(
-                                          tag:'${product!.images?[index]}' ,
+                                          tag:'${product.images?[index]}' ,
                                           child: Container(
-                                            clipBehavior: Clip.antiAliasWithSaveLayer,
-                                            decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(20.0),
-                                            ),
-                                            child: Image.network(product!.images![index], fit: BoxFit.cover)),
+                                              clipBehavior: Clip.antiAliasWithSaveLayer,
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(20.0),
+                                              ),
+                                              child: Image.network(product.images![index], fit: BoxFit.cover)),
                                         ),
                                       );
                                     },
@@ -218,20 +247,20 @@ class ProductDescription extends StatelessWidget {
                             ),
                           // description
                           _section('Description',
-                              details: '${product?.description}'),
+                              details: '${product?.description??''}'),
                           // Price
                           _section(
                             'Price',
                             isCustomizable: true,
-                           child:product?.discount!=null && product?.discount!=0? Row(
-                             children: [
-                               Text( 'EGP ${product?.price}'),
-                               XSpace.light,
-                               Text( 'EGP ${product?.oldPrice}',style: Theme.of(context).textTheme.caption?.copyWith(color : Colors.red,decoration: TextDecoration.lineThrough),),
-                               Spacer(),
-                               FittedBox(child: Text( '-% ${product?.discount} for a Limited time'),),
-                             ],
-                           ):Text( 'EGP ${product?.price}'),
+                            child:product?.discount!=null && product?.discount!=0? Row(
+                              children: [
+                                Text( 'EGP ${product?.price??''}'),
+                                XSpace.light,
+                                Text( 'EGP ${product?.oldPrice??''}',style: Theme.of(context).textTheme.caption?.copyWith(color : Colors.red,decoration: TextDecoration.lineThrough),),
+                                Spacer(),
+                                FittedBox(child: Text( '-% ${product?.discount??''} for a Limited time'),),
+                              ],
+                            ):Text( 'EGP ${product?.price??''}'),
                           ),
                           // Buttons
                           _section(
@@ -241,10 +270,10 @@ class ProductDescription extends StatelessWidget {
                               onPressed: (index) {},
                               children: List.generate(
                                   3,
-                                  (index) => TextButton(
-                                        onPressed: () {},
-                                        child: Text('ss'),
-                                      )),
+                                      (index) => TextButton(
+                                    onPressed: () {},
+                                    child: Text('button'),
+                                  )),
                               isSelected: List.generate(3, (index) => false),
                             ),
                           ),
@@ -262,7 +291,7 @@ class ProductDescription extends StatelessWidget {
                                   allowHalfRating: true,
                                   itemCount: 5,
                                   itemPadding:
-                                      EdgeInsets.symmetric(horizontal: 4.0),
+                                  EdgeInsets.symmetric(horizontal: 4.0),
                                   itemBuilder: (context, _) => Icon(
                                     Icons.star,
                                     color: Colors.amber,
@@ -289,12 +318,12 @@ class ProductDescription extends StatelessWidget {
                               ],
                             ),
                           ),
-                          //category
-                          _section('Category',isCustomizable: true,child: TextButton(
-                              onPressed: (){},
-                                  // navigateToAndFinish(context,Scaffold(appBar: AppBar(),body: CategoryScreen(),),
-                               child: Text('label '),
-                          ),),
+                          // //category
+                          // _section('Category',isCustomizable: true,child: TextButton(
+                          //   onPressed: (){},
+                          //   // navigateToAndFinish(context,Scaffold(appBar: AppBar(),body: CategoryScreen(),),
+                          //   child: Text('label '),
+                          // ),),
                           // buttons
                           ToggleButtons(
                             children: [],

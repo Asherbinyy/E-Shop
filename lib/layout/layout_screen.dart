@@ -1,9 +1,10 @@
+import 'package:e_shop/shared/components/builders/shop_shimmer_builder.dart';
 import '/shared/components/methods/navigation.dart';
 import '/shared/components/adaptive/adaptive_search_bar.dart';
 import '/modules/search/search_screen.dart';
-import '/models/app/bottom_nav_model.dart';
+import '/models/app/bottom_nav.dart';
 import '/modules/landing/landing_screen.dart';
-import '/shared/components/reusable/app_bar/PrimarySliverAppBar.dart';
+import '/shared/components/reusable/app_bar/primary_sliver_appbar.dart';
 import '/shared/components/reusable/bottom_nav_bar/BottomNavItem.dart';
 import '/shared/components/reusable/drawer/custom_drawer.dart';
 import '/shared/cubit/app_cubit.dart';
@@ -37,9 +38,9 @@ class LayoutScreen extends StatelessWidget {
 
             return Scaffold(
               extendBodyBehindAppBar: true,
-              endDrawer: CustomDrawer(),
+              endDrawer: CustomDrawerScreen(),
               bottomNavigationBar:
-                  CustomBottomNavBar(cubit,appCubit, height: height * 0.08),
+                  CustomBottomNavBar(cubit,appCubit.isDark, height: height * 0.08),
               // floatingActionButton: FloatingActionButton(
               //   onPressed: (){},
               //   backgroundColor: Colors.transparent,
@@ -53,7 +54,6 @@ class LayoutScreen extends StatelessWidget {
                   child: NestedScrollView(
                     physics: BouncingScrollPhysics(),
                     headerSliverBuilder: (context, value) => [
-
                       CustomSliverAppBar(tabWidth: width * 0.29, tabHeight: height * 0.04),
                       if (! cubit.isHome) SliverToBoxAdapter(
                         child: AdaptiveSearchBar(
@@ -68,7 +68,7 @@ class LayoutScreen extends StatelessWidget {
                     body: BottomNavModel.getList[cubit.currentIndex].screen,
                   ),
                 ),
-                feedback: kLoadingWanderingCubes,
+                feedback: ShopShimmerBuilder(),
               ),
             );
           },

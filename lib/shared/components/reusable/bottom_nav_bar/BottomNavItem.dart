@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '/layout/cubit/home_cubit.dart';
-import '/models/app/bottom_nav_model.dart';
+import '/models/app/bottom_nav.dart';
 import '/modules/landing/landing_screen.dart';
 import '/shared/cubit/app_cubit.dart';
 import '/styles/constants.dart';
@@ -11,9 +11,9 @@ import 'package:flutter/material.dart';
 
 class CustomBottomNavBar extends StatelessWidget {
   final HomeCubit cubit;
-  final AppCubit appCubit;
+  final bool isDark;
   final double height;
-  const CustomBottomNavBar( this.cubit, this.appCubit,{Key? key,required this.height}) : super(key: key);
+  const CustomBottomNavBar( this.cubit, this.isDark,{Key? key,required this.height}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class CustomBottomNavBar extends StatelessWidget {
       child: Center(
         child: BottomAppBar(
           elevation: 0.0,
-          color: appCubit.isDark ? kDarkPrimaryColor : kLightPrimaryColor,
+          color: isDark ? kDarkPrimaryColor : kLightPrimaryColor,
           child: Padding(
             padding: const EdgeInsets.only(top: 8.0),
             child: ListView.builder(
@@ -33,7 +33,7 @@ class CustomBottomNavBar extends StatelessWidget {
                 // separatorBuilder: (context, index)=>SizedBox(width: 4,),
                 itemBuilder: (context, index) {
                   var item = BottomNavModel.getList[index];
-                  return BottomNavItem(item,index,isDark: appCubit.isDark,onPressed:()=> cubit.changeBottomNav(index),
+                  return BottomNavItem(item,index,isDark: isDark,onPressed:()=> cubit.changeBottomNav(index),
                   );
                 }),
           ),
@@ -58,6 +58,7 @@ class BottomNavItem extends StatelessWidget {
       listener: (context,state){},
       builder: (context,state){
         HomeCubit cubit = HomeCubit.get(context);
+
 
         return MaterialButton(
           elevation: 0.0,

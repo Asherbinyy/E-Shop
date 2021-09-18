@@ -2,29 +2,92 @@ import 'package:e_shop/styles/constants.dart';
 import 'package:flutter/material.dart';
 
 class RoundedButton extends StatelessWidget {
-  final VoidCallback? onPressed;
+  final Color? backgroundColor;
+  final Color? disabledBackgroundColor;
+  final Color? disabledColor;
+  final Color? color;
+  final IconData? icon;
+  final ImageProvider? image;
   final String label;
-  final Color labelColor;
-  final Color color;
-  final bool isUpperCase;
-  final bool isDisabled ;
-
-  const RoundedButton({Key? key, this.onPressed, this.label='', this.isUpperCase=true, this.labelColor =Colors.white, this.color=kSecondaryColorDarker, this.isDisabled=false}) : super(key: key);
+  final VoidCallback? onPressed;
+  final double spacing;
+  final bool isImage;
+  final bool isIcon;
+  final bool isDisabled;
+  RoundedButton({
+    Key? key,
+    this.backgroundColor = kPrimaryColorDarker,
+    this.disabledColor = Colors.white70,
+    this.disabledBackgroundColor = Colors.grey,
+    this.color = Colors.white,
+    this.icon,
+    this.image,
+    this.isImage = false,
+    this.isIcon = false,
+    this.isDisabled = false,
+    this.spacing = 15.0,
+    this.onPressed,
+    this.label = '',
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return IgnorePointer(
-      ignoring: isDisabled,
-      child: MaterialButton(
-        onPressed:()=> onPressed!(),
-        padding: EdgeInsets.zero,
-        elevation: 0.0,
-        color:  isDisabled?Colors.black12:color,
-        child: Container(
-          padding: EdgeInsets.all(10.0),
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(5.0)),
-          child: Text(label.toUpperCase(),style: TextStyle(color: labelColor),),),
-      ),
+    return Builder(
+      builder: (context) {
+        Color ? _backgroundColor ;
+        Color ? _color ;
+        if (isDisabled){
+          _backgroundColor = disabledBackgroundColor ;
+          _color = disabledColor;
+        }
+        else {
+          _backgroundColor=backgroundColor;
+          _color=color;
+        }
+        return IgnorePointer(
+          ignoring: isDisabled,
+          child: Padding(
+            padding: EdgeInsets.all(10.0),
+            child: Material(
+              borderRadius: BorderRadius.circular(10.0),
+              color: _backgroundColor,
+              elevation: 3,
+              child: MaterialButton(
+                child: (isImage == true || isIcon == true)
+                    ? Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    isImage
+                        ? Image(
+                      image: image!,
+                      height: 30,
+                      width: 30,
+                    )
+                        : Icon(icon, color: _color),
+                    SizedBox(width: spacing),
+                    Text(label,
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context)
+                            .textTheme
+                            .button!
+                            .copyWith(color: _color),
+                    ),
+                  ],
+                )
+                    : Text(
+                  label,
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context)
+                        .textTheme
+                        .button!
+                        .copyWith(color: _color),
+                ),
+                onPressed: onPressed,
+              ),
+            ),
+          ),
+        );
+      }
     );
   }
 }
