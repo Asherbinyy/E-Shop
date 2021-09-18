@@ -5,7 +5,7 @@ class LoginModel {
   String? message;
   UserData? data ;
 
-  LoginModel.formJson(Map<String,dynamic> json ){
+  LoginModel.fromJson(Map<String,dynamic> json ){
     status = json['status'];
     message = json['message'];
     data = json['data'] != null ? UserData.formJson(json['data']) : null;

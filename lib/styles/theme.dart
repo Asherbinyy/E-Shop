@@ -122,6 +122,9 @@ ThemeData darkMode = ThemeData(
           shadowColor: kPrimaryColor.withOpacity(0.1),
           elevation: 2.0,
           side: BorderSide(
-              width: 1, color: kLightSecondaryColor.withOpacity(0.1)))),
+              width: 1, color: kLightSecondaryColor.withOpacity(0.1))),
+  ),
+
+    dialogTheme: DialogTheme(backgroundColor: kDarkSecondaryColor),
 
 );

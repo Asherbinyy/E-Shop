@@ -1,14 +1,15 @@
-import 'package:e_shop/layout/cubit/home_states.dart';
-import 'package:e_shop/models/api/get_favourites_model.dart';
-import 'package:e_shop/models/api/search_model.dart';
-import 'package:e_shop/modules/landing/landing_screen.dart';
-import 'package:e_shop/modules/product_description/product_description.dart';
-import 'package:e_shop/shared/components/adaptive/adaptive_search_bar.dart';
-import 'package:e_shop/shared/components/methods/navigation.dart';
-import 'package:e_shop/shared/components/reusable/spaces/spaces.dart';
-import 'package:e_shop/shared/cubit/app_cubit.dart';
-import 'package:e_shop/shared/cubit/app_state.dart';
-import 'package:e_shop/styles/constants.dart';
+import 'package:e_shop/shared/components/builders/product_card.dart';
+
+import '/layout/cubit/home_states.dart';
+import '/models/api/search/search.dart';
+import '/modules/landing/landing_screen.dart';
+import '/modules/product_details/product_details.dart';
+import '/shared/components/adaptive/adaptive_search_bar.dart';
+import '/shared/components/methods/navigation.dart';
+import '/shared/components/reusable/spaces/spaces.dart';
+import '/shared/cubit/app_cubit.dart';
+import '/shared/cubit/app_state.dart';
+import '/styles/constants.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 
@@ -85,13 +86,12 @@ class SearchScreen extends StatelessWidget {
                                       cubit.searchModel?.data?.data;
                                   return SizedBox(
                                       height: height * 0.3,
-                                      child: _SearchBuilder(
-                                          cubit, index, products?[index]));
+                                      child: _SearchItem(cubit, index, products?[index]));
                                 }),
                           ),
                         ],
                       ),
-                      feedback: _noItemFound(),
+                      feedback:_NoItemFound(),
                     ),
                   ),
                 ),
@@ -106,29 +106,36 @@ class SearchScreen extends StatelessWidget {
     );
   }
 
-  Widget _noItemFound() => Padding(
-        padding: const EdgeInsets.all(50.0),
-        child: ListView(
-          shrinkWrap: true,
-          physics: BouncingScrollPhysics(),
-          children: [
-            LottieBuilder.asset(
-              kEmptySearchLottie,
-              reverse: false,
-            ),
-            YSpace.extreme,
-            Center(
-                child: Text(
-              'I\'m Sorry, There is no such Item found',
-              textAlign: TextAlign.center,
-            )),
-          ],
-        ),
-      );
+}
+class _NoItemFound extends StatelessWidget {
+  const _NoItemFound({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(50.0),
+      child: ListView(
+        shrinkWrap: true,
+        physics: BouncingScrollPhysics(),
+        children: [
+          LottieBuilder.asset(
+            kEmptySearchLottie,
+            reverse: false,
+          ),
+          YSpace.extreme,
+          Center(
+              child: Text(
+                'I\'m Sorry, There is no such Item found',
+                textAlign: TextAlign.center,
+              )),
+        ],
+      ),
+    );
+  }
 }
 
-class _SearchBuilder extends StatelessWidget {
-  const _SearchBuilder(
+class _SearchItem extends StatelessWidget {
+  const _SearchItem(
     this.cubit,
     this.index,
     this.product, {
@@ -140,8 +147,12 @@ class _SearchBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-
+    return BlocConsumer<HomeCubit, HomeStates>(
+    listener: (context, state) {
+    },
+    builder: (context, state) {
     return BlocConsumer<AppCubit, AppStates>(
       listener: (context, state) {},
       builder: (context, state) {
@@ -154,7 +165,10 @@ class _SearchBuilder extends StatelessWidget {
               clipBehavior: Clip.antiAliasWithSaveLayer,
               padding: EdgeInsets.zero,
               splashColor: Colors.white,
-              onPressed: () => navigateTo(context, ProductDescription(product)),
+              onPressed: () {
+                navigateTo(context, ProductDetailsScreen(product!.id!));
+                cubit.getProductDetails(product!.id!);
+              },
               // onPressed: () => {},
               child: Row(
                 children: [
@@ -314,14 +328,33 @@ class _SearchBuilder extends StatelessWidget {
                             ),
                           ),
                           //cart
-                          OutlinedButton(
-                            onPressed: () {},
-                            child: Icon(
-                              Icons.shopping_cart,
-                              size: 20,
-                              color: isDark
-                                  ? kLightPrimaryColor
-                                  : kDarkPrimaryColor,
+                          FittedBox(
+                            child: OutlinedButton(
+                              onPressed: () {
+                                cubit.changeCarts(product!.id!);
+                              },
+                              style: OutlinedButton.styleFrom(
+                                minimumSize: Size(width,height*0.1),
+                                backgroundColor: cubit.carts?[product?.id]==true ?kPrimaryColorDarker : null,
+                              ),
+                              child: cubit.carts?[product?.id]==true
+                                  ? Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(
+                                    Icons.check,
+                                    color: Colors.white,
+                                    size: 40,
+                                  ),
+                                  XSpace.normal,
+                                  Text('Added To Cart',style: Theme.of(context).textTheme.headline5?.copyWith(color: Colors.white),),
+                                ],
+                              )
+                                  : Icon(
+                                Icons.add_shopping_cart,
+                                size: 40,
+
+                              ),
                             ),
                           ),
                         ],
@@ -335,5 +368,29 @@ class _SearchBuilder extends StatelessWidget {
         );
       },
     );
-  }
+  });}
 }
+// class _ProductBuilder extends StatelessWidget {
+//   final HomeCubit cubit;
+//   final List<ProductSearchData>? products;
+//   final bool isGrid ;
+//   const _ProductBuilder(this.cubit,this.products,{Key? key,required this.isGrid}) : super(key: key);
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     double height = MediaQuery.of(context).size.height;
+//     return ListView.builder(
+//       physics: NeverScrollableScrollPhysics(),
+//       shrinkWrap: true,
+//       itemCount: products?.length,
+//       itemBuilder: (context, index) {
+//         ProductSearchData ? product = products?[index];
+//         return SizedBox(
+//           height: height * 0.2,
+//           child: ProductCard(isGrid: cubit.isGrid, name: product!.name!, seller: 'E-Shop', image: product.image!, price: product.price!, id: product.id!, oldPrice: '', discount: product.discount!),
+//
+//         );
+//       },
+//     );
+//   }
+// }

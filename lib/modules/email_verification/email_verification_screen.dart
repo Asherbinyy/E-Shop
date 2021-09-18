@@ -3,10 +3,10 @@ import 'dart:async';
 import 'package:e_shop/layout/cubit/home_cubit.dart';
 import 'package:e_shop/layout/cubit/home_states.dart';
 import 'package:e_shop/layout/layout_screen.dart';
-import 'package:e_shop/models/api/profile.dart';
-import 'package:e_shop/models/api/email_verification.dart';
+import 'package:e_shop/models/api/user/profile.dart';
+import 'package:e_shop/models/api/user/email_verification.dart';
 import 'package:e_shop/modules/landing/landing_screen.dart';
-import 'package:e_shop/shared/components/reusable/buttons/rounded_button.dart';
+import 'package:e_shop/shared/components/reusable/buttons/simple_rounded_button.dart';
 import 'package:e_shop/shared/components/reusable/dialogue/default_dialogue.dart';
 import 'package:e_shop/shared/components/reusable/spaces/spaces.dart';
 import 'package:e_shop/shared/cubit/app_cubit.dart';
@@ -244,7 +244,7 @@ class _PinCodeBuilderState extends State<_PinCodeBuilder>  {
         ),
        YSpace.normal,
        /// current text must be modified with the api response
-       RoundedButton(
+       SimpleRoundedButton(
          color: kThirdColor,
          label: 'Verify',
          onPressed: (){
@@ -320,7 +320,7 @@ class _SendVerificationBuilder extends StatelessWidget {
         YSpace.titan,
         MyConditionalBuilder(
           condition: state is! SendVerificationLoadingState,
-          builder: RoundedButton(
+          builder: SimpleRoundedButton(
             label: 'Send Verification Code',
             onPressed: () => cubit.sendEmailVerification(),
           ),

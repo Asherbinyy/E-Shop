@@ -1,7 +1,7 @@
 import '/shared/cubit/app_cubit.dart';
 import '/layout/cubit/home_states.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '/models/app/popup_model.dart';
+import '/models/app/popup.dart';
 import '/modules/sort/sort_items_screen.dart';
 import '/shared/components/reusable/popup_menu_button/custom_popup_button.dart';
 import '/shared/components/reusable/spaces/spaces.dart';
@@ -37,7 +37,7 @@ class FilterSearchListTile extends StatelessWidget {
                       context: context,
                       builder: (context)=>curvedBottomSheetDecoration(
                         isDark,
-                        child: SortItemsScreen(),
+                        child: SortItemsScreen(cubit),
                       ),
                     ),
                     child: Row(
@@ -59,6 +59,7 @@ class FilterSearchListTile extends StatelessWidget {
                   ),
                 ),
                 CustomPopUpButton(
+                  iconColor: isDark?Colors.white:Colors.black87,
                   popUps: PopUpModel.productOptions,
                   icon: Icons.featured_play_list,
                   onSelected: (value)=>cubit.changeViewSelection(value),

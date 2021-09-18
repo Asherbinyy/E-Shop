@@ -1,4 +1,4 @@
-import '/models/api/login.dart';
+import '../../../models/api/user/login.dart';
 import '/network/remote/dio_helper.dart';
 import '/network/remote/end_points.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +30,7 @@ class LoginCubit extends Cubit<LoginStates> {
         } ,
     ).then((value) {
       print(value.data);
-      loginModel =  LoginModel.formJson(value.data);// *** vip ***
+      loginModel =  LoginModel.fromJson(value.data);// *** vip ***
       emit(LoginSuccessState(loginModel!));
     }).catchError((error) {
       emit(LoginErrorState(error.toString()));

@@ -25,6 +25,7 @@ class DioHelper {
     };
    return await _dio.get(url,queryParameters: query);
   }
+
   static Future<Response> postData({
     required String url,
     Map<String, dynamic>? query,
@@ -41,14 +42,40 @@ class DioHelper {
       queryParameters: query,
       data: data,
     );
+  }  static Future<Response> putData({
+    required String url,
+    Map<String, dynamic>? query,
+    required Map<String, dynamic> data,
+    String token = '',
+  }) async {
+    _dio.options.headers = {
+      'Content-Type': 'application/json',
+      'lang': appLang,
+      'Authorization': token,
+    };
+    return await _dio.put(
+      url,
+      queryParameters: query,
+      data: data,
+    );
   }
+
+
   static Future<Response> deleteData({
     required String url,
     Map<String, dynamic>? query,
+    String token = '',
 
   }) {
-    return _dio.delete(url, queryParameters: query, cancelToken: CancelToken() );
+    _dio.options.headers = {
+      'Content-Type': 'application/json',
+      'lang': appLang,
+      'Authorization': token,
+    };
+    return _dio.delete(url, queryParameters: query );
   }
+
+
 
   static void clearData() => _dio.clear();
 

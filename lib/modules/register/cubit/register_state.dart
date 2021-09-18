@@ -1,4 +1,4 @@
-import 'package:e_shop/models/api/login.dart';
+import 'package:e_shop/models/api/user/login.dart';
 
 abstract class RegisterState{}
 

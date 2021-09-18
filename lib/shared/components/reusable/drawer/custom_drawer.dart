@@ -1,22 +1,33 @@
-import 'package:e_shop/modules/email_verification/email_verification_screen.dart';
-import 'package:e_shop/modules/login/login_screen.dart';
-import 'package:e_shop/network/local/cache_helper.dart';
-import 'package:e_shop/network/local/cached_values.dart';
-import 'package:e_shop/shared/components/methods/navigation.dart';
-import 'package:e_shop/shared/components/reusable/dialogue/default_dialogue.dart';
+import 'package:e_shop/modules/faq/faq_screen.dart';
+import 'package:e_shop/modules/notification/notification_screen.dart';
+import 'package:e_shop/modules/payment/payment_screen.dart';
+import 'package:e_shop/modules/promo_codes/promo_code_screen.dart';
+import 'package:e_shop/shared/components/reusable/buttons/rounded_button.dart';
+import 'package:e_shop/shared/components/reusable/dialogue/rate_us_dialog.dart';
+import 'package:e_shop/styles/constants.dart';
 
+import '/shared/components/reusable/tiles/expandable_tile.dart';
+import '/shared/components/reusable/tiles/option_tile.dart';
+
+import '../../../../models/api/user/profile.dart';
+import '/modules/email_verification/email_verification_screen.dart';
+import '/modules/login/login_screen.dart';
+import '/modules/profile/profile_screen.dart';
+import '/network/local/cache_helper.dart';
+import '/network/local/cached_values.dart';
+import '/shared/components/methods/navigation.dart';
+import '/shared/components/reusable/dialogue/default_dialogue.dart';
 import '/layout/cubit/home_cubit.dart';
 import '/layout/cubit/home_states.dart';
 import '/shared/components/reusable/spaces/spaces.dart';
 import '/shared/cubit/app_cubit.dart';
-import '/styles/constants.dart';
-import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class CustomDrawer extends StatelessWidget {
-  const CustomDrawer({Key? key}) : super(key: key);
+
+class CustomDrawerScreen extends StatelessWidget {
+  const CustomDrawerScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -45,134 +56,37 @@ class CustomDrawer extends StatelessWidget {
       },
       builder: (context, state) {
         HomeCubit cubit = HomeCubit.get(context);
-        return SafeArea(
+       ProfileData? profile =  cubit.profileModel?.data;
+
+
+        return SizedBox(
+          width: MediaQuery.of(context).size.width*0.7,
+
           child: Drawer(
-            child: Container(
-              color: AppCubit.get(context).isDark
-                  ? kDarkSecondaryColor
-                  : kLightSecondaryColor,
-              child: Padding(
+            child: Scaffold(
+              body: Padding(
                 padding:
-                    const EdgeInsets.symmetric(vertical: 10.0, horizontal: 8.0),
+                const EdgeInsets.symmetric(vertical: 30.0, horizontal: 0.0),
                 child: SingleChildScrollView(
                   physics: BouncingScrollPhysics(),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      MaterialButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: Row(
-                          children: [
-                            CircleAvatar(
-                              radius: 35,
-                              backgroundImage: AssetImage('$kMoon'),
-                            ),
-                            XSpace.extreme,
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Sherbini',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .subtitle1!
-                                      .copyWith(fontSize: 14),
-                                ),
-                                Text(
-                                  'view_your_profile',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .caption!
-                                      .copyWith(fontSize: 14),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
+                      _ViewProfileWidget(profile: profile),
 
-                    if (cubit.isEmailVerified) _verifyMail(onTap: ()=>navigateTo(context, EmailVerificationScreen())),
+                      if (! cubit.isEmailVerified)
+                        _verifyMail(onTap: ()=>navigateTo(context, EmailVerificationScreen())),
 
                       Padding(
                         padding: const EdgeInsets.symmetric(
                             vertical: 8.0, horizontal: 10.0),
                         child: XDivider.normal(),
                       ),
-                      _OptionalListTile(
-                        label: 'settings',
-                        icon: Icons.settings,
-                        onPressed: () {},
-                        // child: Column(
-                        //   children: [
-                        //     Row(
-                        //       children: [
-                        //         XSpace(isWidth: true,num: 30,),
-                        //         Icon(FontAwesomeIcons.globeAfrica,color: Theme.of(context).textTheme.bodyText2?.color,) ,
-                        //         XSpace(isWidth: true,num: 10,),
-                        //         Text('Privacy',style: Theme.of(context).textTheme.bodyText2,),
-                        //       ],
-                        //     ),
-                        //     Row(
-                        //       children: [
-                        //         XSpace(isWidth: true,num: 30,),
-                        //         Icon(FontAwesomeIcons.globeAfrica,color: Theme.of(context).textTheme.bodyText2?.color,) ,
-                        //         XSpace(isWidth: true,num: 10,),
-                        //         Text('Privacy',style: Theme.of(context).textTheme.bodyText2,),
-                        //       ],
-                        //     ),
-                        //   ],
-                        // ),
-                      ),
-                      YSpace.extreme,
-                      _DrawerListTile(
-                          label: 'appearance', icon: FontAwesomeIcons.palette),
-                      YSpace.extreme,
-                      _OptionalListTile(
-                        label: 'dark_mode',
-                        icon: FontAwesomeIcons.solidMoon,
-                        child: Center(
-                          child: Switch.adaptive(
-                              value: AppCubit.get(context).isDark,
-                              onChanged: (newValue) {
-                                // newValue = AppCubit.get(context).changeThemeModeViaSwitch();
-                                Navigator.pop(context);
-                              }),
-                        ),
-                        onPressed: () {},
-                      ),
-                      YSpace.extreme,
-                      _DrawerListTile(
-                        label: 'location',
-                        icon: Icons.location_on_sharp,
-                        onPressed: () {},
-                      ),
-                      YSpace.extreme,
-                      _DrawerListTile(
-                        label: 'faq',
-                        icon: FontAwesomeIcons.question,
-                        // onPressed: ()=>navigateTo(context, FaqScreen()),
-                      ),
-                      YSpace.extreme,
-                      _DrawerListTile(
-                        label: 'about',
-                        icon: FontAwesomeIcons.lightbulb,
-                        onPressed: () {
-                          // CustomDialog.showMyAboutDialog(context);
-                        },
-                      ),
-                      YSpace.extreme,
-                      _DrawerListTile(
-                        label: 'sign_out',
-                        icon: FontAwesomeIcons.signOutAlt,
-                        onPressed: () {
-                          cubit.signOut();
-                        },
-                      ),
-                      const SizedBox(
-                        height: 100,
-                      ),
+
+                      _MenuOptions(cubit),
+
+
+
                     ],
                   ),
                 ),
@@ -208,97 +122,151 @@ class CustomDrawer extends StatelessWidget {
   }
 }
 
-class _DrawerListTile extends StatelessWidget {
-  final String label;
-  final IconData icon;
-  final bool isBackgroundColor;
-  final VoidCallback? onPressed;
-  const _DrawerListTile(
-      {Key? key,
-      this.isBackgroundColor = false,
-      this.onPressed,
-      required this.label,
-      required this.icon})
-      : super(key: key);
+class _ViewProfileWidget extends StatelessWidget {
+  const _ViewProfileWidget({
+    Key? key,
+    required this.profile,
+  }) : super(key: key);
+
+  final ProfileData? profile;
 
   @override
   Widget build(BuildContext context) {
     return MaterialButton(
-      onPressed: null,
-      color: (isBackgroundColor)
-          ? (AppCubit.get(context).isDark ? Colors.grey[850] : Colors.grey[100])
-          : (null),
-      elevation: 0.0,
-      padding: EdgeInsets.all(8.0),
-      child: InkWell(
-        onTap: onPressed,
-        child: Row(
-          children: [
-            CircleAvatar(
-              child: Icon(icon),
+      onPressed: (){
+        // Navigator.pop(context);
+        navigateTo(context, ProfileScreen());
+      },
+      child: Row(
+        children: [
+          Hero(
+            tag: ValueKey<String>('${profile?.id}'),
+            child: CircleAvatar(
+              radius: 30,
+              backgroundImage: NetworkImage('${profile?.image}'),
             ),
-            XSpace.extreme,
-            Text(
-              label,
-              style: Theme.of(context)
-                  .textTheme
-                  .subtitle1!
-                  .copyWith(color: Theme.of(context).primaryColor),
+          ),
+          XSpace.normal,
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  '${profile?.name?.toUpperCase()}',maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.start,
+                  style: Theme.of(context)
+                      .textTheme
+                      .subtitle1!
+                      .copyWith(fontSize: 14),
+                ),
+                Text(
+                  'view_your_account',maxLines: 1,overflow: TextOverflow.ellipsis,
+                  style: Theme.of(context)
+                      .textTheme
+                      .caption!
+                      .copyWith(fontSize: 14),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
 }
 
-class _OptionalListTile extends StatelessWidget {
-  final String label;
-  final IconData icon;
-  final Widget? child;
-  final VoidCallback? onPressed;
 
-  const _OptionalListTile(
-      {Key? key,
-      this.child,
-      this.onPressed,
-      required this.label,
-      required this.icon})
-      : super(key: key);
+
+class _MenuOptions extends StatelessWidget {
+  final HomeCubit cubit;
+  const _MenuOptions(this.cubit,{Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return MaterialButton(
-        onPressed: onPressed,
-        elevation: 0.0,
-        padding: EdgeInsets.all(8.0),
-        child: ExpandablePanel(
-          theme: ExpandableThemeData(
-            // expandIcon: IconBroken.Arrow___Down_2,
-            // collapseIcon: IconBroken.Arrow___Up_2,
-            iconColor: Theme.of(context).primaryColor,
-            iconSize: 18,
-          ),
-          header: Row(
-            children: [
-              CircleAvatar(
-                child: Icon(icon),
+    return SizedBox(
+      height:MediaQuery.of(context).size.height*0.7 ,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Hero(
+              tag: ValueKey<String>('Payment'),
+              child: OptionListTile(
+                label: 'Payment',
+                icon: Icons.payment_outlined,
+                onPressed: () =>navigateTo(context, PaymentScreen()),
               ),
-              XSpace.extreme,
-              Text(
-                label,
-                style: Theme.of(context)
-                    .textTheme
-                    .subtitle1!
-                    .copyWith(color: Theme.of(context).primaryColor),
-              ),
-            ],
-          ),
-          collapsed: Visibility(
-            visible: false,
-            child: Text(''),
-          ),
-          expanded: child ?? Container(),
-        ));
+            ),
+            Hero(
+                tag: ValueKey<String>('PromoCode'),
+                child: OptionListTile(
+                    label: 'Promo Codes',
+                    icon: FontAwesomeIcons.gift,
+                    onPressed: () =>navigateTo(context, PromoCodeScreen())),
+                ),
+            Hero(
+                tag: ValueKey<String>('Notification'),
+                child: OptionListTile(label: 'Notification', icon: FontAwesomeIcons.bell,onPressed:()=>navigateTo(context, NotificationScreen()))),
+
+            Hero(
+                tag: ValueKey<String>('FAQ'),
+                child: OptionListTile(label: 'FAQ',icon: FontAwesomeIcons.question, onPressed: ()=>navigateTo(context, FaqScreen()))),
+            OptionListTile(label: 'About Us', icon: FontAwesomeIcons.lightbulb, onPressed: () =>DefaultDialogue.showMyAboutDialog(context)),
+
+            Hero(
+                tag: ValueKey<String>('RateUs'),
+                child: OptionListTile(
+                    label: 'Rate Us',
+                    icon: FontAwesomeIcons.solidGrinStars,
+                    onPressed: ()=>showDialog(context: context, builder: (context)=> RateUsDialog()))),
+
+            OptionListTile(label: 'Sign Out', icon: Icons.logout,isBackgroundColor: true ,onPressed: () => cubit.signOut()),
+
+          ],
+        ),
+      ),
+    );
   }
+
+// Row(
+//   children: [
+//
+//     Icon(FontAwesomeIcons.globeAfrica,color: Theme.of(context).textTheme.bodyText2?.color,) ,
+//     Text('Privacy',style: Theme.of(context).textTheme.bodyText2,),
+//   ],
+// ),
+// Row(
+//   children: [
+//     Icon(FontAwesomeIcons.globeAfrica,color: Theme.of(context).textTheme.bodyText2?.color,) ,
+//     Text('Privacy',style: Theme.of(context).textTheme.bodyText2,),
+//   ],
+// ),
+// ExpandableListTile(label: 'dark_mode', icon: FontAwesomeIcons.solidMoon,
+//     child: Center(
+//   child: Switch.adaptive(
+//       value: AppCubit.get(context).isDark,
+//       onChanged: (newValue) {
+//         // newValue = AppCubit.get(context).changeThemeModeViaSwitch();
+//         Navigator.pop(context);
+//       }),
+// ), onPressed: () {}),
+// OptionListTile(label: 'location', icon: Icons.location_on_sharp, onPressed: () {}),
+
+  //     RoundedButton(
+  //   label: 'log out',
+  //   icon: Icons.logout,
+  //   isIcon: true,
+  //   color: isDark ? kPrimaryColorDarker : Colors.white,
+  //   backgroundColor: isDark ? Colors.white : kPrimaryColorDarker,
+  //   onPressed: () {
+  //     cubit.signOut();
+  //   },
+  // );
+
 }
+
+
+

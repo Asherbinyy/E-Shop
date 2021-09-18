@@ -1,10 +1,12 @@
-import 'package:e_shop/models/api/home.dart';
-import 'package:e_shop/models/app/sort_by_model.dart';
+import 'package:e_shop/layout/cubit/home_cubit.dart';
+import 'package:e_shop/models/api/home/home.dart';
+import 'package:e_shop/models/app/sort_by.dart';
 import 'package:e_shop/styles/constants.dart';
 import 'package:flutter/material.dart';
 
 class SortItemsScreen extends StatefulWidget {
-  const SortItemsScreen({Key? key}) : super(key: key);
+  final HomeCubit cubit;
+  const SortItemsScreen(this.cubit,{Key? key}) : super(key: key);
 
   @override
   _SortItemsScreenState createState() => _SortItemsScreenState();
@@ -46,6 +48,7 @@ class _SortItemsScreenState extends State<SortItemsScreen> {
                       element.isSelected=false;
                     });
                     e.isSelected=true;
+                    if (e.isSelected) widget.cubit.getHomeProducts(e.options!);
                     Navigator.pop(context);
                   });
                 },) ).toList(),

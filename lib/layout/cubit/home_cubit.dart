@@ -1,17 +1,28 @@
+import 'dart:io';
 import 'package:bloc/bloc.dart';
-import 'package:e_shop/models/api/change_favourites_model.dart';
-import 'package:e_shop/models/api/get_favourites_model.dart';
-import 'package:e_shop/models/api/home.dart';
-import 'package:e_shop/models/api/profile.dart';
-import 'package:e_shop/models/api/search_model.dart';
-import 'package:e_shop/models/api/sign_out.dart';
-import 'package:e_shop/models/api/verify_code.dart';
-import 'package:e_shop/models/api/email_verification.dart';
-import 'package:e_shop/modules/home/category/categories_screen.dart';
-import 'package:e_shop/styles/constants.dart';
-import '/models/api/banners.dart';
-import '/models/api/categories.dart';
-import '/models/app/tab_bar_model.dart';
+import 'package:e_shop/models/api/carts/update_cart.dart';
+import 'package:e_shop/models/api/user/change_password.dart';
+import 'package:e_shop/models/app/sort_by.dart';
+import 'package:flutter/material.dart';
+import '../../models/api/categories/category_products.dart';
+import '../../models/api/carts/change_cart.dart';
+import '../../models/api/favourites/change_favourites.dart';
+import '../../models/api/carts/get_carts.dart';
+import '../../models/api/favourites/get_favourites.dart';
+import '../../models/api/home/home.dart';
+import '../../models/api/user/login.dart';
+import '../../models/api/products/product_details.dart';
+import '../../models/api/user/profile.dart';
+import '../../models/api/search/search.dart';
+import '../../models/api/user/sign_out.dart';
+import '../../models/api/user/verify_code.dart';
+import '../../models/api/user/email_verification.dart';
+import '/modules/home/category/categories_screen.dart';
+import '/styles/constants.dart';
+import 'package:image_picker/image_picker.dart';
+import '../../models/api/banners/banners.dart';
+import '../../models/api/categories/categories.dart';
+import '/models/app/tab_bar.dart';
 import '/network/remote/dio_helper.dart';
 import '/network/remote/end_points.dart';
 import '/layout/cubit/home_states.dart';
@@ -88,7 +99,13 @@ class HomeCubit extends Cubit<HomeStates> {
     userRating = rating;
     emit(RateProductState());
   }
+  // expand  cart tiles
+  bool isExpandedCarts=false;
+  void toggleExpandedCarts(){
+    isExpandedCarts = !isExpandedCarts;
+    emit(ToggleExpandedCartsState());
 
+  }
   /// METHODS : ----------------------------------------------------------------
   List<HomeProducts>? shuffleHomeLists(List<HomeProducts>? list) {
     list?.shuffle();
@@ -97,22 +114,54 @@ class HomeCubit extends Cubit<HomeStates> {
 
   // Home Data
   HomeModel? homeModel;
-  //
-  // List <HomeProducts> ? products = [];
-  // List <HomeProducts> ? randomProducts = [];
-  // List <HomeProducts> ? offerProducts = [];
-  // List <HomeProducts> ? highPriceProducts = [];
-  // List getProducts (HomeProducts products){
-  //
-  // }
+
+  List <HomeProducts> ? popularProducts = [];
+  List <HomeProducts> ? randomProducts = [];
+  List <HomeProducts> ? offerProducts = [];
+  List <HomeProducts> ? higherPriceProducts = [];
+  List <HomeProducts> ? lowerPriceProducts = [];
+
 
   /// This map should take : product Id (key) and returns >> isLiked bool (value)
   Map<int, bool>? favourites = {};
-  void _fillFavourites(HomeProducts element) {
+  Map<int, bool>? carts = {};
+  void _fillFavourites (HomeProducts element) {
     if (element.id != null && element.inFavorites != null)
       favourites?.addAll({element.id!: element.inFavorites!});
     else
       throw 'something went wrong when adding favourites';
+  }
+  void _fillCarts (HomeProducts element){
+    if (element.id != null && element.inCart != null)
+      carts?.addAll({element.id!: element.inCart!});
+    else
+      throw 'something went wrong when adding carts';
+  }
+
+
+  void _fillProductLists (HomeProducts element) {
+    //popular products
+    popularProducts?.add(element);
+    // random products
+    randomProducts?.add(element);
+    shuffleHomeLists(randomProducts);
+    // offer Products
+    if (element.discount != 0) offerProducts?.add(element);
+    // low To high
+    lowerPriceProducts?.add(element);
+
+    lowerPriceProducts?.sort((a, b) =>
+        a.price
+            .toString()
+            .length
+            .compareTo(b.price
+            .toString()
+            .length));
+    lowerPriceProducts?.forEach((element) {
+    });
+    // high To low
+    higherPriceProducts?.addAll(lowerPriceProducts!);
+    higherPriceProducts?.reversed;
   }
 
   void getHomeData() {
@@ -122,11 +171,12 @@ class HomeCubit extends Cubit<HomeStates> {
         homeModel = HomeModel.fromJson(value.data);
         homeModel?.data?.products?.forEach((element) {
           _fillFavourites(element);
+          _fillCarts(element);
+          _fillProductLists(element);
+          defaultHomeProduct?.add(element); // same as popular products
         });
 
-        // products = homeModel?.data?.products;
-        // // random products
-        // randomProducts = shuffleHomeLists(homeModel?.data?.products);
+        // offer Products
         // products?.forEach((element) {
         //   // offer products
         //   if (element.discount != 0) offerProducts?.add(element);
@@ -144,6 +194,7 @@ class HomeCubit extends Cubit<HomeStates> {
         //     print(element.price);
         //   });
         // });
+        // getHomeProducts ();
         emit(GetHomeDataSuccessState());
       }
     }).catchError((error) {
@@ -152,6 +203,40 @@ class HomeCubit extends Cubit<HomeStates> {
     });
   }
 
+  List<HomeProducts>? defaultHomeProduct =[];
+ List <HomeProducts> ? getHomeProducts (SortByOptions options){
+
+    // List <HomeProducts>? _list =[];
+    defaultHomeProduct = [];
+    emit(GetHomeProductsLoadingState());
+    switch (options){
+      case SortByOptions.POPULAR:
+      defaultHomeProduct = popularProducts;
+      print('You got popularProducts ');
+      break;
+      case SortByOptions.RANDOM:
+        defaultHomeProduct = randomProducts;
+        print('You got randomProducts ');
+
+        break;
+      case SortByOptions.OFFERS:
+        defaultHomeProduct = offerProducts;
+        print('You got offerProducts ');
+
+        break;
+      case SortByOptions.LOWER:
+        defaultHomeProduct = lowerPriceProducts;
+        print('You got lowerPriceProducts ');
+
+        break;
+      case SortByOptions.Higher:
+        defaultHomeProduct = lowerPriceProducts?.reversed.cast<HomeProducts>().toList();
+        print('You got higherPriceProducts ');
+        break;
+    }
+    emit(GetHomeProductsSuccessState());
+    return defaultHomeProduct;
+  }
   // Change Favourites
   ChangeFavouritesModel? changeFavouritesModel;
   void changeFavourites(int productId) {
@@ -181,6 +266,34 @@ class HomeCubit extends Cubit<HomeStates> {
       emit(ChangeFavouritesErrorState(error.toString()));
     });
   }
+  // Change Carts
+  ChangeCartModel? changeCartModel;
+  void changeCarts (int productId) {
+    // toggle the button first in background
+    carts?[productId] = !carts![productId]!;
+    emit(ToggleCartButtonState());
+
+    DioHelper.postData(
+      url: CARTS,
+      token: '$token',
+      data: {
+        'product_id': productId,
+      },
+    ).then((value) {
+      changeCartModel = ChangeCartModel.fromJson(value.data);
+
+      if (changeCartModel?.status == false)
+        // if error happens toggle back (status=false) ex : if not token
+        carts?[productId] = !carts![productId]!;
+
+      emit(ChangeCartSuccessState(changeCartModel : changeCartModel));
+    }).catchError((error) {
+      // if error happens toggle back
+      carts?[productId] = !carts![productId]!;
+      print('Error in Changing Cart is : $error');
+      emit(ChangeCartErrorState(error.toString()));
+    });
+  }
 
   /// Whether The animation Dialogue plays again
   bool showFavouritesDialogue = true;
@@ -200,10 +313,67 @@ class HomeCubit extends Cubit<HomeStates> {
       emit(GetFavouritesErrorState(error.toString()));
     });
   }
+  bool showCartsDialogue = true;
+  // Get Carts
+  GetCartsModel ? getCartsModel;
+  // cart Id : amount
+  Map  <int,int> cartAmount = {};
+  void getCarts() {
+    // getCartsModel = null;
+    emit(GetCartLoadingState());
+    DioHelper.getData(url: CARTS, token: '$token').then((value) {
+      getCartsModel = GetCartsModel.fromJson(value.data);
+      getCartsModel?.data?.cartItems?.forEach((element) {
+       cartAmount.addAll({element.id!:element.quantity!});
 
-  //profile
+      });
+
+
+      emit(GetCartSuccessState(getCartsModel:  getCartsModel));
+      Future.delayed(Duration(seconds: 5))
+          .then((value) => showCartsDialogue = false);
+    }).catchError((error) {
+      print('Error in Getting Carts is : $error');
+      emit(GetFavouritesErrorState(error.toString()));
+    });
+  }
+
+  /// Updates the cart one by one using the GetCartsModel and queries / cartID
+   UpdateCartModel ? updateCartModel;
+   void updateCart (int cartID,CartOperation operation,{int ? dropDownAmount}){
+
+     emit(UpdateCartLoadingState());
+     int ? _amount =  cartAmount[cartID] ;
+     if (operation==CartOperation.INCREMENT)
+       _amount = cartAmount[cartID]! + 1  ; // old cart amount value
+     else if ( (operation==CartOperation.DECREMENT)){
+       if(cartAmount[cartID]! !=1 )
+         _amount = cartAmount[cartID]! - 1 ;
+     }
+     else _amount =dropDownAmount;
+
+     print(CARTS+'/$cartID');
+     print(_amount);
+
+     DioHelper.putData(
+        url: '$CARTS/$cartID',
+        data: {
+          'quantity': _amount ,
+        },
+        token:'$token',
+     ).then((value) {
+        updateCartModel = UpdateCartModel.fromJson(value.data);
+        getCarts();
+        emit(UpdateCartSuccessState(updateCartModel));
+
+        }).catchError((error){
+          print('Error in Updating Card is : ${error.toString()}');
+          emit(UpdateCartErrorState(error.toString()));
+    });
+   }
+
+
   ProfileModel? profileModel;
-
   void getProfile() {
     emit(GetProfileLoadingState());
 
@@ -211,7 +381,6 @@ class HomeCubit extends Cubit<HomeStates> {
       (value) {
         if (value.statusCode == 200) {
           profileModel = ProfileModel.fromJson(value.data);
-          print(value.data);
           emit(GetProfileSuccessState());
         }
       },
@@ -219,7 +388,54 @@ class HomeCubit extends Cubit<HomeStates> {
       emit(GetProfileErrorState(error.toString()));
     });
   }
+  //edit profile
+  bool isEditableProfile = false ;
+  void toggleEditProfile (){
+    isEditableProfile = ! isEditableProfile;
+    emit(ToggleEditProfileState());
+  }
+  //update profile
+  LoginModel ? updatedProfile ;
+  void updateProfile ({
+  required String name ,
+  required String email ,
+  required String phone ,
+  // required String name ,
+}){
+    emit(UpdateProfileLoadingState());
 
+    DioHelper.putData(
+        url: UPDATE_PROFILE,
+        data: {
+          'name': name,
+          'phone': phone,
+          'email': email,
+        },
+        token: '$token',
+    ).then((value) {
+
+      updatedProfile = LoginModel.fromJson(value.data);
+      print(updatedProfile?.data?.name);
+      emit(UpdateProfileSuccessState(updatedProfile!));
+    }
+    ).catchError((error){
+      print('Error in Updating Profile is :${error.toString()} ');
+      emit(UpdateProfileErrorState(error.toString()));
+    });
+  }
+  // ImagePicker from camera or gallery--------------------------------------------
+  File? pickedImage;
+ void pickImage () {
+    ImagePicker().pickImage(source: ImageSource.camera).then((value) {
+      if (value != null) {
+        pickedImage = File(value.path);
+        emit(ImagePickedSuccessState());
+      }
+    }).catchError((e) {
+      emit(ImagePickedErrorState());
+      print(e.toString());
+    });
+  }
   // Sign Out
   SignOutModel? signOutModel;
 
@@ -234,8 +450,6 @@ class HomeCubit extends Cubit<HomeStates> {
             token: '$token')
         .then((value) {
       signOutModel = SignOutModel.formJson(value.data);
-
-      emit(SignOutSuccessState(signOutModel!));
     }).catchError((error) {
       print('Error in Signing Out user is : $error');
       emit(SignOutErrorState(error));
@@ -249,7 +463,7 @@ class HomeCubit extends Cubit<HomeStates> {
   void sendEmailVerification() {
     emit(SendVerificationLoadingState());
 
-    DioHelper.postData(url: VERIFYEMAIL, data: {
+    DioHelper.postData(url: VERIFY_EMAIL, data: {
       'email': profileModel?.data?.email,
 
       /// userModel email
@@ -274,7 +488,7 @@ class HomeCubit extends Cubit<HomeStates> {
   }) {
     VerifyCodeModel? verifyCodeModel;
     emit(VerifyCodeLoadingState());
-    DioHelper.postData(url: VERIFYCODE, data: {
+    DioHelper.postData(url: VERIFY_CODE, data: {
       "email": profileModel?.data?.email,
       "code": code,
     }).then((value) {
@@ -289,6 +503,42 @@ class HomeCubit extends Cubit<HomeStates> {
     });
   }
 
+  // change password
+  ChangePasswordModel? _changePasswordMode ;
+  void changePassword ({
+  required String oldPassword,
+  required String newPassword,
+}){
+    emit(ChangePasswordLoadingState());
+    DioHelper.postData(url: CHANGE_PASSWORD,token: '$token', data: {
+      "current_password":oldPassword,
+      "new_password": newPassword,
+    }).then((value) {
+      if (value.statusCode == 200) {
+        _changePasswordMode = ChangePasswordModel.fromJson(value.data);
+        emit(ChangePasswordSuccessState(_changePasswordMode));
+      }
+    }).catchError((error) {
+      print('Error in Verifying Code  is : ${error.toString()}');
+      emit(ChangePasswordErrorState(error.toString()));
+    });
+  }
+
+  bool isPassword = true ;
+  IconData passwordSuffix = Icons.visibility_off;
+  void togglePasswordVisibility (){
+    isPassword?
+    passwordSuffix =Icons.visibility : passwordSuffix=Icons.visibility_off;
+    isPassword = ! isPassword;
+    emit(TogglePasswordVisibilityState());
+  }
+ //update password button
+  bool isUpdateButtonDisabled = true ;
+  void checkUpdateButtonDisable (String _currentPass,String newPass){
+     if (_currentPass.isNotEmpty && newPass.isNotEmpty )isUpdateButtonDisabled = false;
+     else isUpdateButtonDisabled = true ;
+     emit(EnableUpdateButtonState());
+  }
   // get banners
   List<BannerData> banners = [];
 
@@ -312,12 +562,12 @@ class HomeCubit extends Cubit<HomeStates> {
 
   // get categories
   CategoriesModel? categoriesModel;
-
   /// not used
   List<TabBarModel> tabBarData = [];
+  /// Used in Tab bar onTap to get data depends on the category #
+  Map <String?,int?> categoriesIDs = {};
   void getCategories() {
     emit(GetCategoriesLoadingState());
-
     /// not used
 
     DioHelper.getData(url: CATEGORIES).then((value) {
@@ -327,7 +577,9 @@ class HomeCubit extends Cubit<HomeStates> {
         categoriesModel?.categoriesData?.dataList?.forEach((element) {
           categoriesTitles.add(TabBarModel(
               label: '${element.name}', screen: CategoryScreen(element)));
-          print(element);
+
+          categoriesIDs.addAll({element.name:element.id});
+
         });
 
         /// spread operator
@@ -340,6 +592,30 @@ class HomeCubit extends Cubit<HomeStates> {
       emit(GetCategoriesErrorState(error));
     });
   }
+ // category Products
+ CategoryProductModel ? categoryProductModel;
+  void getCategoryProducts (int categoryID){
+    emit(GetCategoryProductsLoadingState());
+
+    DioHelper.getData(
+        url: PRODUCTS,
+      token: '$token',
+      query: {
+          'category_id':categoryID,
+      },
+    ).
+    then((value) {
+      categoryProductModel=CategoryProductModel.fromJson(value.data);
+
+      emit(GetCategoryProductsSuccessState());
+
+    }
+    ).catchError((error){
+      emit(GetCategoryProductsErrorState(error.toString()));
+      print('Error in Getting Category Products is : $error');
+    });
+  }
+
 
   // search
   SearchModel ? searchModel ;
@@ -355,11 +631,63 @@ class HomeCubit extends Cubit<HomeStates> {
     ).then((value) {
 
       searchModel=SearchModel.fromJson(value.data);
+      // Because HomeData don't have full products and I wanna get rest of products
+      // after a quick tries i found that searching '' returns all Data
+      /// This method is called in main.dart
+      /// We updated favourites & Carts with the rest data which weren't in the
+      /// Home Api
+      if (searchText==''){
+        searchModel?.data?.data?.forEach((element) {
+         _updateFavourites(element);
+         _updateCarts(element);
+        });
+      }
 
       emit(SearchProductSuccessState());
     }).catchError((error) {
       print('Error in Searching For product is : $error');
-      emit(SearchProductErrorState(error));
+      emit(SearchProductErrorState(error.toString()));
     });
   }
+  void _updateFavourites (ProductSearchData element) {
+    if (element.id != null && element.inFavorites != null)
+      favourites?.addAll({element.id!: element.inFavorites!});
+    else
+      throw 'something went wrong when Updating favourites';
+  }
+  void _updateCarts (ProductSearchData element){
+    if (element.id != null && element.inCart != null)
+      carts?.addAll({element.id!: element.inCart!});
+    else
+      throw 'something went wrong when Updating carts';
+  }
+
+
+
+  // productDetails
+
+  ProductDetailsModel ?  productDetailsModel;
+
+  void getProductDetails(int productID){
+    productDetailsModel=null;
+    emit(GetProductDetailsLoadingState());
+
+    DioHelper.getData(
+      url: '$PRODUCTS/$productID',
+      token: '$token',
+    ).then((value) {
+
+      productDetailsModel=ProductDetailsModel.fromJson(value.data);
+
+      emit(GetProductDetailsSuccessState());
+    }).catchError((error) {
+      print('Error in Getting Product Details is : $error');
+      emit(GetProductDetailsErrorState(error.toString()));
+    });
+  }
+
+
+
+
 }
+enum CartOperation{INCREMENT,DECREMENT,ONCHANGE}

@@ -1,11 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:device_preview/device_preview.dart';
-import 'package:e_shop/modules/error/error_screen.dart';
-import 'package:e_shop/network/local/cached_values.dart';
-import 'package:e_shop/network/remote/dio_helper.dart';
-import 'package:e_shop/styles/constants.dart';
+import '/network/local/cached_values.dart';
+import '/network/remote/dio_helper.dart';
+import '/styles/constants.dart';
 import 'package:flutter/foundation.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import '/layout/cubit/home_cubit.dart';
 import '/layout/layout_screen.dart';
 import '/network/local/cache_helper.dart';
@@ -18,6 +16,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'modules/landing/landing_screen.dart';
 import 'modules/login/login_screen.dart';
 import 'modules/register/register_screen.dart';
+import 'modules/welcome_message/welcome_message_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,14 +25,14 @@ void main() async {
   DioHelper.init();
 
   bool? landing = CacheHelper.getData(LANDING);
+  bool? stopWelcome = false;
   token = CacheHelper.getData(TOKEN);
-  print(token);
 
   Widget startingWidget() {
     Widget _widget;
     if (landing != null) {
       if (token != null && token != '')
-        _widget = LayoutScreen();
+        _widget = stopWelcome ? LayoutScreen() : WelcomeMessageScreen ();
       else
         _widget = LoginScreen();
     } else
@@ -42,11 +41,8 @@ void main() async {
   }
 
   runApp(
-    DevicePreview(
-      enabled: !kReleaseMode,
-      builder: (context) => EShop(
-        startingWidget: startingWidget(),
-      ), // Wrap your app
+    EShop(
+      startingWidget: startingWidget(),
     ),
   );
 }
@@ -68,7 +64,10 @@ class EShop extends StatelessWidget {
         BlocProvider(
           create: (context) => HomeCubit()
             ..getHomeData()
-            ..getProfile()..getFavourites()
+            ..getProfile()
+            ..getFavourites()
+            ..getCarts()
+            ..searchProduct('')//See Explain under search product method in home cubit
             ..getCategories()
             ..getBanners(),
         ),

@@ -8,7 +8,7 @@ import '/layout/layout_screen.dart';
 import '/modules/login/login_screen.dart';
 import '/shared/components/methods/navigation.dart';
 import '/shared/components/reusable/buttons/default_login_button.dart';
-import '/shared/components/reusable/text_field/text_field.dart';
+import '/shared/components/reusable/text_field/default_text_field.dart';
 import '/styles/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

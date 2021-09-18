@@ -1,5 +1,10 @@
+import 'package:e_shop/layout/cubit/home_cubit.dart';
+import 'package:e_shop/shared/components/reusable/dialogue/rate_us_dialog.dart';
+import 'package:e_shop/shared/components/reusable/spaces/spaces.dart';
+import 'package:e_shop/shared/cubit/app_cubit.dart';
 import 'package:e_shop/styles/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 enum DialogueStates {
@@ -82,4 +87,18 @@ class DefaultDialogue {
       ),
     );
   }
+
+  static void showMyAboutDialog (BuildContext context){
+    showAboutDialog(
+      context: context,
+      applicationIcon: Image(image: AssetImage(AppCubit.get(context).isDark?kLogoDark:kLogoLight),height: 50,width: 50,),
+      applicationLegalese: 'app_legalese',
+      applicationVersion: '${'version'} : ${'beta version'}',
+    );
+  }
+
+
+
+
+
 }

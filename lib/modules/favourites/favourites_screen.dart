@@ -1,17 +1,13 @@
-import 'package:e_shop/layout/layout_screen.dart';
-import 'package:e_shop/modules/product_description/product_description.dart';
-import 'package:e_shop/modules/search/search_screen.dart';
-import 'package:e_shop/shared/components/adaptive/adaptive_search_bar.dart';
-import 'package:e_shop/shared/components/methods/navigation.dart';
+
 import 'package:e_shop/shared/components/reusable/dialogue/default_dialogue.dart';
+import 'package:e_shop/shared/components/reusable/dialogue/swipe_to_delete_dialog.dart';
 import 'package:e_shop/shared/components/reusable/spaces/spaces.dart';
 import 'package:e_shop/shared/cubit/app_state.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:lottie/lottie.dart';
 import '/layout/cubit/home_cubit.dart';
 import '/layout/cubit/home_states.dart';
-import '/models/api/get_favourites_model.dart';
+import '../../models/api/favourites/get_favourites.dart';
 import '/modules/landing/landing_screen.dart';
 import '/shared/cubit/app_cubit.dart';
 import '/styles/constants.dart';
@@ -26,19 +22,7 @@ class FavouritesScreen extends StatelessWidget {
     return BlocConsumer<HomeCubit, HomeStates>(
       listener: (context, state) {
         if (state is GetFavouritesSuccessState && HomeCubit.get(context).showFavouritesDialogue) showDialog(context: context, builder: (context){
-          return  Dialog(
-            backgroundColor: AppCubit.get(context).isDark?kDarkSecondaryColor:kLightThirdColor,
-            child:  SizedBox(
-              height: MediaQuery.of(context).size.height*0.3,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  LottieBuilder.asset(kSwipeLeftLottie,reverse: true,fit: BoxFit.fitWidth,width: 150,),
-                  Text('swipe to delete Items',style: Theme.of(context).textTheme.subtitle2?.copyWith(color: Colors.white)),
-                ],
-              ),
-            ),
-          );
+          return  SwipeToDeleteDialog();
         });
         if (state is ChangeFavouritesSuccessState){
           if (state.changeFavouritesModel?.status==true)
@@ -84,7 +68,7 @@ class FavouritesScreen extends StatelessWidget {
                     cubit.changeFavourites(product!.id!);
                   },
                   child: SizedBox(
-                    height: height * 0.3,
+                    height: height * 0.2,
                     child: _FavouriteItemCard(cubit,index, product,),
                   ),
                 );},
@@ -115,6 +99,7 @@ class _FavouriteItemCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
 
   return  BlocConsumer<AppCubit,AppStates>(
@@ -251,14 +236,33 @@ class _FavouriteItemCard extends StatelessWidget {
                           ),
                         ),
                         //cart
-                        OutlinedButton(
-                          onPressed: () {},
-                          child: Icon(
-                            Icons.shopping_cart,
-                            size: 20,
-                            color: isDark
-                                ? kLightPrimaryColor
-                                : kDarkPrimaryColor,
+                        FittedBox(
+                          child: OutlinedButton(
+                            onPressed: () {
+                              cubit.changeCarts(product!.id!);
+                            },
+                            style: OutlinedButton.styleFrom(
+                              minimumSize: Size(width,height*0.1),
+                              backgroundColor: cubit.carts?[product?.id]==true ?kPrimaryColorDarker : null,
+                            ),
+                            child: cubit.carts?[product?.id]==true
+                                ? Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(
+                                  Icons.check,
+                                  color: Colors.white,
+                                  size: 40,
+                                ),
+                                XSpace.normal,
+                                Text('Added To Cart',style: Theme.of(context).textTheme.headline5?.copyWith(color: Colors.white),),
+                              ],
+                            )
+                                : Icon(
+                              Icons.add_shopping_cart,
+                              size: 40,
+
+                            ),
                           ),
                         ),
                       ],

@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:e_shop/models/api/login.dart';
+import 'package:e_shop/models/api/user/login.dart';
 import 'package:e_shop/modules/register/cubit/register_state.dart';
 import 'package:e_shop/network/remote/dio_helper.dart';
 import 'package:e_shop/network/remote/end_points.dart';
@@ -28,7 +28,7 @@ class RegisterCubit extends Cubit<RegisterState> {
       'phone': phone,
     }).then((value) {
       if (value.statusCode == 200) {
-        registerModel = LoginModel.formJson(value.data);
+        registerModel = LoginModel.fromJson(value.data);
         emit(SignUpSuccessState(registerModel!));
       }
     }).catchError(

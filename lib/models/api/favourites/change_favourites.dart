@@ -6,6 +6,4 @@ class ChangeFavouritesModel {
     status = json['status'];
     message = json['message'];
   }
-
-
 }

@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "F:\\Flutter\\P R O J E C T S\\e_shop\\build\\shared_preferences\\intermediates\\res\\merged\\debug\\values-es-rUS\\values-es-rUS.xml",
+            "outputFile": "F:\\Flutter\\P R O J E C T S\\e_shop\\build\\shared_preferences\\intermediates\\merged_res\\debug\\values-es-rUS\\values-es-rUS.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\AMS\\.gradle\\caches\\transforms-2\\files-2.1\\2e94107f30f39be366a17347c2bf100b\\core-1.1.0\\res\\values-es-rUS\\values-es-rUS.xml",
+                    "source": "C:\\Users\\AMS\\.gradle\\caches\\transforms-3\\607a76edee2614cbc0a129eb5d5b8512\\transformed\\core-1.1.0\\res\\values-es-rUS\\values-es-rUS.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -19,7 +19,7 @@
             "outputFile": "F:\\Flutter\\P R O J E C T S\\e_shop\\build\\shared_preferences\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-es-rUS\\values-es-rUS.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\AMS\\.gradle\\caches\\transforms-2\\files-2.1\\2e94107f30f39be366a17347c2bf100b\\core-1.1.0\\res\\values-es-rUS\\values-es-rUS.xml",
+                    "source": "C:\\Users\\AMS\\.gradle\\caches\\transforms-3\\607a76edee2614cbc0a129eb5d5b8512\\transformed\\core-1.1.0\\res\\values-es-rUS\\values-es-rUS.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
