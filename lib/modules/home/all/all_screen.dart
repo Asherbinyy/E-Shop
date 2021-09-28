@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:e_shop/shared/components/builders/myConditional_builder.dart';
 import '/models/app/popup.dart';
 import '/modules/offer_details/offer_details_screen.dart';
 import '/shared/components/builders/product_card.dart';
@@ -168,7 +169,7 @@ class _BannerBuilder extends StatelessWidget {
           borderRadius: BorderRadiusDirectional.circular(10.0),
           boxShadow: [
             BoxShadow(
-              color: kPrimaryColorDarker.withOpacity(0.9),
+              color: kPrimaryColor.withOpacity(0.9),
               offset: Offset(0, 0),
               blurRadius: 5,
               spreadRadius: AppCubit.get(context).isDark? 1:0,
@@ -254,7 +255,7 @@ class _BannerBuilder extends StatelessWidget {
           child: AnimatedSmoothIndicator(
             effect:  SwapEffect(
               dotHeight: height*0.006 ,
-              activeDotColor: kPrimaryColorDarker,
+              activeDotColor: kPrimaryColor,
             ),
             activeIndex: cubit.bannerSlideIndex,
             count: cubit.banners.length,

@@ -5,15 +5,15 @@ import 'package:flutter/services.dart';
 ThemeData lightMode = ThemeData(
   scaffoldBackgroundColor: kLightPrimaryColor,
   backgroundColor: kLightPrimaryColor,
-  primaryColor: kPrimaryColor,
+  primaryColor: kPrimaryColorLight,
   primarySwatch: Colors.teal,
   fontFamily: fontFamily,
   bottomNavigationBarTheme: BottomNavigationBarThemeData(
     showSelectedLabels: false,
     showUnselectedLabels: false,
     backgroundColor: kLightPrimaryColor,
-    selectedItemColor: kPrimaryColor,
-    unselectedItemColor: kSecondaryColor,
+    selectedItemColor: kPrimaryColorLight,
+    unselectedItemColor: kSecondaryColorLight,
     elevation: 5.0,
     type: BottomNavigationBarType.fixed,
   ),
@@ -32,8 +32,8 @@ ThemeData lightMode = ThemeData(
     ),
   ),
   tabBarTheme: TabBarTheme(
-    labelColor: kPrimaryColor,
-    unselectedLabelColor: kSecondaryColor,
+    labelColor: kPrimaryColorLight,
+    unselectedLabelColor: kSecondaryColorLight,
   ),
   textTheme: TextTheme(
     bodyText1: TextStyle(color: kLightPrimaryColor),
@@ -45,6 +45,10 @@ ThemeData lightMode = ThemeData(
     overline: TextStyle(color: kLightPrimaryColor),
 
 ),
+  // radioTheme: RadioThemeData(
+  //   fillColor: MaterialStateProperty.all(Color(0xff5156454)),
+  //   overlayColor:  MaterialStateProperty.all(Colors.red),
+  // ),
 
   popupMenuTheme: PopupMenuThemeData(
     color: kLightSecondaryColor,
@@ -53,7 +57,7 @@ ThemeData lightMode = ThemeData(
   iconTheme: IconThemeData(color: kDarkPrimaryColor),
   outlinedButtonTheme: OutlinedButtonThemeData(
       style: OutlinedButton.styleFrom(
-          shadowColor: kPrimaryColor.withOpacity(0.1),
+          shadowColor: kPrimaryColorLight.withOpacity(0.1),
           elevation: 2.0,
           side: BorderSide(
             width: 1.0,
@@ -73,8 +77,8 @@ ThemeData darkMode = ThemeData(
     showSelectedLabels: false,
     showUnselectedLabels: false,
     backgroundColor: kDarkPrimaryColor,
-    selectedItemColor: kPrimaryColor,
-    unselectedItemColor: kSecondaryColor,
+    selectedItemColor: kPrimaryColorLight,
+    unselectedItemColor: kSecondaryColorLight,
     elevation: 5.0,
     type: BottomNavigationBarType.fixed,
   ),
@@ -97,8 +101,8 @@ ThemeData darkMode = ThemeData(
     ),
   ),
   tabBarTheme: TabBarTheme(
-    labelColor: kPrimaryColor,
-    unselectedLabelColor: kSecondaryColor,
+    labelColor: kPrimaryColorLight,
+    unselectedLabelColor: kSecondaryColorLight,
   ),
   textTheme: TextTheme(
     caption: TextStyle(color: Colors.grey),
@@ -119,7 +123,7 @@ ThemeData darkMode = ThemeData(
   iconTheme: IconThemeData(color: kLightPrimaryColor),
   outlinedButtonTheme: OutlinedButtonThemeData(
       style: OutlinedButton.styleFrom(
-          shadowColor: kPrimaryColor.withOpacity(0.1),
+          shadowColor: kPrimaryColorLight.withOpacity(0.1),
           elevation: 2.0,
           side: BorderSide(
               width: 1, color: kLightSecondaryColor.withOpacity(0.1))),

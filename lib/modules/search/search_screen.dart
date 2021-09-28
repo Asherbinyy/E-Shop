@@ -1,3 +1,4 @@
+import 'package:e_shop/shared/components/builders/myConditional_builder.dart';
 import 'package:e_shop/shared/components/builders/product_card.dart';
 
 import '/layout/cubit/home_states.dart';
@@ -335,7 +336,7 @@ class _SearchItem extends StatelessWidget {
                               },
                               style: OutlinedButton.styleFrom(
                                 minimumSize: Size(width,height*0.1),
-                                backgroundColor: cubit.carts?[product?.id]==true ?kPrimaryColorDarker : null,
+                                backgroundColor: cubit.carts?[product?.id]==true ?kPrimaryColor : null,
                               ),
                               child: cubit.carts?[product?.id]==true
                                   ? Row(

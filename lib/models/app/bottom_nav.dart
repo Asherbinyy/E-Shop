@@ -1,5 +1,5 @@
+import 'package:e_shop/modules/addresses/addresses_screen.dart';
 import 'package:e_shop/modules/home/home_screen.dart';
-import 'package:e_shop/modules/location/location_screen.dart';
 
 import '/modules/home/all/all_screen.dart';
 import '/modules/cart/cart_screen.dart';
@@ -22,7 +22,7 @@ class BottomNavModel {
   static List<BottomNavModel> _list = [
     BottomNavModel('Home', Icons.home, screen: HomeScreen()),
     BottomNavModel('Favourites', Icons.favorite, screen: FavouritesScreen()),
-    BottomNavModel('Location', Icons.location_on_rounded, screen: LocationScreen()),
+    BottomNavModel('Addresses', Icons.location_on_rounded, screen: AddressesScreen()),
     BottomNavModel('Setting', Icons.settings, screen: SettingScreen()),
   ];
   static List<BottomNavModel> get getList => _list;

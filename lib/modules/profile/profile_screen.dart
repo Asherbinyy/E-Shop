@@ -6,11 +6,12 @@ import 'package:e_shop/modules/landing/landing_screen.dart';
 import 'package:e_shop/modules/login/login_screen.dart';
 import 'package:e_shop/network/local/cache_helper.dart';
 import 'package:e_shop/network/local/cached_values.dart';
+import 'package:e_shop/shared/components/builders/myConditional_builder.dart';
 import 'package:e_shop/shared/components/methods/navigation.dart';
 import 'package:e_shop/shared/components/reusable/buttons/rounded_button.dart';
 import 'package:e_shop/shared/components/reusable/dialogue/default_dialogue.dart';
 import 'package:e_shop/shared/components/reusable/spaces/spaces.dart';
-import 'package:e_shop/shared/components/reusable/text_field/secondary_text_field.dart';
+import 'package:e_shop/shared/components/reusable/text_field/default_text_field.dart';
 import 'package:e_shop/shared/cubit/app_cubit.dart';
 import 'package:e_shop/styles/constants.dart';
 import 'package:flutter/material.dart';
@@ -32,6 +33,7 @@ class ProfileScreen extends StatelessWidget {
         if (state is UpdateProfileSuccessState)
           DefaultDialogue.showSnackBar(context, state.updatedProfile.message!,
               dialogueStates: DialogueStates.SUCCESS);
+
         if (state is UpdateProfileErrorState)
           DefaultDialogue.showSnackBar(context, state.error,
               dialogueStates: DialogueStates.ERROR);
@@ -104,7 +106,7 @@ class ProfileScreen extends StatelessWidget {
                           child: const Text(
                             'Change Password ? ',
                             style:
-                                const TextStyle(color: kSecondaryColorDarker),
+                                const TextStyle(color: kSecondaryColor),
                             textAlign: TextAlign.center,
                           ),
                         ),
@@ -127,8 +129,8 @@ class ProfileScreen extends StatelessWidget {
         label: 'log out',
         icon: Icons.logout,
         isIcon: true,
-        color: isDark ? kSecondaryColorDarker : Colors.white,
-        backgroundColor: isDark ? Colors.white : kSecondaryColorDarker,
+        color: isDark ? kSecondaryColor : Colors.white,
+        backgroundColor: isDark ? Colors.white : kSecondaryColor,
         onPressed: () {
           cubit.signOut();
         },
@@ -138,8 +140,8 @@ class ProfileScreen extends StatelessWidget {
         label: 'Update Profile',
         icon: Icons.upload_sharp,
         isIcon: true,
-        color: isDark ? kSecondaryColorDarker : Colors.white,
-        backgroundColor: isDark ? Colors.white : kSecondaryColorDarker,
+        color: isDark ? kSecondaryColor : Colors.white,
+        backgroundColor: isDark ? Colors.white : kSecondaryColor,
         onPressed: () {
           if (_formKey.currentState!.validate()) {
             cubit.updateProfile(
@@ -155,11 +157,11 @@ class ProfileScreen extends StatelessWidget {
 
   Widget _loadingProgress() => Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0),
-        child: const LinearProgressIndicator(color: kSecondaryColorDarker),
+        child: const LinearProgressIndicator(color: kSecondaryColor),
       );
 
   Widget _editProfileButton(HomeCubit cubit) => TextButton(
-        style: TextButton.styleFrom(primary: kSecondaryColorDarker),
+        style: TextButton.styleFrom(primary: kSecondaryColor),
         onPressed: () {
           cubit.toggleEditProfile();
         },
@@ -197,11 +199,11 @@ class _ProfileImageStack extends StatelessWidget {
           alignment: AlignmentDirectional.center,
           children: [
             CircleAvatar(
-              backgroundColor: kSecondaryColorDarker.withOpacity(0.3),
+              backgroundColor: kSecondaryColor.withOpacity(0.3),
               radius: 70,
               child: CircleAvatar(
                 radius: 60,
-                backgroundColor:kSecondaryColorDarker.withOpacity(0.1),
+                backgroundColor:kSecondaryColor.withOpacity(0.1),
               ),
             ),
             Stack(
@@ -232,7 +234,7 @@ class _ProfileImageStack extends StatelessWidget {
                 //editImageIcon
                 if (cubit.isEditableProfile)
                   CircleAvatar(
-                    backgroundColor: kSecondaryColorDarker,
+                    backgroundColor: kSecondaryColor,
                     radius: 18,
                     child: IconButton(
                       iconSize: 20,
@@ -319,8 +321,8 @@ class _TextFieldBloc extends StatelessWidget {
     return Container(
       child: Column(
         children: [
-          SecondaryTextField(
-            primaryColor: kSecondaryColorDarker,
+          DefaultTextField(
+            primaryColor: kSecondaryColor,
             isDark: isDark,
             isFilled: cubit.isEditableProfile ? true : false,
             fillColor: isDark ? kDarkSecondaryColor : Colors.grey[100],
@@ -338,8 +340,8 @@ class _TextFieldBloc extends StatelessWidget {
             },
           ),
           YSpace.hard,
-          SecondaryTextField(
-              primaryColor: kSecondaryColorDarker,
+          DefaultTextField(
+              primaryColor: kSecondaryColor,
               isDark: isDark,
               isFilled: cubit.isEditableProfile ? true : false,
               fillColor: isDark ? kDarkSecondaryColor : Colors.grey[100],
@@ -356,8 +358,8 @@ class _TextFieldBloc extends StatelessWidget {
                 }
               }),
           YSpace.hard,
-          SecondaryTextField(
-              primaryColor: kSecondaryColorDarker,
+          DefaultTextField(
+              primaryColor: kSecondaryColor,
               isDark: isDark,
               isFilled: cubit.isEditableProfile ? true : false,
               fillColor: isDark ? kDarkSecondaryColor : Colors.grey[100],

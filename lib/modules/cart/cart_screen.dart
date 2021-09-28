@@ -1,27 +1,16 @@
-import 'package:e_shop/models/api/carts/get_carts.dart';
-import 'package:e_shop/models/api/home/home.dart';
-import 'package:e_shop/modules/product_details/product_details.dart';
-import 'package:e_shop/modules/search/search_screen.dart';
-import 'package:e_shop/shared/components/adaptive/adaptive_search_bar.dart';
-import 'package:e_shop/shared/components/builders/product_card.dart';
-import 'package:e_shop/shared/components/methods/navigation.dart';
-import 'package:e_shop/shared/components/reusable/app_bar/secondary_app_bar.dart';
-import 'package:e_shop/shared/components/reusable/buttons/simple_rounded_button.dart';
-import 'package:e_shop/shared/components/reusable/dialogue/default_dialogue.dart';
-import 'package:e_shop/shared/components/reusable/dialogue/swipe_to_delete_dialog.dart';
-import 'package:e_shop/shared/components/reusable/spaces/spaces.dart';
-import 'package:e_shop/shared/components/reusable/tiles/expandable_tile.dart';
-import 'package:e_shop/shared/components/reusable/tiles/option_tile.dart';
-import 'package:e_shop/shared/cubit/app_state.dart';
+import '../../models/api/carts/get_carts.dart';
+import '../../shared/components/builders/myConditional_builder.dart';
+import '../../shared/components/builders/product_card.dart';
+import '../../shared/components/reusable/app_bar/secondary_app_bar.dart';
+import '../../shared/components/reusable/dialogue/default_dialogue.dart';
+import '../../shared/components/reusable/dialogue/swipe_to_delete_dialog.dart';
+import '../../shared/components/reusable/spaces/spaces.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:lottie/lottie.dart';
 import '/layout/cubit/home_cubit.dart';
 import '/layout/cubit/home_states.dart';
-import '../../models/api/favourites/get_favourites.dart';
-import '/modules/landing/landing_screen.dart';
 import '/shared/cubit/app_cubit.dart';
 import '/styles/constants.dart';
 import 'package:flutter/material.dart';
@@ -436,7 +425,7 @@ class _FooterWidgets extends StatelessWidget {
           child: Container(
             clipBehavior: Clip.antiAliasWithSaveLayer,
             decoration: BoxDecoration(
-              color: kPrimaryColorDarker,
+              color: kPrimaryColor,
               borderRadius: BorderRadius.circular(16.0),
             ),
             child: Center(
@@ -451,7 +440,7 @@ class _FooterWidgets extends StatelessWidget {
         XSpace.normal,
         TextButton(
           style: OutlinedButton.styleFrom(onSurface: Colors.red),
-          child: Text('Buy Now'.toUpperCase()),
+          child: Text('Check Out'.toUpperCase()),
           onPressed: () => {},
         ),
       ],
@@ -527,7 +516,7 @@ class _ProductBuilder extends StatelessWidget {
                     cubit.getCarts();
                   },
                   child: ExpansionTile(
-                        collapsedIconColor: kPrimaryColorDarker,
+                        collapsedIconColor: kPrimaryColor,
                         initiallyExpanded: cubit.isExpandedCarts,
                         collapsedBackgroundColor: AppCubit.get(context).isDark?kDarkSecondaryColor:kLightSecondaryColor,
                         title: Row(

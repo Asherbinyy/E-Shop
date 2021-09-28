@@ -1,4 +1,5 @@
 import 'package:e_shop/modules/landing/landing_screen.dart';
+import 'package:e_shop/shared/components/builders/myConditional_builder.dart';
 import 'package:e_shop/shared/cubit/app_cubit.dart';
 import 'package:e_shop/styles/constants.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +20,6 @@ class ProductImagesPreviewer extends StatelessWidget {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        backwardsCompatibility: false,
       ),
       body: MyConditionalBuilder(
         condition:  images?.length!=0,
@@ -42,7 +42,7 @@ class ProductImagesPreviewer extends StatelessWidget {
                  controller: _pageController,
                 count: images!.length,
                 effect: JumpingDotEffect(
-                  activeDotColor: kPrimaryColorDarker,
+                  activeDotColor: kPrimaryColor,
                    paintStyle: PaintingStyle.fill,
                   dotColor: Colors.white.withOpacity(0.1),
                 ),

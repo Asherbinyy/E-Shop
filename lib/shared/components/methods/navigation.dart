@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 void navigateTo(BuildContext context, Widget widget) {
@@ -16,6 +15,10 @@ void navigateToAndFinish(BuildContext context, Widget widget,
     context, MaterialPageRoute(builder: (context) => widget),
     (route) => routeIs, // removes the last route if false
   );
+}
+
+void navigateFrom (BuildContext context){
+  Navigator.pop(context);
 }
 
 

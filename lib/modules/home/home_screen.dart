@@ -1,6 +1,7 @@
 import 'package:e_shop/layout/layout_screen.dart';
 import 'package:e_shop/modules/search/search_screen.dart';
 import 'package:e_shop/shared/components/adaptive/adaptive_search_bar.dart';
+import 'package:e_shop/shared/components/builders/myConditional_builder.dart';
 import 'package:e_shop/shared/components/methods/navigation.dart';
 
 import '/layout/cubit/home_cubit.dart';
@@ -27,13 +28,7 @@ class HomeScreen extends StatelessWidget {
           condition: cubit.tabBarData.length > 0 ,
           builder: Column(
             children: [
-              AdaptiveSearchBar(
-                _textController,
-                onSubmitted: (_) {
-                  cubit.searchProduct(_textController.text);
-                  navigateTo(context, SearchScreen(_textController));
-                },
-              ),
+
               Expanded(
                 child: TabBarView(
                 children:

@@ -41,18 +41,7 @@ class RegisterCubit extends Cubit<RegisterState> {
 
 
 
-
-
-
-
-
-
-
   bool showPassword = true;
-  bool showRePassword = true;
-
-
-
   bool isCheckBox = false;
   FormFieldValidator<String> validator(String errorMessage) {
     return (value) {
@@ -62,25 +51,11 @@ class RegisterCubit extends Cubit<RegisterState> {
       }
     };
   }
-
   VoidCallback? suffixPressed() {
     showPassword = !showPassword;
     emit(SuffixPressedState());
   }
-
-  VoidCallback? suffixPressed1() {
-    showRePassword = !showRePassword;
-    emit(SuffixPressedState());
-  }
-
-  IconData suffixIcon() {
-    return showPassword ? Icons.visibility : Icons.visibility_off;
-  }
-
-  IconData suffixIcon1() {
-    return showRePassword ? Icons.visibility : Icons.visibility_off;
-  }
-
+  IconData suffixIcon()=> showPassword ? Icons.visibility : Icons.visibility_off;
   void checkBox() {
     isCheckBox = !isCheckBox;
     emit(CheckBoxState());

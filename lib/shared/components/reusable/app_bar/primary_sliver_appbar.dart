@@ -10,11 +10,11 @@ import '/layout/cubit/home_cubit.dart';
 import '/shared/cubit/app_cubit.dart';
 import '/styles/constants.dart';
 import 'package:flutter/material.dart';
-class CustomSliverAppBar extends StatelessWidget {
+class PrimarySliverAppBar extends StatelessWidget {
   final double ? tabWidth ;
   final double tabHeight ;
 
-  const CustomSliverAppBar ( {Key? key, this.tabWidth, this.tabHeight=30}) : super(key: key);
+  const PrimarySliverAppBar ( {Key? key, this.tabWidth, this.tabHeight=30}) : super(key: key);
 
    @override
 
@@ -31,7 +31,8 @@ class CustomSliverAppBar extends StatelessWidget {
          });
 
          return  SliverAppBar(
-           pinned: false,
+           snap: true,
+
            // pinned: cubit.isAppBarPinned ? true : false,
 
            floating: true,
@@ -68,7 +69,7 @@ class CustomSliverAppBar extends StatelessWidget {
              ),
              //dark mode
              IconButton(
-               onPressed: ()=>appCubit.changeThemeMode(),
+               onPressed: ()=>appCubit.changeAppThemeMode(),
                icon: Icon(Icons.dark_mode),
              ),
              GestureDetector(
@@ -93,7 +94,7 @@ class CustomSliverAppBar extends StatelessWidget {
              automaticIndicatorColorAdjustment: true,
              enableFeedback: true,
              indicator: BoxDecoration(
-               color: kPrimaryColorDarker,
+               color: kPrimaryColor,
                borderRadius: BorderRadius.circular(20),
              ),
              indicatorPadding:

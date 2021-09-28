@@ -253,7 +253,7 @@ class _MenuOptions extends StatelessWidget {
 //         Navigator.pop(context);
 //       }),
 // ), onPressed: () {}),
-// OptionListTile(label: 'location', icon: Icons.location_on_sharp, onPressed: () {}),
+// OptionListTile(label: 'addresses', icon: Icons.location_on_sharp, onPressed: () {}),
 
   //     RoundedButton(
   //   label: 'log out',

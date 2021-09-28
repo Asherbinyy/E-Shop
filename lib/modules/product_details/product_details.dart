@@ -1,5 +1,6 @@
 import 'package:e_shop/models/api/products/product_details.dart';
 import 'package:e_shop/modules/landing/landing_screen.dart';
+import 'package:e_shop/shared/components/builders/myConditional_builder.dart';
 import 'package:flutter_blurhash/flutter_blurhash.dart';
 import 'package:lottie/lottie.dart';
 import '/shared/components/methods/navigation.dart';
@@ -72,7 +73,7 @@ class ProductDetailsScreen extends StatelessWidget {
              feedback:SizedBox(
                height: height*0.06,
                child : cubit.carts?[product?.id] == true? OutlinedButton.icon(
-                 style: OutlinedButton.styleFrom(backgroundColor: AppCubit.get(context).isDark?Colors.white12:kPrimaryColorDarker.withOpacity(0.1)),
+                 style: OutlinedButton.styleFrom(backgroundColor: AppCubit.get(context).isDark?Colors.white12:kPrimaryColor.withOpacity(0.1)),
                  onPressed: () =>cubit.changeCarts(product!.id!),
                 label: Text('Added to Cart',style: TextStyle(color: Colors.green),),
                  icon: Icon(Icons.check,color: Colors.green,),
@@ -313,7 +314,7 @@ class ProductDetailsScreen extends StatelessWidget {
                                     style: Theme.of(context)
                                         .textTheme
                                         .caption
-                                        ?.copyWith(color: kPrimaryColorDarker),
+                                        ?.copyWith(color: kPrimaryColor),
                                   ),
                               ],
                             ),

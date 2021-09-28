@@ -1,4 +1,5 @@
 
+import 'package:e_shop/shared/components/builders/myConditional_builder.dart';
 import 'package:e_shop/shared/components/reusable/dialogue/default_dialogue.dart';
 import 'package:e_shop/shared/components/reusable/dialogue/swipe_to_delete_dialog.dart';
 import 'package:e_shop/shared/components/reusable/spaces/spaces.dart';
@@ -243,7 +244,7 @@ class _FavouriteItemCard extends StatelessWidget {
                             },
                             style: OutlinedButton.styleFrom(
                               minimumSize: Size(width,height*0.1),
-                              backgroundColor: cubit.carts?[product?.id]==true ?kPrimaryColorDarker : null,
+                              backgroundColor: cubit.carts?[product?.id]==true ?kPrimaryColor : null,
                             ),
                             child: cubit.carts?[product?.id]==true
                                 ? Row(

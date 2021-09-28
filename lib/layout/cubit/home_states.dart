@@ -1,3 +1,4 @@
+import 'package:e_shop/models/api/addresses/delete_address.dart';
 import 'package:e_shop/models/api/carts/change_cart.dart';
 import 'package:e_shop/models/api/carts/update_cart.dart';
 import 'package:e_shop/models/api/favourites/change_favourites.dart';
@@ -206,5 +207,21 @@ class GetProductDetailsErrorState extends HomeStates {
  GetProductDetailsErrorState(this.error);
 }
 
+// addresses
+class GetAddressesLoadingState extends HomeStates {}
+class GetAddressesSuccessState extends HomeStates {}
+class GetAddressesErrorState extends HomeStates {
+ final String error ;
+ GetAddressesErrorState(this.error);
+}
+class DeleteAddressLoadingState extends HomeStates {}
 
+class DeleteAddressSuccessState extends HomeStates {
+final DeleteAddressModel ? deleteAddressModel;
+DeleteAddressSuccessState(this.deleteAddressModel);
+}
+class DeleteAddressErrorState extends HomeStates {
+ final String error ;
+ DeleteAddressErrorState(this.error);
+}
 

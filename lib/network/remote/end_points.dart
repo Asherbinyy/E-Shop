@@ -17,3 +17,4 @@ const String CHANGE_PASSWORD = 'change-password';
 const String FAVOURITES = 'favorites';
 const String CARTS = 'carts';
 const String SEARCH = 'products/search';
+const String ADDRESSES = 'addresses';

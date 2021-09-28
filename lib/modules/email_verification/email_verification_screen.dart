@@ -6,6 +6,7 @@ import 'package:e_shop/layout/layout_screen.dart';
 import 'package:e_shop/models/api/user/profile.dart';
 import 'package:e_shop/models/api/user/email_verification.dart';
 import 'package:e_shop/modules/landing/landing_screen.dart';
+import 'package:e_shop/shared/components/builders/myConditional_builder.dart';
 import 'package:e_shop/shared/components/reusable/buttons/simple_rounded_button.dart';
 import 'package:e_shop/shared/components/reusable/dialogue/default_dialogue.dart';
 import 'package:e_shop/shared/components/reusable/spaces/spaces.dart';
@@ -138,7 +139,7 @@ class _PinCodeBuilderState extends State<_PinCodeBuilder>  {
                   TextSpan(
                       text: widget.profile.email,
                       style: TextStyle(
-                        color: kPrimaryColorDarker,
+                        color: kPrimaryColor,
                           fontWeight: FontWeight.bold,
                           fontSize: 15)),
                 ],
@@ -155,7 +156,7 @@ class _PinCodeBuilderState extends State<_PinCodeBuilder>  {
               child: PinCodeTextField(
                 appContext: context,
                 pastedTextStyle: TextStyle(
-                  color: kPrimaryColorDarker.withOpacity(0.5),
+                  color: kPrimaryColor.withOpacity(0.5),
                   fontWeight: FontWeight.bold,
                 ),
                 length: 4,
@@ -308,7 +309,7 @@ class _SendVerificationBuilder extends StatelessWidget {
             children: [
               TextSpan(
                 style: TextStyle(
-                    color: kSecondaryColorDarker, fontWeight: FontWeight.bold),
+                    color: kSecondaryColor, fontWeight: FontWeight.bold),
                 text: profile.email,
               ),
               const TextSpan(

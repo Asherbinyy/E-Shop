@@ -50,7 +50,7 @@ class RateUsDialog extends StatelessWidget {
                             style: Theme.of(context)
                                 .textTheme
                                 .caption
-                                ?.copyWith(color: kPrimaryColorDarker),
+                                ?.copyWith(color: kPrimaryColor),
                           ),
                       ],
                     ),

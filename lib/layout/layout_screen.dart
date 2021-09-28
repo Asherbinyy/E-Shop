@@ -1,3 +1,4 @@
+import 'package:e_shop/shared/components/builders/myConditional_builder.dart';
 import 'package:e_shop/shared/components/builders/shop_shimmer_builder.dart';
 import '/shared/components/methods/navigation.dart';
 import '/shared/components/adaptive/adaptive_search_bar.dart';
@@ -35,6 +36,7 @@ class LayoutScreen extends StatelessWidget {
             double height = MediaQuery.of(context).size.height;
             double width = MediaQuery.of(context).size.width;
              TextEditingController controller = TextEditingController();
+            print( cubit.tabBarData);
 
             return Scaffold(
               extendBodyBehindAppBar: true,
@@ -52,10 +54,11 @@ class LayoutScreen extends StatelessWidget {
                   length: cubit.tabBarData.length,
                   initialIndex: 0,
                   child: NestedScrollView(
+                    floatHeaderSlivers: true,
                     physics: BouncingScrollPhysics(),
                     headerSliverBuilder: (context, value) => [
-                      CustomSliverAppBar(tabWidth: width * 0.29, tabHeight: height * 0.04),
-                      if (! cubit.isHome) SliverToBoxAdapter(
+                      PrimarySliverAppBar(tabWidth: width * 0.29, tabHeight: height * 0.04),
+                      if(!cubit.hideSearchBar)SliverToBoxAdapter(
                         child: AdaptiveSearchBar(
                           controller,
                           onSubmitted: (_) {

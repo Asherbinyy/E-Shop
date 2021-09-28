@@ -37,7 +37,7 @@ class _SortItemsScreenState extends State<SortItemsScreen> {
             children:
               SortByModel.getOptions.map((e) =>MaterialButton(
                 minWidth:MediaQuery.of(context).size.width,
-                color: e.isSelected?kPrimaryColorDarker:null,
+                color: e.isSelected?kPrimaryColor:null,
                 child: Align(
                     alignment: AlignmentDirectional.topStart,
                     child: Text(e.title,style: Theme.of(context).textTheme.subtitle2,),

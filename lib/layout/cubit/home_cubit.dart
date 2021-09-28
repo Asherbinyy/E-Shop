@@ -1,8 +1,11 @@
 import 'dart:io';
 import 'package:bloc/bloc.dart';
-import 'package:e_shop/models/api/carts/update_cart.dart';
-import 'package:e_shop/models/api/user/change_password.dart';
-import 'package:e_shop/models/app/sort_by.dart';
+import '../../models/api/addresses/delete_address.dart';
+import '../../models/api/addresses/get_addresses.dart';
+import '../../models/api/carts/update_cart.dart';
+import '../../models/api/user/change_password.dart';
+import '../../models/app/sort_by.dart';
+import '../../network/location/location.dart';
 import 'package:flutter/material.dart';
 import '../../models/api/categories/category_products.dart';
 import '../../models/api/carts/change_cart.dart';
@@ -41,15 +44,26 @@ class HomeCubit extends Cubit<HomeStates> {
 // Bottom Nav Bar
   int currentIndex = 0;
   bool isHome = true;
+  bool hideSearchBar = false;
   void changeBottomNav(int index) {
     currentIndex = index;
     if (index == 0) {
       isHome = true;
+      hideSearchBar=false;
       // isAppBarPinned=false;
     } else {
-      if (index == 1) getFavourites();
+      hideSearchBar=true;
+
+      if (index == 1) {
+        getFavourites();
+        hideSearchBar=false;
+      }
+      if (index == 2){
+        getAddresses();
+      }
 
       isHome = false;
+
       // isAppBarPinned=false ;
     }
 
@@ -417,6 +431,7 @@ class HomeCubit extends Cubit<HomeStates> {
       updatedProfile = LoginModel.fromJson(value.data);
       print(updatedProfile?.data?.name);
       emit(UpdateProfileSuccessState(updatedProfile!));
+      getProfile();
     }
     ).catchError((error){
       print('Error in Updating Profile is :${error.toString()} ');
@@ -687,7 +702,72 @@ class HomeCubit extends Cubit<HomeStates> {
   }
 
 
+// addresses
+// get
+  GetAddressModel ? addressModel ;
+  void getAddresses (){
+    addressModel=null;
+    emit(GetAddressesLoadingState());
+
+    DioHelper.getData(
+        url: ADDRESSES,
+        token: '$token',
+    ).then((value) {
+      if (value.statusCode == 200) {
+        addressModel = GetAddressModel.fromJson(value.data);
+        emit(GetAddressesSuccessState());
+      }
+    }).catchError((error) {
+      print('Error in Getting Addresses Data is : $error');
+      emit(GetAddressesErrorState(error.toString()));
+    });
+
+  }
+
+  // delete
+DeleteAddressModel ? _deleteAddressModel;
+void deleteAddress(int addressId){
+  emit(DeleteAddressLoadingState());
+  DioHelper.deleteData(url: '$ADDRESSES/$addressId',token: '$token').then((value) {
+    _deleteAddressModel=DeleteAddressModel.fromJson(value.data);
+    emit(DeleteAddressSuccessState(_deleteAddressModel));
+  }).catchError((error){
+    print('Error in Deleting Address Details is : ${error.toString()}');
+    emit(DeleteAddressErrorState(error));
+  });
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 enum CartOperation{INCREMENT,DECREMENT,ONCHANGE}

@@ -1,5 +1,8 @@
 import '/styles/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
+
+/// reviewed
 
 class LandingModel {
   final String? imageUrl;
@@ -9,17 +12,17 @@ class LandingModel {
   LandingModel({this.imageUrl, this.body, this.title, this.backgroundColor});
   static List<LandingModel> _list = [
     LandingModel(
-        title: 'E-Shop Provides you all your needs ',
-        body: 'It\'s all set for you with a variety of products and categories',
+        title: 'landing_title_1'.tr(),
+        body: 'landing_body_1'.tr(),
         imageUrl: kLandingImages[0]),
     LandingModel(
-        title: 'Delivery ',
-        body: 'Wherever you live we will ship our products for you ! ',
+        title: 'landing_title_2'.tr(),
+        body:'landing_body_2'.tr(),
         imageUrl: kLandingImages[1]),
     LandingModel(
-        title: 'Payment Methods ',
+        title: 'landing_title_3'.tr(),
         body:
-            'E-Shop gives you the ability to pay online . Also you can buy after you get your products',
+        'landing_body_3'.tr(),
         imageUrl: kLandingImages[2]),
   ];
   static List<LandingModel> get getLandingList => _list;

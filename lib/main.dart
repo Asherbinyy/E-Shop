@@ -1,5 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:device_preview/device_preview.dart';
+import 'package:e_shop/models/app/cached_settings.dart';
+import 'package:flutter/services.dart';
 import '/network/local/cached_values.dart';
 import '/network/remote/dio_helper.dart';
 import '/styles/constants.dart';
@@ -25,8 +27,9 @@ void main() async {
   DioHelper.init();
 
   bool? landing = CacheHelper.getData(LANDING);
-  bool? stopWelcome = false;
+  stopWelcome = CacheHelper.getData(STOP_WELCOME) ?? false;
   token = CacheHelper.getData(TOKEN);
+  appLanguage = CacheHelper.getData(APP_LANGUAGE);
 
   Widget startingWidget() {
     Widget _widget;
@@ -40,18 +43,30 @@ void main() async {
     return _widget;
   }
 
+  List<DeviceOrientation> orientations = [
+    DeviceOrientation.portraitUp
+  ];
+  await SystemChrome.setPreferredOrientations(orientations);
   runApp(
-    EShop(
-      startingWidget: startingWidget(),
+    DevicePreview(
+      enabled: !kReleaseMode,
+      builder: (context)=> EShop(
+        settings: CachedSettingsModel(
+            isDark:  CacheHelper.getData(DARK_MODE) ?? false,
+        ),
+        startingWidget: startingWidget(),
+      ),
     ),
   );
 }
-
 class EShop extends StatelessWidget {
+
   final Widget startingWidget;
+  final CachedSettingsModel settings ;
   const EShop({
     Key? key,
     required this.startingWidget,
+    required this.settings,
   }) : super(key: key);
 
   @override
@@ -59,7 +74,7 @@ class EShop extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => AppCubit()..changeThemeMode(),
+          create: (context) => AppCubit()..changeAppThemeMode(isDarkFromSharedPref: settings.isDark),
         ),
         BlocProvider(
           create: (context) => HomeCubit()
@@ -88,8 +103,6 @@ class EShop extends StatelessWidget {
               /// Add routes here !
               LandingScreen.id: (context) => LandingScreen(),
               LayoutScreen.id: (context) => LayoutScreen(),
-              LoginScreen.id: (context) => LoginScreen(),
-              RegisterScreen.id: (context) => RegisterScreen(),
             },
             home: startingWidget,
           );
