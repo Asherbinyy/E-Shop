@@ -1,4 +1,4 @@
-import 'package:e_shop/shared/components/reusable/text_field/secondary_text_field.dart';
+import 'package:e_shop/shared/components/reusable/text_field/default_text_field.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -12,6 +12,8 @@ import '/layout/cubit/home_states.dart';
 import '/shared/components/reusable/spaces/spaces.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'myConditional_builder.dart';
 // class ProductTextStyle {
 //   static const TextStyle title = TextStyle(fontSize: 14);
 //   static const TextStyle subTitle = TextStyle(fontSize: 12);
@@ -337,8 +339,8 @@ class ProductCard extends StatelessWidget {
              cubit.changeCarts(id);
            },
            style: OutlinedButton.styleFrom(
-             minimumSize: Size(width, height * 0.06),
-             backgroundColor: cubit.carts?[id]==true ?kPrimaryColorDarker : null,
+             minimumSize: Size(width, height * 0.08),
+             backgroundColor: cubit.carts?[id]==true ?kPrimaryColor : null,
            ),
            child: cubit.carts?[id]==true
                ? Row(

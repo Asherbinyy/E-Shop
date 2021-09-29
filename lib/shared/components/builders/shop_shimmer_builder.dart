@@ -11,6 +11,7 @@ const Color _boxColor = Colors.grey;
 
 const double _pagePadding = 10.0;
 const double _inBetweenPadding = 6.0;
+const double _curve = 12.0;
 
 Widget _item() {
   return Padding(
@@ -20,7 +21,10 @@ Widget _item() {
         Expanded(
           flex: 2,
           child: Container(
-            color: _boxColor,
+            decoration: BoxDecoration(
+                color: _boxColor,
+                borderRadius: BorderRadius.circular(_curve),
+            ),
           ),
         ),
         SizedBox(height: 10,),
@@ -31,7 +35,10 @@ Widget _item() {
               Expanded(
                 flex: 1,
                 child: Container(
-                  color: _boxColor,
+                  decoration: BoxDecoration(
+                    color: _boxColor,
+                    borderRadius: BorderRadius.circular(_curve),
+                  ),
                 ),
               ),
               SizedBox(
@@ -47,7 +54,10 @@ Widget _item() {
                         padding:
                             const EdgeInsets.only(bottom: _inBetweenPadding),
                         child: Container(
-                          color: _boxColor,
+                          decoration: BoxDecoration(
+                            color: _boxColor,
+                            borderRadius: BorderRadius.circular(_curve),
+                          ),
                         ),
                       ),
                     ),
@@ -56,7 +66,10 @@ Widget _item() {
                         padding:
                             const EdgeInsets.only(bottom: _inBetweenPadding),
                         child: Container(
-                          color: _boxColor,
+                          decoration: BoxDecoration(
+                            color: _boxColor,
+                            borderRadius: BorderRadius.circular(_curve),
+                          ),
                         ),
                       ),
                     ),
@@ -71,7 +84,10 @@ Widget _item() {
                           children: [
                             Expanded(
                               child: Container(
-                                color: _boxColor,
+                                decoration: BoxDecoration(
+                                  color: _boxColor,
+                                  borderRadius: BorderRadius.circular(_curve),
+                                ),
                               ),
                             ),
                             Expanded(

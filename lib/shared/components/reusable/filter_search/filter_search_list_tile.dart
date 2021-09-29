@@ -26,7 +26,7 @@ class FilterSearchListTile extends StatelessWidget {
         HomeCubit cubit =HomeCubit.get(context);
         return Card(
           elevation: 1.0,
-          shadowColor: kSecondaryColorDarker.withOpacity(0.5),
+          shadowColor: kSecondaryColor.withOpacity(0.5),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Row(

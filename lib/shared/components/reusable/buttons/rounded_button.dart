@@ -16,7 +16,7 @@ class RoundedButton extends StatelessWidget {
   final bool isDisabled;
   RoundedButton({
     Key? key,
-    this.backgroundColor = kPrimaryColorDarker,
+    this.backgroundColor = kPrimaryColor,
     this.disabledColor = Colors.white70,
     this.disabledBackgroundColor = Colors.grey,
     this.color = Colors.white,

@@ -1,4 +1,5 @@
 import 'package:e_shop/models/api/categories/category_products.dart';
+import 'package:e_shop/shared/components/builders/myConditional_builder.dart';
 import 'package:e_shop/shared/components/builders/product_card.dart';
 import '/layout/cubit/home_cubit.dart';
 import '/layout/cubit/home_states.dart';
@@ -80,8 +81,8 @@ class CategoryScreen extends StatelessWidget {
             boxShadow: [
               BoxShadow(
                 color: isDark
-                    ? kPrimaryColorDarker
-                    : kPrimaryColorDarker.withOpacity(0.3),
+                    ? kPrimaryColor
+                    : kPrimaryColor.withOpacity(0.3),
                 spreadRadius: 1,
                 blurRadius: 5,
                 offset: Offset(0, 0),

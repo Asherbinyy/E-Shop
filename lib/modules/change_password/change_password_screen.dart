@@ -6,7 +6,7 @@ import 'package:e_shop/layout/cubit/home_states.dart';
 import 'package:e_shop/shared/components/reusable/buttons/rounded_button.dart';
 import 'package:e_shop/shared/components/reusable/dialogue/default_dialogue.dart';
 import 'package:e_shop/shared/components/reusable/spaces/spaces.dart';
-import 'package:e_shop/shared/components/reusable/text_field/secondary_text_field.dart';
+import 'package:e_shop/shared/components/reusable/text_field/default_text_field.dart';
 import 'package:e_shop/shared/cubit/app_cubit.dart';
 import 'package:e_shop/styles/constants.dart';
 import 'package:flutter/material.dart';
@@ -69,9 +69,9 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
               key: _formKey ,
               child: Column(
                 children: [
-                  SecondaryTextField(
+                  DefaultTextField(
                       isDark: isDark,
-                      primaryColor: kSecondaryColorDarker,
+                      primaryColor: kSecondaryColor,
                       controller: _currentPasswordController,
                       keyboardType: TextInputType.visiblePassword,
                       label: 'Current Password',
@@ -87,9 +87,9 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                         }
                       }),
                   YSpace.extreme,
-                  SecondaryTextField(
+                  DefaultTextField(
                       isDark: isDark,
-                      primaryColor: kSecondaryColorDarker,
+                      primaryColor: kSecondaryColor,
                       controller: _newPasswordController,
                       keyboardType: TextInputType.visiblePassword,
                       label: 'New Password',
@@ -119,11 +119,11 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                     icon: Icons.edit,
                     isIcon: true,
                     color: isDark
-                        ? kSecondaryColorDarker
+                        ? kSecondaryColor
                         : Colors.white,
                     backgroundColor: isDark
                         ? Colors.white
-                        : kSecondaryColorDarker,
+                        : kSecondaryColor,
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
                         cubit.changePassword(

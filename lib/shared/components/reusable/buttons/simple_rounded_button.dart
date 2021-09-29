@@ -9,7 +9,7 @@ class SimpleRoundedButton extends StatelessWidget {
   final bool isUpperCase;
   final bool isDisabled ;
 
-  const SimpleRoundedButton({Key? key, this.onPressed, this.label='', this.isUpperCase=true, this.labelColor =Colors.white, this.color=kSecondaryColorDarker, this.isDisabled=false}) : super(key: key);
+  const SimpleRoundedButton({Key? key, this.onPressed, this.label='', this.isUpperCase=true, this.labelColor =Colors.white, this.color=kSecondaryColor, this.isDisabled=false}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

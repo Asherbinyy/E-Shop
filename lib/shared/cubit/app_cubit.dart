@@ -1,4 +1,6 @@
 import 'package:bloc/bloc.dart';
+import 'package:e_shop/network/local/cache_helper.dart';
+import 'package:e_shop/network/local/cached_values.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'app_state.dart';
 
@@ -10,11 +12,7 @@ class AppCubit extends Cubit <AppStates> {
 
 
 // // ThemeMode toggling ----------------------------------------------------------
-  bool isDark = false ;
-  void changeThemeMode (){
-    isDark = ! isDark;
-    emit(AppChangeThemeModeState());
-  }
+  bool isDark = true ;
 
 //   IconData modeIcon = Icons.dark_mode ;
 //   bool  changeAppThemeModeSwitch ({ bool ? isDarkFromSharedPref }){
@@ -35,25 +33,25 @@ class AppCubit extends Cubit <AppStates> {
 //
 //   }
 //
-//
-//   void changeAppThemeMode ({ bool ? isDarkFromSharedPref }) {
-//
-//     isDark ? modeIcon = Icons.dark_mode : modeIcon = Icons. light_mode ;
-//     emit(AppChangeThemeModeState());
-//
-//     if (isDarkFromSharedPref != null ){
-//       isDark = isDarkFromSharedPref ;
-//       emit(AppChangeThemeModeState());
-//     }
-//     else {
-//       isDark = ! isDark ;
-//       // from button press
-//       CacheHelper.saveData('isDarkMode', isDark).then((value) {
-//         emit(AppChangeThemeModeState());
-//       });
-//     }
-//
-//   }
+
+  void changeAppThemeMode ({ bool ? isDarkFromSharedPref }) {
+
+    // isDark ? modeIcon = Icons.dark_mode : modeIcon = Icons. light_mode ;
+    emit(AppChangeThemeModeState());
+
+    if (isDarkFromSharedPref != null ){
+      isDark = isDarkFromSharedPref ;
+      emit(AppChangeThemeModeState());
+    }
+    else {
+      isDark = ! isDark ;
+      // from button press
+      CacheHelper.saveData(DARK_MODE, isDark).then((value) {
+        emit(AppChangeThemeModeState());
+      });
+    }
+
+  }
 // // ----------------------------------------------------------------------------
 //
 

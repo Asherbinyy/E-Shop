@@ -1,11 +1,19 @@
+/// reviewed
+
 abstract class LandingStates {}
 
 class LandingInitialState extends LandingStates {}
 
-class ChangeGetStartedSuccessState extends LandingStates {}
-class ChangeGetStartedErrorState extends LandingStates {}
+// switch To Previewer states
+class SwitchToPreviewerSuccessState extends LandingStates {}
+class SwitchToPreviewerErrorState extends LandingStates {}
+
+
+class OnPageChangedState extends LandingStates {}
+class PlayFinishedAnimationState extends LandingStates {}
+
+
 
 class ChooseLanguageState extends LandingStates {}
+
 class HideBrandIconState extends LandingStates {}
-class HideGetStartedTitle extends LandingStates {}
-class ChangeLastScreenState extends LandingStates {}

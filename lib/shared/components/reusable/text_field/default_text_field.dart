@@ -1,140 +1,120 @@
 import 'package:e_shop/styles/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:flutter/services.dart';
 
 class DefaultTextField extends StatelessWidget {
-  final double? prefixIconSize;
-  final bool? isPrimary;
-  final Color? cursorColor;
-  final Color? iconShadowColor;
-  final Color? formFieldShadowColor;
-  final Color? textColor;
-  final Color? suffixIconColor;
-  final Color? prefixIconColor;
+  final FormFieldValidator<String>? validator;
+  final ValueChanged<String>? onChanged;
+  final GestureTapCallback? onTap;
+  final ValueChanged<String>? onSubmitted;
+  final TextEditingController? controller;
+  final TextInputType keyboardType;
+  final VoidCallback ? suffixOnChanged;
+  final Function? prefixOnChanged;
   final IconData? suffixIcon;
   final IconData? prefixIcon;
-  final TextEditingController? controller;
-  final FormFieldValidator<String>? validator;
-  final ValueChanged<String>? onFieldSubmitted;
-  final ValueChanged<String>? onChanged;
-  final String? labelText;
-  final bool obscureText;
-  final TextInputType? keyboardType;
-  final VoidCallback? suffixPressed;
-
+  final Color primaryColor;
+  final Color ? fillColor;
+  final String label;
+  final bool readOnly;
+  final bool obscurePassword;
+  final bool isDark;
+  final int ? maxLength;
+  final int ? maxLines;
+  final bool isFilled;
   const DefaultTextField({
-    this.prefixIconSize,
-    this.prefixIconColor,
-    this.prefixIcon,
-    this.textColor = Colors.black54,
-    this.suffixIconColor = Colors.black54,
+    Key? key,
     this.validator,
-    this.suffixIcon,
-    this.obscureText = false,
     this.onChanged,
-    this.labelText,
-    this.keyboardType,
+    this.onSubmitted,
+    this.onTap,
     this.controller,
-    this.onFieldSubmitted,
-    this.suffixPressed,
-    this.formFieldShadowColor,
-    this.iconShadowColor,
-    this.cursorColor,
-    this.isPrimary,
-  });
+    this.suffixOnChanged,
+    this.prefixOnChanged,
+    this.suffixIcon,
+    this.prefixIcon,
+    this.label = '',
+    this.isFilled = false,
+    this.primaryColor = kPrimaryColor,
+    this.fillColor,
+    this.obscurePassword = false,
+    this.readOnly = false,
+    this.keyboardType = TextInputType.text,
+    this.isDark = false,
+    this.maxLength,
+    this.maxLines,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      alignment: AlignmentDirectional.centerStart,
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(
-            left: 25.0,
+    return TextFormField(
+
+      minLines: 1,
+      maxLength: maxLength ,
+      maxLines: maxLines,
+      maxLengthEnforcement:MaxLengthEnforcement.truncateAfterCompositionEnds ,
+      cursorColor: primaryColor,
+      style: TextStyle(color: isDark? Colors.white:Colors.black54,fontWeight: FontWeight.w400),
+      obscureText: obscurePassword,
+      onTap: onTap,
+      controller: controller,
+      keyboardType: keyboardType,
+      onChanged: onChanged,
+      onFieldSubmitted: onSubmitted,
+      readOnly: readOnly,
+      validator: validator,
+      decoration: InputDecoration(
+
+        filled: isFilled,
+        fillColor: fillColor,
+        suffixIcon: IconButton(
+          icon: Icon(
+            suffixIcon,
+            color: isDark ? Colors.white : primaryColor,
           ),
-          child: Material(
-            color: Colors.white,
-            elevation: 7.0,
-            shadowColor: formFieldShadowColor,
-            borderRadius: BorderRadius.circular(25.0),
-            child: Container(
-              width: MediaQuery.of(context).size.width / 1.4,
-              child: TextFormField(
-                cursorHeight: MediaQuery.of(context).size.height / 30.0,
-                controller: controller,
-                validator: validator,
-                cursorColor: cursorColor,
-                obscureText: obscureText,
-                decoration: InputDecoration(
-                    contentPadding: EdgeInsetsDirectional.only(
-                      start: 35.0,
-                    ),
-                    focusedErrorBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: isPrimary == true
-                              ? kPrimaryColor.withRed(1)
-                              : kSecondaryColor.withRed(1),
-                        ),
-                        borderRadius: BorderRadius.circular(25.0)),
-                    errorBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(25.0),
-                      borderSide: BorderSide(color: Colors.red),
-                    ),
-                    fillColor: Colors.red,
-                    enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.white,
-                        ),
-                        borderRadius: BorderRadius.circular(25.0)),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: isPrimary == true
-                            ? kPrimaryColor.withRed(1)
-                            : kSecondaryColor.withRed(1),
-                      ),
-                      borderRadius: BorderRadius.circular(25.0),
-                    ),
-                    hoverColor: Colors.red,
-                    prefixIcon: Icon(null),
-                    suffixIcon: IconButton(
-                        icon: Icon(suffixIcon),
-                        color: suffixIconColor,
-                        onPressed: suffixPressed),
-                    labelStyle: TextStyle(
-                      color: textColor,
-                    ),
-                    labelText: labelText,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(25.0),
-                    )),
-                style: Theme.of(context)
-                    .textTheme
-                    .button!
-                    .copyWith(fontSize: 15.0),
-                keyboardType: keyboardType,
-                onFieldSubmitted: onFieldSubmitted,
-                onChanged: onChanged,
-              ),
-            ),
-          ),
+          onPressed: suffixOnChanged,
         ),
-        Material(
-          color: Colors.white,
-          elevation: 12.0,
-          shadowColor: iconShadowColor,
-          borderRadius: BorderRadius.circular(50.0),
-          child: CircleAvatar(
-            child: Icon(
-              prefixIcon,
-              color: prefixIconColor,
-              size: prefixIconSize,
-            ),
-            radius: 27.0,
-            backgroundColor: Colors.white,
-// backgroundColor: kColor1,
-          ),
+        prefixIcon: Icon(
+          prefixIcon,
+          color: isDark ? Colors.white: primaryColor,
         ),
-      ],
+        // fillColor: Colors.black12,
+        disabledBorder: UnderlineInputBorder(
+          borderRadius: BorderRadius.circular(15.0),
+          borderSide: BorderSide(color: isDark ? Colors.white : primaryColor,),
+        ),
+        enabledBorder: UnderlineInputBorder(
+           borderRadius: BorderRadius.circular(15.0),
+            borderSide: BorderSide(color:Colors.transparent),
+        ),
+        border: UnderlineInputBorder(
+            borderRadius: BorderRadius.circular(15.0),
+            borderSide: BorderSide(color: isDark ? Colors.white : primaryColor,),
+        ),
+        focusedBorder:UnderlineInputBorder(
+          borderRadius: BorderRadius.circular(15.0),
+          borderSide: BorderSide(color: primaryColor,),
+        ) ,
+        labelText: label,
+        labelStyle: TextStyle(
+          color: isDark ? Colors.white : primaryColor,
+            fontWeight: FontWeight.bold
+        ),
+      ),
     );
   }
 }
+// * co
+// ! sa
+
+
+
+
+
+
+
+
+
+
+

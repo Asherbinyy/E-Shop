@@ -1,7 +1,7 @@
 name: e_shop
 description: A new Flutter project.
 
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: 'none'
 
 version: 1.0.0+1
 
@@ -19,7 +19,7 @@ dependencies:
   bloc: ^7.1.0
   flutter_bloc: ^7.1.0
   #styling
-  smooth_page_indicator: ^0.3.0-nullsafety.0
+  smooth_page_indicator: ^1.0.0+2
   carousel_slider: ^4.0.0
   expandable: ^5.0.1
   flutter_spinkit: ^5.1.0
@@ -41,10 +41,41 @@ dependencies:
   flutter_blurhash: ^0.6.0
   flutter_zoom_drawer: ^2.1.1
   image_picker: ^0.8.4
+  google_maps_flutter: ^2.0.10
+  geolocator: ^7.6.2
+  country_picker: ^2.0.8
+  flutter_launcher_icons: ^0.9.2
+  easy_localization: ^3.0.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+  # splash screen
+  flutter_native_splash: ^1.2.4
+flutter_native_splash:
+  color: "#FFFFFF"
+  image: 'assets/images/splash_light.png'
+  color_dark: "#042a49"
+# background_image_dark: "assets/dark-background.png"
+  image_dark: 'assets/images/splash_dark.png'
+  android: true
+  ios: true
+  web: true
+  #android_gravity: center
+  #ios_content_mode: center
+  #web_image_mode: center
+  #fullscreen: true
+
+
+  # App Icon
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/app_icon.png"
+  adaptive_icon_background: "#0A8060"
+  adaptive_icon_foreground: "assets/images/app_icon_foreground.png"
+
 
 flutter:
 
@@ -52,7 +83,9 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/images/flags/
     - assets/animation/
+    - assets/translation/
 
   fonts:
     - family: Montserrat

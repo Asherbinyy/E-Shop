@@ -20,7 +20,7 @@ class DioHelper {
   }) async {
     _dio.options.headers= {
       'Content-Type':'application/json',
-      'lang': appLang,
+      'lang': appLanguage,
       'Authorization':token,
     };
    return await _dio.get(url,queryParameters: query);
@@ -34,7 +34,7 @@ class DioHelper {
   }) async {
     _dio.options.headers = {
       'Content-Type': 'application/json',
-      'lang': appLang,
+      'lang': appLanguage,
       'Authorization': token,
     };
     return await _dio.post(
@@ -50,7 +50,7 @@ class DioHelper {
   }) async {
     _dio.options.headers = {
       'Content-Type': 'application/json',
-      'lang': appLang,
+      'lang': appLanguage,
       'Authorization': token,
     };
     return await _dio.put(
@@ -69,7 +69,7 @@ class DioHelper {
   }) {
     _dio.options.headers = {
       'Content-Type': 'application/json',
-      'lang': appLang,
+      'lang': appLanguage,
       'Authorization': token,
     };
     return _dio.delete(url, queryParameters: query );

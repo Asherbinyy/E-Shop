@@ -34,7 +34,7 @@ class FaqScreen extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text('${index+1}. ${FaqModel.list[index].q}',style: Theme.of(context).textTheme.headline6?.copyWith(color: kPrimaryColorDarker),),
+                              Text('${index+1}. ${FaqModel.list[index].q}',style: Theme.of(context).textTheme.headline6?.copyWith(color: kPrimaryColor),),
                               YSpace.normal,
                               Text('     •  ${FaqModel.list[index].a}  ',style: Theme.of(context).textTheme.bodyText2),
                             ],
