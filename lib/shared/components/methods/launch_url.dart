@@ -1,8 +1,16 @@
 import 'package:url_launcher/url_launcher.dart';
+/// reviewed
 
+Future launchURL (String url,{bool inApp=false}) async {
 
-void launchURL(String url) async {
-   if (await canLaunch(url)) await launch(url) ;
-   else throw 'Could not launch $url';
+   if (await canLaunch(url)){
+      await launch(
+         url,
+         forceSafariVC:inApp,
+         forceWebView: inApp,
+         enableJavaScript: true,
+      ) ;
+   }
+
 }
 

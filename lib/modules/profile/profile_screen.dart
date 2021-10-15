@@ -102,7 +102,7 @@ class ProfileScreen extends StatelessWidget {
                         // change password
                         TextButton(
                           onPressed: () =>
-                              navigateTo(context, ChangePasswordScreen()),
+                              navigateTo(context,const ChangePasswordScreen()),
                           child: const Text(
                             'Change Password ? ',
                             style:
@@ -125,21 +125,30 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget _signOutButton(bool isDark, HomeCubit cubit) => RoundedButton(
-        label: 'log out',
-        icon: Icons.logout,
-        isIcon: true,
-        color: isDark ? kSecondaryColor : Colors.white,
-        backgroundColor: isDark ? Colors.white : kSecondaryColor,
-        onPressed: () {
-          cubit.signOut();
-        },
-      );
+  Widget _signOutButton(bool isDark, HomeCubit cubit) =>
+        RoundedButton.icon(
+           label: 'log out',
+            icon: Icons.logout,
+            isDisabled: false,
+            color: isDark ? kSecondaryColor : Colors.white,
+            backgroundColor: isDark ? Colors.white : kSecondaryColor,
+        );
+      // RoundedButton.icon(
+      //   label: 'log out',
+      //   icon: Icons.logout,
+      //   isDisabled: true,
+      //   color: isDark ? kSecondaryColor : Colors.white,
+      //   backgroundColor: isDark ? Colors.white : kSecondaryColor,
+      //   onPressed: () {
+      //     cubit.signOut();
+      //   },
+      // );
 
-  Widget _updateButton(bool isDark, HomeCubit cubit) => RoundedButton(
+  Widget _updateButton(bool isDark, HomeCubit cubit) =>
+
+      RoundedButton.icon(
         label: 'Update Profile',
         icon: Icons.upload_sharp,
-        isIcon: true,
         color: isDark ? kSecondaryColor : Colors.white,
         backgroundColor: isDark ? Colors.white : kSecondaryColor,
         onPressed: () {

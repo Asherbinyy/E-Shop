@@ -1,6 +1,7 @@
-import 'package:e_shop/modules/new_address/stepper/address_stepper.dart';
+import '/modules/new_address/stepper/address_stepper.dart';
 import 'package:flutter/material.dart';
-
+import 'package:easy_localization/easy_localization.dart';
+///REVIEWED
 class AddressStepperData {
   final int index;
   final String title;
@@ -13,33 +14,33 @@ class AddressStepperData {
   static List<AddressStepperData> _list = [
     AddressStepperData(
       index: 0,
-      title: 'Basic Info.' ,
-      subTitle: 'make sure you updated your latest phone number' ,
+      title: 'basic_info'.tr() ,
+      subTitle: 'basic_info_SubTitle'.tr() ,
       content: BasicInfoContent(),
     ),
     AddressStepperData(
       index: 1,
-      title: 'Address',
-      subTitle: 'Try to be precised',
-      content:  AddressContent(),
+      title: 'address'.tr(),
+      subTitle: 'address_SubTitle'.tr(),
+      content: const AddressContent(),
     ),
     AddressStepperData(
       index: 2,
-      title:  'Delivery Address Type',
-      subTitle: 'Specify your address type',
-      content:  DeliveryTypeContent(),
+      title:  'delivery_address_type'.tr(),
+      subTitle: 'delivery_address_type_SubTitle'.tr(),
+      content: const  DeliveryTypeContent(),
     ),
     AddressStepperData(
       index: 3,
-      title:  'Place your Location',
-      subTitle:  'Choose whether you pick your address on Map or get your current location',
-      content: LocationContent(),
+      title:  'place_your_location'.tr(),
+      subTitle:  'place_your_location_SubTitle'.tr(),
+      content: const LocationContent(),
     ),
     AddressStepperData(
       index: 4,
-      title:   'Complete',
+      title:   'complete'.tr(),
       subTitle:  '',
-      content: Container(),
+      content:const SizedBox(),
     ),
   ];
   static List<AddressStepperData> get data => _list;

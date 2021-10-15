@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+
 import '../../models/api/categories/categories.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -6,6 +8,7 @@ import 'package:flutter_blurhash/flutter_blurhash.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 /// Colors ---------------------------------------------------------------------
+int ? colorIndex  ;
 const Color kPrimaryColor = Color(0xff0a8060);
 const Color kSecondaryColor = Color(0xff2690AD);
 const Color kThirdColor = Color(0xffFECC5A);
@@ -30,7 +33,7 @@ const String fontFamily = 'Montserrat' ;
 
 // Pics
 const String kDefaultImage = 'assets/images/default.JPG';
-const String kMoon = 'assets/images/moon.JPG';
+const String kDeveloper = 'assets/images/moon.JPG';
 const String kArabicFlag = 'assets/images/ar.png';
 const String kEnglishFlag = 'assets/images/en.png';
 const String kHiImage = 'assets/images/hi.gif';
@@ -71,20 +74,10 @@ String getCategoryImageUrl (DataCategoriesData category){
   return _imageUrl;
 }
 
-// const String kElectronicsImage = 'assets/images/electronics.JPG';
-// const String kCovidImage = 'assets/images/covid.JPG';
-// const String kSportsImage = 'assets/images/sports.JPG';
-// const String kBestSellingImage = 'assets/images/bestsellering.JPG';
-// const String kLightningImage = 'assets/images/lightning.JPG';
-// const String kCategoryImage = 'assets/images/category.JPG';
-
-
 const String kNoConnectionImage = 'assets/images/1_No Connection.png';
 const String kNoImageFound = 'https://image.freepik.com/free-vector/no-data-concept-illustration_114360-536.jpg';
 //hash Image
 const BlurHash kHashImage = BlurHash(hash: "L84g6F.k%#t7%1%#x]tRjEn+oLoI");
-
-
 //Lottie Animation
 const String kSuccessLottie = 'assets/animation/success.json';
 const String kFailedLottie = 'assets/animation/failed.json';
@@ -100,25 +93,15 @@ const String kEmptySearchLottie = 'assets/animation/emptyseach.json';
 const String kAddedToCartLottie = 'assets/animation/addedtocart.json';
 const String kAddedToCart2Lottie = 'assets/animation/addedtocart2.json';
 
-//methods :
-// hide & show status bar :
-void hideStatusBar ()=> SystemChrome.setEnabledSystemUIOverlays([]);
-Future<void> showStatusBar()=> SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
- String getOs ()=>Platform.operatingSystem;
 
 
-
-//enums
-// not used
-enum BNB {HOME,FAVOURITES,CART,SETTINGS}
-
-// user experience
+/// user experience
  String ? token = '';
  String ? appLanguage = '';
  bool  stopWelcome =false;
 
 
-// loaders
+/// loaders
 const kLoadingHourGlass = SpinKitPouringHourGlass(
   color: kThirdColor,
   size: 30.0,
@@ -138,7 +121,7 @@ const kLoadingPulse = SpinKitPulse(
   size: 25.0,
 );
 
-// Decorations
+/// Decorations
 Decoration get landingDecoration =>  BoxDecoration(
   gradient: LinearGradient(
     colors: [
@@ -168,7 +151,6 @@ Decoration? signingButtonDecoration({
     endAngle: endAngle = 6,
   ),
 );
-
 Decoration productCardDecoration(bool isDark) => BoxDecoration(
   borderRadius: BorderRadius.circular(10.0),
   color: isDark ? kDarkThirdColor.withOpacity(0.7) : kLightSecondaryColor,
@@ -246,7 +228,9 @@ Widget curvedBottomSheetDecoration (bool isDark,{Widget ? child}){
   );
 }
 
-
+/// location
+/// Egypt co-ordinates used if no previous address provided
+const LatLng kDefaultLatLng = LatLng(30.346642654529937, 31.17326803807425);
 
 // ******* My Account **********
 // username : ahmedshiko@gmail.com

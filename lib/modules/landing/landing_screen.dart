@@ -1,3 +1,5 @@
+import 'package:e_shop/shared/components/methods/operating_system_options.dart';
+
 import '../../shared/components/reusable/play_animation/play_animation.dart';
 import '../../shared/components/reusable/spaces/spaces.dart';
 import '../../shared/components/methods/navigation.dart';
@@ -45,7 +47,7 @@ class LandingScreen extends StatelessWidget {
       builder: (context) {
         var _theme = Theme.of(context);
         // used to hide status bar
-        hideStatusBar();
+        OperatingSystemOptions.hideStatusBar();
         return BlocProvider(
             create: (context) => LandingCubit(),
             child: BlocConsumer<LandingCubit, LandingStates>(
@@ -84,7 +86,7 @@ class LandingScreen extends StatelessWidget {
     padding: const EdgeInsets.all(8.0),
     child: TextButton(
       child: Text(
-        'Skip'.tr().toUpperCase(),
+        'skip'.tr().toUpperCase(),
         style: textTheme
             .subtitle2!
             .copyWith(color: kLightSecondaryColor),
@@ -207,7 +209,7 @@ class _Welcome extends StatelessWidget {
         Align(
           alignment: AlignmentDirectional.bottomEnd,
           child: ElevatedButton(
-            onPressed: () => cubit.switchToPreviewer(),
+            onPressed: () => cubit.switchToPreviewer(context),
             child: FittedBox(child: Text('start_tour'.tr().toUpperCase())),
             style: ElevatedButton.styleFrom(
               primary: kPrimaryColor,

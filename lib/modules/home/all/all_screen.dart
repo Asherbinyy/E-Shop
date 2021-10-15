@@ -1,7 +1,7 @@
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:e_shop/shared/components/builders/myConditional_builder.dart';
-import '/models/app/popup.dart';
+import '/shared/components/builders/myConditional_builder.dart';
+import '/models/app/sites_links.dart';
 import '/modules/offer_details/offer_details_screen.dart';
 import '/shared/components/builders/product_card.dart';
 import '/shared/components/builders/product_header_builder.dart';
@@ -13,11 +13,13 @@ import '../../../models/api/home/home.dart';
 import '/shared/cubit/app_cubit.dart';
 import '/layout/cubit/home_cubit.dart';
 import '/layout/cubit/home_states.dart';
-import '/modules/landing/landing_screen.dart';
 import '/styles/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:easy_localization/easy_localization.dart';
+
+/// REVIEWED
 
 class AllScreen extends StatelessWidget {
   const AllScreen({Key? key}) : super(key: key);
@@ -57,12 +59,11 @@ class AllScreen extends StatelessWidget {
         }
       },
       builder: (context, state) {
-        HomeCubit cubit = HomeCubit.get(context);
-        // List<HomeProducts>? products = HomeCubit.get(context).homeModel?.data?.products;
-        List<HomeProducts>? products = cubit.defaultHomeProduct;
+        var cubit = HomeCubit.get(context);
+        var products = cubit.defaultHomeProduct;
 
         return SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
@@ -80,12 +81,12 @@ class AllScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        ProductHeaderWidget(title: 'Popular Products'),
-                      state is !GetHomeDataLoadingState ? _ProductBuilder(cubit,products,isGrid: cubit.isGrid):kLoadingWanderingCubes,
+                          ProductHeaderWidget(title: 'popular_products'.tr()),
+                      state is !GetHomeDataLoadingState ? _ProductBuilder(cubit,products,isGrid: cubit.isGrid): kLoadingWanderingCubes,
                       ],
                     ),
                   ),
-                  feedback: Padding(
+                  feedback:const Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10.0),
                       child: kLoadingFadingCircle),
                 ),
@@ -97,70 +98,19 @@ class AllScreen extends StatelessWidget {
     );
   }
 }
-
-class _ProductBuilder extends StatelessWidget {
-  final HomeCubit cubit;
-  final List<HomeProducts>? products;
-  final bool isGrid ;
-  const _ProductBuilder(this.cubit,this.products,{Key? key,required this.isGrid}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.width;
-    return MyConditionalBuilder(
-      condition: isGrid,
-      builder: _gridBuilder(products, width, height, cubit),
-      feedback: _listBuilder(products, height, cubit),
-    );
-  }
-  Widget _gridBuilder
-      (List<HomeProducts> ? products, double width, double height, HomeCubit cubit) {
-    return GridView.builder(
-      physics: NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
-      itemCount: products?.length,
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        childAspectRatio: width / height * 1.35,
-        // childAspectRatio: width / height * 0.9, // was 1.07
-      ),
-      itemBuilder: (context, index) {
-        HomeProducts ? product = products?[index];
-        return ProductCard(isGrid: cubit.isGrid, name: product!.name!, seller: 'E-Shop', image: product.image!, price: product.price!, id: product.id!, oldPrice: product.oldPrice!, discount: product.discount!);
-      },
-    );
-  }
-  ListView _listBuilder(List<HomeProducts>? products, double height, HomeCubit cubit) =>
-      ListView.builder(
-        physics: NeverScrollableScrollPhysics(),
-        shrinkWrap: true,
-        itemCount: products?.length,
-        itemBuilder: (context, index) {
-          HomeProducts ? product = products?[index];
-          return SizedBox(
-            height: height * 0.2,
-            child: ProductCard(isGrid: cubit.isGrid, name: product!.name!, seller: 'E-Shop', image: product.image!, price: product.price!, id: product.id!, oldPrice: product.oldPrice!, discount: product.discount!),
-
-          );
-        },
-      );
-
-
-}
 class _BannerBuilder extends StatelessWidget {
   final HomeCubit cubit;
   const _BannerBuilder(
-    this.cubit, {
-    Key? key,
-  }) : super(key: key);
+      this.cubit, {
+        Key? key,
+      }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Builder(builder: (context) {
       CarouselController _carouselController = CarouselController();
-      double height = MediaQuery.of(context).size.height;
-      double width = MediaQuery.of(context).size.width;
+      var height = MediaQuery.of(context).size.height;
+      var width = MediaQuery.of(context).size.width;
       return Container(
         width: double.infinity,
         clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -198,12 +148,12 @@ class _BannerBuilder extends StatelessWidget {
                             children: [
                               // banner image
                               Container(
-                             width: double.infinity,
-                             clipBehavior: Clip.antiAliasWithSaveLayer,
-                             decoration: BoxDecoration(
-                              borderRadius: BorderRadiusDirectional.circular(10.0),
-                               color: Colors.transparent,
-                             ),
+                                  width: double.infinity,
+                                  clipBehavior: Clip.antiAliasWithSaveLayer,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadiusDirectional.circular(10.0),
+                                    color: Colors.transparent,
+                                  ),
                                   child: Image.network('${e.image != null?e.image:kNoImageFound}', fit: BoxFit.cover,width: width,)),
                               // see offer
                             ],
@@ -238,30 +188,81 @@ class _BannerBuilder extends StatelessWidget {
     child: CircleAvatar(
       backgroundColor: Colors.black45,
       child: CustomPopUpButton(
-            popUps: PopUpModel.bannerOptions,
-            icon: Icons.more_vert,
-            onSelected: (_) => cubit.hideBanners(),
-          ),
+        popUps: PopUpModel.bannerOptions,
+        icon: Icons.more_vert,
+        onSelected: (_) => cubit.hideBanners(),
+      ),
     ),
   );
-   Widget _bannerIndicator(double height) => Padding(
-        padding: const EdgeInsets.all(5.0),
-        child: Container(
-          padding:const EdgeInsets.all(10.0),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20.0),
-            color: Colors.black45,
-          ),
-          child: AnimatedSmoothIndicator(
-            effect:  SwapEffect(
-              dotHeight: height*0.006 ,
-              activeDotColor: kPrimaryColor,
-            ),
-            activeIndex: cubit.bannerSlideIndex,
-            count: cubit.banners.length,
-          ),
+  Widget _bannerIndicator(double height) => Padding(
+    padding: const EdgeInsets.all(5.0),
+    child: Container(
+      padding:const EdgeInsets.all(10.0),
+      decoration: BoxDecoration(
+        borderRadius:  BorderRadius.circular(20.0),
+        color: Colors.black45,
+      ),
+      child: AnimatedSmoothIndicator(
+        effect:  SwapEffect(
+          dotHeight: height*0.006 ,
+          activeDotColor: kPrimaryColor,
         ),
+        activeIndex: cubit.bannerSlideIndex,
+        count: cubit.banners.length,
+      ),
+    ),
+  );
+}
+
+class _ProductBuilder extends StatelessWidget {
+  final HomeCubit cubit;
+  final List<HomeProducts>? products;
+  final bool isGrid ;
+  const _ProductBuilder(this.cubit,this.products,{Key? key,required this.isGrid}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
+    return MyConditionalBuilder(
+      condition: isGrid,
+      builder: _gridBuilder(products, width, height, cubit),
+      feedback: _listBuilder(products, height, cubit),
+    );
+  }
+  Widget _gridBuilder
+      (List<HomeProducts> ? products, double width, double height, HomeCubit cubit) {
+    return GridView.builder(
+      physics: NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      itemCount: products?.length,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        childAspectRatio: width / height * 1.35,
+        // childAspectRatio: width / height * 0.9, // was 1.07
+      ),
+      itemBuilder: (context, index) {
+        HomeProducts ? product = products?[index];
+        return ProductCard(isGrid: cubit.isGrid, name: product!.name!, seller: 'e_shop'.tr(), image: product.image!, price: product.price!, id: product.id!, oldPrice: product.oldPrice!, discount: product.discount!);
+      },
+    );
+  }
+  ListView _listBuilder(List<HomeProducts>? products, double height, HomeCubit cubit) =>
+      ListView.builder(
+        physics:const  NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        itemCount: products?.length,
+        itemBuilder: (context, index) {
+          HomeProducts ? product = products?[index];
+          return SizedBox(
+            height: height * 0.2,
+            child: ProductCard(isGrid: cubit.isGrid, name: product!.name!, seller: 'e_shop'.tr(), image: product.image!, price: product.price!, id: product.id!, oldPrice: product.oldPrice!, discount: product.discount!),
+
+          );
+        },
       );
+
+
 }
 
 // SizedBox(

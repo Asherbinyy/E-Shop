@@ -1,6 +1,9 @@
+import 'package:e_shop/models/api/user/change_password.dart';
+import 'package:e_shop/modules/change_password/change_password_screen.dart';
+
+import '../../modules/welcome_message/welcome_message_screen.dart';
 import '../../shared/components/builders/signing_methods.dart';
 import '../../shared/components/reusable/spaces/spaces.dart';
-import '../../layout/layout_screen.dart';
 import '../../network/local/cache_helper.dart';
 import '../../network/local/cached_values.dart';
 import '../../shared/components/builders/myConditional_builder.dart';
@@ -21,8 +24,7 @@ import 'package:easy_localization/easy_localization.dart';
 
 final _passwordLogInController = TextEditingController();
 final _emailLogInController = TextEditingController();
-var _formKey = GlobalKey<FormState>();
-
+ var _formKey = GlobalKey<FormState>();
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -36,12 +38,12 @@ class LoginScreen extends StatelessWidget {
               .then((value) {
             if (value) {
               token = state.loginModel.data?.token;
-              navigateToAndFinish(context, LayoutScreen());
+              navigateToAndFinish(context, WelcomeMessageScreen());
             }
           });
         } else {
           token = state.loginModel.data?.token;
-          navigateToAndFinish(context, LayoutScreen());
+          navigateToAndFinish(context, WelcomeMessageScreen());
         }
       } else {
         DefaultDialogue.showSnackBar(context, state.loginModel.message!,
@@ -75,20 +77,20 @@ class LoginScreen extends StatelessWidget {
             // backgroundColor: isDark?kDarkPrimaryColor:Colors.white,
             body: SingleChildScrollView(
               physics: BouncingScrollPhysics(),
-              child: Form(
-                key: _formKey,
-                child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      _HeaderBuilder(isDark, _height, _width),
-                      _SigningFieldsBuilder(cubit, isDark, state),
-                      SigningMethods(SigningMethodStyle.LOGIN,onPressed: ()=>navigateToAndFinish(context, RegisterScreen()),),
-                    ],
-                  ),
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    _HeaderBuilder(isDark, _height, _width),
+                    _SigningFieldsBuilder(cubit, isDark, state),
+                    SigningMethods(
+                      SigningMethodStyle.LOGIN,
+                      onPressed: ()=>navigateToAndFinish(context, RegisterScreen(),),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -153,132 +155,150 @@ class _HeaderBuilder extends StatelessWidget {
     );
   }
 }
-
 class _SigningFieldsBuilder extends StatelessWidget {
   final LoginCubit cubit;
   final LoginStates state;
   final bool isDark;
-  const _SigningFieldsBuilder(this.cubit, this.isDark, this.state, {Key? key})
-      : super(key: key);
-
+  const _SigningFieldsBuilder(this.cubit, this.isDark, this.state, {Key? key}) : super(key: key);
   @override
+//   State<_SigningFieldsBuilder> createState() => _SigningFieldsBuilderState();
+// }
+
+// class _SigningFieldsBuilderState extends State<_SigningFieldsBuilder> {
+//   @override
+//   void initState() {
+//     // TODO: implement initState
+//     super.initState();
+//   }
+//   @override
+//   void dispose() {
+//    _passwordLogInController.dispose();
+//    _emailLogInController.dispose();
+//     super.dispose();
+//   }
+//   @override
+
   Widget build(BuildContext context) {
-    return Builder(builder: (context) {
-      var _width = MediaQuery.of(context).size.width;
-      Widget _space() => SizedBox(
-            height: MediaQuery.of(context).size.height / 30.0,
-          );
-      Widget _rememberMe() => Align(
-        alignment: AlignmentDirectional.topStart,
-        child: FittedBox(
-          fit: BoxFit.scaleDown,
-              child: Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Theme(
-                    data: ThemeData(unselectedWidgetColor: Colors.grey),
-                    child: Checkbox(
-                        activeColor: kPrimaryColorLight,
-                        value: cubit.isCheckBox,
-                        onChanged: (isCheckBox) {
-                          cubit.checkBox();
-                        }),
-                  ),
-                  Text('remember_me'.tr(),
-                      style: Theme.of(context).textTheme.subtitle2),
-                  TextButton(
-                    child: Text(
-                      'forgot_password'.tr(),
-                      style: Theme.of(context).textTheme.bodyText2!.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: kPrimaryColorLight.withRed(1)),
+    return Form(
+      key: _formKey,
+      child: Builder(
+          builder: (context) {
+        var _width = MediaQuery.of(context).size.width;
+        Widget _space() => SizedBox(
+              height: MediaQuery.of(context).size.height / 30.0,
+            );
+        Widget _rememberMe() => Align(
+          alignment: AlignmentDirectional.topStart,
+          child: FittedBox(
+            fit: BoxFit.scaleDown,
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Theme(
+                      data: ThemeData(unselectedWidgetColor: Colors.grey),
+                      child: Checkbox(
+                          activeColor: kPrimaryColorLight,
+                          value:cubit.isCheckBox,
+                          onChanged: (isCheckBox) {
+                           cubit.checkBox();
+                          }),
                     ),
-                    onPressed: () =>{},
-                  ),
-                ],
+                    Text('remember_me'.tr(),
+                        style: Theme.of(context).textTheme.subtitle2),
+                    TextButton(
+                      child: Text(
+                        'forgot_password'.tr(),
+                        style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: kPrimaryColorLight.withRed(1)),
+                      ),
+                      onPressed: () =>navigateTo(context,const ChangePasswordScreen()),
+                    ),
+                  ],
+                ),
               ),
+        );
+        Widget _loading ()=>const Center(
+          child: CircularProgressIndicator(
+            color: kPrimaryColor,
+          ),
+        );
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            SigningTextField(
+              isPrimary: true,
+              labelText: 'email_address'.tr(),
+              prefixIcon: Icons.email_outlined,
+              prefixIconColor: kPrimaryColorLight.withRed(1),
+              formFieldShadowColor: kPrimaryColorLight.withRed(1),
+              cursorColor: kPrimaryColorLight.withRed(1),
+              iconShadowColor: kPrimaryColorLight.withRed(1),
+              controller: _emailLogInController,
+              keyboardType: TextInputType.emailAddress,
+              validator:cubit.validator('enter_your_email_address'.tr()),
             ),
-      );
-      Widget _loading ()=>const Center(
-        child: CircularProgressIndicator(
-          color: kPrimaryColor,
-        ),
-      );
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          SigningTextField(
-            isPrimary: true,
-            labelText: 'email_address'.tr(),
-            prefixIcon: Icons.email_outlined,
-            prefixIconColor: kPrimaryColorLight.withRed(1),
-            formFieldShadowColor: kPrimaryColorLight.withRed(1),
-            cursorColor: kPrimaryColorLight.withRed(1),
-            iconShadowColor: kPrimaryColorLight.withRed(1),
-            controller: _emailLogInController,
-            keyboardType: TextInputType.emailAddress,
-            validator: cubit.validator('enter_your_email_address'.tr()),
-          ),
-          _space(),
-          SigningTextField(
-            isPrimary: false,
-            labelText: 'password'.tr(),
-            prefixIcon: Icons.lock_open_outlined,
-            suffixIcon: cubit.suffixIcon(),
-            suffixIconColor: kSecondaryColorLight.withRed(0),
-            prefixIconColor: kSecondaryColorLight.withRed(0),
-            formFieldShadowColor: kSecondaryColorLight.withRed(0),
-            iconShadowColor: kSecondaryColorLight.withRed(0),
-            cursorColor: kSecondaryColorLight.withRed(0),
-            controller: _passwordLogInController,
-            keyboardType: TextInputType.visiblePassword,
-            validator: cubit.validator('enter_your_password'.tr()),
-            suffixPressed: () => cubit.suffixPressed(),
-            obscureText: cubit.showPassword,
-          ),
-          _space(),
-          _rememberMe(),
-          SizedBox(
-            height: MediaQuery.of(context).size.height / 150.0,
-          ),
-          MyConditionalBuilder(
-            condition: state is! LoginLoadingState,
-            builder: SigningButton(
-              textColor: Colors.grey[200],
-              title: 'sign_in'.tr(),
-              width: _width / 2.5,
-              onPressed: () {
-                if (_formKey.currentState!.validate()) {
-                  cubit.userLogin(
-                      email: _emailLogInController.text,
-                      password: _passwordLogInController.text);
-                  print(_passwordLogInController.text);
-                  print(_emailLogInController.text);
-                }
-              },
+            _space(),
+            SigningTextField(
+              isPrimary: false,
+              labelText: 'password'.tr(),
+              prefixIcon: Icons.lock_open_outlined,
+              suffixIcon:cubit.suffixIcon(),
+              suffixIconColor: kSecondaryColorLight.withRed(0),
+              prefixIconColor: kSecondaryColorLight.withRed(0),
+              formFieldShadowColor: kSecondaryColorLight.withRed(0),
+              iconShadowColor: kSecondaryColorLight.withRed(0),
+              cursorColor: kSecondaryColorLight.withRed(0),
+              controller: _passwordLogInController,
+              keyboardType: TextInputType.visiblePassword,
+              validator:cubit.validator('enter_your_password'.tr()),
+              suffixPressed: () =>cubit.suffixPressed(),
+              obscureText:cubit.showPassword,
             ),
-            feedback: Center(
-                child: CircularProgressIndicator(
-              color: kPrimaryColor.withRed(1),
-            )),
-          ),
-          YSpace.extreme,
-          MyConditionalBuilder(
-            condition: 0 == 0, /// TODO : UPDATE THIS
-            builder: OutlinedSigningButton(
-              color: kPrimaryColor,
-              height: 50,
-              isDark: isDark,
-              title: 'go_anonymously'.tr(),
-              onPressed: () {},
+            _space(),
+            _rememberMe(),
+            SizedBox(
+              height: MediaQuery.of(context).size.height / 150.0,
             ),
-            feedback: kLoadingFadingCircle,
-          ),
-          _space(),
-        ],
-      );
-    });
+            MyConditionalBuilder(
+              condition:state is! LoginLoadingState,
+              builder: SigningButton(
+                textColor: Colors.grey[200],
+                title: 'sign_in'.tr(),
+                width: _width / 2.5,
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                   cubit.userLogin(
+                        email: _emailLogInController.text,
+                        password: _passwordLogInController.text);
+                    print(_passwordLogInController.text);
+                    print(_emailLogInController.text);
+                  }
+                },
+              ),
+              feedback: Center(
+                  child: CircularProgressIndicator(
+                color: kPrimaryColor.withRed(1),
+              )),
+            ),
+            YSpace.extreme,
+            MyConditionalBuilder(
+              condition: 0 == 0, /// TODO : UPDATE THIS
+              builder: OutlinedSigningButton(
+                color: kPrimaryColor,
+                height: 50,
+                isDark:isDark,
+                title: 'go_anonymously'.tr(),
+                onPressed: () {},
+              ),
+              feedback: kLoadingFadingCircle,
+            ),
+            _space(),
+          ],
+        );
+      }),
+    );
   }
 }
 

@@ -27,19 +27,19 @@ class SigningButton extends StatelessWidget {
         shadowColor: kSecondaryColorLight,
         elevation: 5.0,
         child: Container(
-          width: width,
+          clipBehavior: Clip.antiAliasWithSaveLayer,
           decoration: signingButtonDecoration(
             startAngle: startAngel,
             endAngle: endAngle,
           ),
           child: MaterialButton(
+            splashColor: kPrimaryColorLight.withOpacity(0.5),
             child: FittedBox(
               child: Text(
                 title.toUpperCase(),
                 style: Theme.of(context).textTheme.bodyText1!.copyWith(
                     color: textColor,
-                    fontWeight: FontWeight.bold,
-                    // fontSize: 16.5,
+                    fontWeight: FontWeight.bold, // fontSize: 16.5,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -72,7 +72,7 @@ final bool isDark;
   Widget build(BuildContext context) {
     return OutlinedButton.icon(
       style:OutlinedButton.styleFrom(
-       shape: StadiumBorder(),
+       shape: const StadiumBorder(),
         fixedSize: Size(width, height),
         onSurface: Colors.red,
         side: BorderSide(color: color)

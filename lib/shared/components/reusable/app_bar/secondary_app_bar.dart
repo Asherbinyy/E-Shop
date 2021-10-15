@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-
+/// REVIEWED
 class SecondaryAppBar extends StatelessWidget implements PreferredSizeWidget{
 
   static PreferredSizeWidget signingAppBar (Color statusBarColor)=> AppBar (

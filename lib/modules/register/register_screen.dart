@@ -1,7 +1,5 @@
 import 'dart:ui';
-import 'package:e_shop/modules/welcome_message/welcome_message_screen.dart';
-import 'package:e_shop/shared/components/builders/myConditional_builder.dart';
-
+import '../../shared/components/builders/myConditional_builder.dart';
 import '../../shared/components/builders/signing_methods.dart';
 import '../../shared/components/reusable/spaces/spaces.dart';
 import '/modules/error/error_screen.dart';
@@ -92,7 +90,7 @@ class RegisterScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       _HeaderBuilder(isDark, _height, _width),
-                      _SigningFieldsBuilder(cubit, state,isDark),
+                      _SigningFieldsBuilder(cubit, state, isDark),
                       SigningMethods(
                         SigningMethodStyle.REGISTER,
                         onPressed: () =>
@@ -155,8 +153,23 @@ class _SigningFieldsBuilder extends StatelessWidget {
   final RegisterCubit cubit;
   final RegisterState state;
   final bool isDark;
-  const _SigningFieldsBuilder(this.cubit,this.state, this.isDark, {Key? key})
+  const _SigningFieldsBuilder(this.cubit, this.state, this.isDark, {Key? key})
       : super(key: key);
+//
+//   @override
+//   State<_SigningFieldsBuilder> createState() => _SigningFieldsBuilderState();
+// }
+//
+// class _SigningFieldsBuilderState extends State<_SigningFieldsBuilder> {
+//   @override
+//   void dispose() {
+//     _nameRegisterController.dispose();
+//     _passwordController.dispose();
+//     _confirmPasswordRegisterController.dispose();
+//     _emailRegisterController.dispose();
+//     _phoneRegisterController.dispose();
+//     super.dispose();
+//   }
 
   @override
   Widget build(BuildContext context) {
@@ -207,7 +220,7 @@ class _SigningFieldsBuilder extends StatelessWidget {
                                       alignment: AlignmentDirectional.bottomEnd,
                                       child: TextButton(
                                           onPressed: () =>
-                                              navigateFrom(context),
+                                              navigateBack(context),
                                           child: Text('i_understand'.tr())),
                                     ),
                                   ],
@@ -317,16 +330,19 @@ class _SigningFieldsBuilder extends StatelessWidget {
               ),
               XSpace.normal,
               Expanded(
-                  child: MyConditionalBuilder(
-                condition: 1 == 1,/// TODO : UPDATE THIS
-                builder: OutlinedSigningButton(
-                  height: 50,
-                  isDark: isDark,
-                  title: 'go_anonymously'.tr(),
-                  onPressed: () => {},
+                child: MyConditionalBuilder(
+                  condition: 1 == 1,
+
+                  /// TODO : UPDATE THIS
+                  builder: OutlinedSigningButton(
+                    height: 50,
+                    isDark: isDark,
+                    title: 'go_anonymously'.tr(),
+                    onPressed: () => {},
+                  ),
+                  feedback: kLoadingFadingCircle,
                 ),
-                feedback: kLoadingFadingCircle,
-              )),
+              ),
             ],
           ),
         ],

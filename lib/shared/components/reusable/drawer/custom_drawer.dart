@@ -1,14 +1,11 @@
-import 'package:e_shop/modules/faq/faq_screen.dart';
-import 'package:e_shop/modules/notification/notification_screen.dart';
-import 'package:e_shop/modules/payment/payment_screen.dart';
-import 'package:e_shop/modules/promo_codes/promo_code_screen.dart';
-import 'package:e_shop/shared/components/reusable/buttons/rounded_button.dart';
-import 'package:e_shop/shared/components/reusable/dialogue/rate_us_dialog.dart';
-import 'package:e_shop/styles/constants.dart';
+import '/modules/contact_us/contact_us_screen.dart';
 
-import '/shared/components/reusable/tiles/expandable_tile.dart';
+import '/modules/faq/faq_screen.dart';
+import '/modules/notification/notification_screen.dart';
+import '/modules/payment/payment_screen.dart';
+import '/modules/promo_codes/promo_code_screen.dart';
+import '/shared/components/reusable/dialogue/rate_us_dialog.dart';
 import '/shared/components/reusable/tiles/option_tile.dart';
-
 import '../../../../models/api/user/profile.dart';
 import '/modules/email_verification/email_verification_screen.dart';
 import '/modules/login/login_screen.dart';
@@ -24,8 +21,8 @@ import '/shared/cubit/app_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
-
+import 'package:easy_localization/easy_localization.dart';
+///reviewed
 class CustomDrawerScreen extends StatelessWidget {
   const CustomDrawerScreen({Key? key}) : super(key: key);
 
@@ -37,56 +34,47 @@ class CustomDrawerScreen extends StatelessWidget {
           if (state.signOutModel.status!) {
             CacheHelper.removeData(TOKEN).then((value) {
               if (value) {
-                navigateToAndFinish(context, LoginScreen());
+                navigateToAndFinish(context,const LoginScreen());
               }
             });
           } else {
             DefaultDialogue.showSnackBar(context, state.signOutModel.message!,
                 dialogueStates: DialogueStates.ERROR,
                 isDark: AppCubit.get(context).isDark);
-            Navigator.pop(context);
+            navigateBack(context);
           }
         }
         if (state is SignOutErrorState) {
-          Navigator.pop(context);
-          DefaultDialogue.showSnackBar(context, 'Something went Wrong',
+          navigateBack(context);
+          DefaultDialogue.showSnackBar(context, 'something_went_wrong'.tr(),
               dialogueStates: DialogueStates.ERROR,
               isDark: AppCubit.get(context).isDark);
         }
       },
       builder: (context, state) {
         HomeCubit cubit = HomeCubit.get(context);
-       ProfileData? profile =  cubit.profileModel?.data;
-
+        ProfileData? profile = cubit.profileModel?.data;
 
         return SizedBox(
-          width: MediaQuery.of(context).size.width*0.7,
-
+          width: MediaQuery.of(context).size.width * 0.7,
           child: Drawer(
             child: Scaffold(
               body: Padding(
                 padding:
-                const EdgeInsets.symmetric(vertical: 30.0, horizontal: 0.0),
+                    const EdgeInsets.symmetric(vertical: 30.0, horizontal: 0.0),
                 child: SingleChildScrollView(
-                  physics: BouncingScrollPhysics(),
+                  physics:const BouncingScrollPhysics(),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       _ViewProfileWidget(profile: profile),
-
-                      if (! cubit.isEmailVerified)
-                        _verifyMail(onTap: ()=>navigateTo(context, EmailVerificationScreen())),
-
+                      if (!cubit.isEmailVerified)
+                        _VerifyMail(onTap: () => navigateTo(context,const EmailVerificationScreen())),
                       Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 8.0, horizontal: 10.0),
+                        padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 10.0),
                         child: XDivider.normal(),
                       ),
-
                       _MenuOptions(cubit),
-
-
-
                     ],
                   ),
                 ),
@@ -98,30 +86,35 @@ class CustomDrawerScreen extends StatelessWidget {
     );
   }
 
-  Widget _verifyMail({final GestureTapCallback? onTap}) {
+}
+class _VerifyMail extends StatelessWidget {
+  final GestureTapCallback? onTap;
+  const _VerifyMail({Key? key, this.onTap}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 8),
         color: Colors.amber.withOpacity(0.1),
         child: InkWell(
             child: ListTile(
               onTap: onTap,
-          contentPadding: EdgeInsets.zero,
-          leading: Icon(
-            Icons.info,
-            color: Colors.amber,
-          ),
-          title: Text(
-            'You need to verify your email address',
-            style: TextStyle(color: Colors.amber),
-          ),
-        )),
+              contentPadding: EdgeInsets.zero,
+              leading: const Icon(
+                Icons.info,
+                color: Colors.amber,
+              ),
+              title: Text(
+                'verify_email'.tr(),
+                style: const TextStyle(color: Colors.amber),
+              ),
+            )),
       ),
     );
   }
 }
-
 class _ViewProfileWidget extends StatelessWidget {
   const _ViewProfileWidget({
     Key? key,
@@ -133,9 +126,8 @@ class _ViewProfileWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialButton(
-      onPressed: (){
-        // Navigator.pop(context);
-        navigateTo(context, ProfileScreen());
+      onPressed: () {
+        navigateTo(context,const ProfileScreen());
       },
       child: Row(
         children: [
@@ -152,7 +144,8 @@ class _ViewProfileWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  '${profile?.name?.toUpperCase()}',maxLines: 2,
+                  '${profile?.name?.toUpperCase()}',
+                  maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.start,
                   style: Theme.of(context)
@@ -161,7 +154,9 @@ class _ViewProfileWidget extends StatelessWidget {
                       .copyWith(fontSize: 14),
                 ),
                 Text(
-                  'view_your_account',maxLines: 1,overflow: TextOverflow.ellipsis,
+                  'view_your_account'.tr(),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                   style: Theme.of(context)
                       .textTheme
                       .caption!
@@ -176,16 +171,14 @@ class _ViewProfileWidget extends StatelessWidget {
   }
 }
 
-
-
 class _MenuOptions extends StatelessWidget {
   final HomeCubit cubit;
-  const _MenuOptions(this.cubit,{Key? key}) : super(key: key);
+  const _MenuOptions(this.cubit, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height:MediaQuery.of(context).size.height*0.7 ,
+      height: MediaQuery.of(context).size.height * 0.7,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
@@ -195,78 +188,55 @@ class _MenuOptions extends StatelessWidget {
             Hero(
               tag: ValueKey<String>('Payment'),
               child: OptionListTile(
-                label: 'Payment',
+                label: 'payment'.tr(),
                 icon: Icons.payment_outlined,
-                onPressed: () =>navigateTo(context, PaymentScreen()),
+                onPressed: () => navigateTo(context,const PaymentScreen()),
               ),
             ),
             Hero(
-                tag: ValueKey<String>('PromoCode'),
-                child: OptionListTile(
-                    label: 'Promo Codes',
-                    icon: FontAwesomeIcons.gift,
-                    onPressed: () =>navigateTo(context, PromoCodeScreen())),
-                ),
+              tag: ValueKey<String>('PromoCode'),
+              child: OptionListTile(
+                  label: 'promo_codes'.tr(),
+                  icon: FontAwesomeIcons.gift,
+                  onPressed: () => navigateTo(context,const PromoCodeScreen())),
+            ),
             Hero(
                 tag: ValueKey<String>('Notification'),
-                child: OptionListTile(label: 'Notification', icon: FontAwesomeIcons.bell,onPressed:()=>navigateTo(context, NotificationScreen()))),
-
+                child: OptionListTile(
+                    label: 'notifications'.tr(),
+                    icon: FontAwesomeIcons.bell,
+                    onPressed: () =>
+                        navigateTo(context,const NotificationScreen()))),
             Hero(
                 tag: ValueKey<String>('FAQ'),
-                child: OptionListTile(label: 'FAQ',icon: FontAwesomeIcons.question, onPressed: ()=>navigateTo(context, FaqScreen()))),
-            OptionListTile(label: 'About Us', icon: FontAwesomeIcons.lightbulb, onPressed: () =>DefaultDialogue.showMyAboutDialog(context)),
-
+                child: OptionListTile(
+                    label: 'faq'.tr(),
+                    icon: FontAwesomeIcons.question,
+                    onPressed: () => navigateTo(context,const FaqScreen()))),
+            Hero(
+              tag: ValueKey<String>('Contact_Us'),
+              child: OptionListTile(
+                label: 'contact_us'.tr(),
+                icon: FontAwesomeIcons.lightbulb,
+                onPressed: () => navigateTo(context,const ContactUsScreen()),
+              ),
+            ),
             Hero(
                 tag: ValueKey<String>('RateUs'),
                 child: OptionListTile(
-                    label: 'Rate Us',
+                    label: 'rate_us'.tr(),
                     icon: FontAwesomeIcons.solidGrinStars,
-                    onPressed: ()=>showDialog(context: context, builder: (context)=> RateUsDialog()))),
-
-            OptionListTile(label: 'Sign Out', icon: Icons.logout,isBackgroundColor: true ,onPressed: () => cubit.signOut()),
-
+                    onPressed: () => showDialog(
+                        context: context,
+                        builder: (context) => const RateUsDialog()))),
+            OptionListTile(
+                label: 'sign_out'.tr(),
+                icon: Icons.logout,
+                isBackgroundColor: true,
+                onPressed: () => cubit.signOut()),
           ],
         ),
       ),
     );
   }
-
-// Row(
-//   children: [
-//
-//     Icon(FontAwesomeIcons.globeAfrica,color: Theme.of(context).textTheme.bodyText2?.color,) ,
-//     Text('Privacy',style: Theme.of(context).textTheme.bodyText2,),
-//   ],
-// ),
-// Row(
-//   children: [
-//     Icon(FontAwesomeIcons.globeAfrica,color: Theme.of(context).textTheme.bodyText2?.color,) ,
-//     Text('Privacy',style: Theme.of(context).textTheme.bodyText2,),
-//   ],
-// ),
-// ExpandableListTile(label: 'dark_mode', icon: FontAwesomeIcons.solidMoon,
-//     child: Center(
-//   child: Switch.adaptive(
-//       value: AppCubit.get(context).isDark,
-//       onChanged: (newValue) {
-//         // newValue = AppCubit.get(context).changeThemeModeViaSwitch();
-//         Navigator.pop(context);
-//       }),
-// ), onPressed: () {}),
-// OptionListTile(label: 'addresses', icon: Icons.location_on_sharp, onPressed: () {}),
-
-  //     RoundedButton(
-  //   label: 'log out',
-  //   icon: Icons.logout,
-  //   isIcon: true,
-  //   color: isDark ? kPrimaryColorDarker : Colors.white,
-  //   backgroundColor: isDark ? Colors.white : kPrimaryColorDarker,
-  //   onPressed: () {
-  //     cubit.signOut();
-  //   },
-  // );
-
 }
-
-
-

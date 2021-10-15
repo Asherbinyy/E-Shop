@@ -1,5 +1,8 @@
-import 'package:e_shop/styles/constants.dart';
+import '/../styles/constants.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:easy_localization/easy_localization.dart';
+
+/// reviewed
 
 class WelcomeMessageModel {
   final String? message;
@@ -7,7 +10,7 @@ class WelcomeMessageModel {
   final String? backgroundImage;
   /// The glowing shadow of the card borders
   final Color ? cardShadow;
-  WelcomeMessageModel(
+ const WelcomeMessageModel(
     this.message,
     this.subMessage, {
     this.backgroundImage,
@@ -20,42 +23,42 @@ class WelcomeMessageModel {
     DateTime dateTime = DateTime.now();
     WelcomeMessageModel _welcomeMessage;
 
-    //Midnight
+    ///Midnight
 
     if (dateTime.hour > 23 || dateTime.hour <= 2) {
       _welcomeMessage = WelcomeMessageModel(
-        'Hey, $userName 🌚 ',
-        ' Wanna Spend Some money ?',
+        'midnight'.tr() + ' $userName 🌚 ',
+        'midnight_message'.tr(),
         backgroundImage: kWelcomeMessageImages[0],
         cardShadow:Color(0xff14528D),
       );
     }
-    // morning
+    ///morning
 
     else if (dateTime.hour > 2 && dateTime.hour <= 13) {
       _welcomeMessage = WelcomeMessageModel(
-        'Morning $userName 🌝',
-        ' Let\'s buy new things ',
+        'morning'.tr()+' $userName 🌝',
+        'morning_message'.tr(),
         backgroundImage: kWelcomeMessageImages[1],
         cardShadow: Color(0xffFCD068),
       );
     }
-    // day
+    /// day
 
     else if (dateTime.hour > 13 && dateTime.hour < 6) {
       _welcomeMessage = WelcomeMessageModel(
-        'Welcome back $userName',
-        '  We got some new things for you 😉 ',
+        'day'.tr()+' $userName',
+        'day_message'.tr()+'😉 ',
         backgroundImage: kWelcomeMessageImages[2],
         cardShadow: Color(0xffFE9347),
       );
     }
-    // night
+    /// night
 
     else {
       _welcomeMessage = WelcomeMessageModel(
-        'Hello $userName 🥰 ',
-        ' Let\'s fill this cart together 🛒 ',
+        'night'.tr()+' $userName 🥰 ',
+        'night_message'.tr()+' 🛒 ',
         backgroundImage:kWelcomeMessageImages[3],
         cardShadow: Color(0xff07BABE),
       );
@@ -63,3 +66,5 @@ class WelcomeMessageModel {
     return _welcomeMessage;
   }
 }
+
+

@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:e_shop/network/local/cache_helper.dart';
 import 'package:e_shop/network/local/cached_values.dart';
 import 'package:e_shop/styles/constants.dart';
+import 'package:easy_localization/src/public_ext.dart';
 import '/models/app/landing.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,6 +17,7 @@ class LandingCubit extends Cubit<LandingStates> {
 
  /// if true previewer screen is represented instead of welcome screen
  bool isWelcomeDone = false ;
+
  bool isLangChoosed = false ;
  bool isArabic = false ;
  bool isEnglish = false ;
@@ -42,16 +44,19 @@ void chooseLanguage (String lang){
 }
 
 /// This changes the UI from welcome to onBoarding previewer
-void switchToPreviewer ()async{
+void switchToPreviewer (BuildContext context)async{
   if (isArabic||isEnglish){
     isLangChoosed = true ;
     isWelcomeDone=true;
-    CacheHelper.saveData(APP_LANGUAGE, languageIs).then((value) {
-      if (value && languageIs!=null){
-        appLanguage = languageIs ;
-        emit(SwitchToPreviewerSuccessState());
-      }
-    });
+    appLanguage=languageIs;
+    context.setLocale(Locale(appLanguage!)).then((_) =>
+        CacheHelper.saveData(APP_LANGUAGE, languageIs).then((value) {
+          if (value && languageIs!=null){
+            appLanguage = languageIs ;
+            emit(SwitchToPreviewerSuccessState());
+          }
+        }),
+    );
   }
   else {
     isLangChoosed = false ;

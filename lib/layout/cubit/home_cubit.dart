@@ -5,7 +5,7 @@ import '../../models/api/addresses/get_addresses.dart';
 import '../../models/api/carts/update_cart.dart';
 import '../../models/api/user/change_password.dart';
 import '../../models/app/sort_by.dart';
-import '../../network/location/location.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import '../../models/api/categories/category_products.dart';
 import '../../models/api/carts/change_cart.dart';
@@ -36,7 +36,7 @@ class HomeCubit extends Cubit<HomeStates> {
 
   static HomeCubit get(context) => BlocProvider.of(context);
 
-  /// LAYOUT : -----------------------------------------------------------------
+  /// LAYOUT : --------------------------------------------------------------------------------------------------------------------
 //appbar
   /// pinned in anywhere otherwise home screen
   // bool isAppBarPinned = false;
@@ -50,7 +50,6 @@ class HomeCubit extends Cubit<HomeStates> {
     if (index == 0) {
       isHome = true;
       hideSearchBar=false;
-      // isAppBarPinned=false;
     } else {
       hideSearchBar=true;
 
@@ -61,10 +60,7 @@ class HomeCubit extends Cubit<HomeStates> {
       if (index == 2){
         getAddresses();
       }
-
       isHome = false;
-
-      // isAppBarPinned=false ;
     }
 
     emit(ChangeBottomNavState());
@@ -72,14 +68,11 @@ class HomeCubit extends Cubit<HomeStates> {
 
 //  banner slider
   int bannerSlideIndex = 0;
-
   void changeBannerSlide(int index) {
     bannerSlideIndex = index;
     emit(ChangeBannerSlideState());
   }
-
   bool isBannerShown = true;
-
   void hideBanners() {
     isBannerShown = false;
     emit(HideBannersState());
@@ -113,6 +106,17 @@ class HomeCubit extends Cubit<HomeStates> {
     userRating = rating;
     emit(RateProductState());
   }
+  // Rate the App
+  void rateApp (){
+    emit(RateAppLoadingState ());
+    Future.delayed(Duration(seconds: 1)).then((value) {
+      ///ToDo In Future : update this with firebase ابعت الريت و المسج للفايربيز
+      emit(RateAppSuccessState());
+    }).catchError((error){
+      emit(RateAppErrorState(error));
+    });
+  }
+
   // expand  cart tiles
   bool isExpandedCarts=false;
   void toggleExpandedCarts(){
@@ -128,7 +132,6 @@ class HomeCubit extends Cubit<HomeStates> {
 
   // Home Data
   HomeModel? homeModel;
-
   List <HomeProducts> ? popularProducts = [];
   List <HomeProducts> ? randomProducts = [];
   List <HomeProducts> ? offerProducts = [];
@@ -143,13 +146,13 @@ class HomeCubit extends Cubit<HomeStates> {
     if (element.id != null && element.inFavorites != null)
       favourites?.addAll({element.id!: element.inFavorites!});
     else
-      throw 'something went wrong when adding favourites';
+      throw 'error_adding_fav'.tr();
   }
   void _fillCarts (HomeProducts element){
     if (element.id != null && element.inCart != null)
       carts?.addAll({element.id!: element.inCart!});
     else
-      throw 'something went wrong when adding carts';
+      throw 'error_adding_carts'.tr();
   }
 
 
@@ -189,26 +192,6 @@ class HomeCubit extends Cubit<HomeStates> {
           _fillProductLists(element);
           defaultHomeProduct?.add(element); // same as popular products
         });
-
-        // offer Products
-        // products?.forEach((element) {
-        //   // offer products
-        //   if (element.discount != 0) offerProducts?.add(element);
-        //
-        //   highPriceProducts = products;
-        //
-        //   highPriceProducts?.sort((a, b) =>
-        //       a.price
-        //           .toString()
-        //           .length
-        //           .compareTo(b.price
-        //           .toString()
-        //           .length));
-        //   highPriceProducts?.forEach((element) {
-        //     print(element.price);
-        //   });
-        // });
-        // getHomeProducts ();
         emit(GetHomeDataSuccessState());
       }
     }).catchError((error) {
@@ -599,7 +582,6 @@ class HomeCubit extends Cubit<HomeStates> {
 
         /// spread operator
         tabBarData = [...TabBarModel.staticTabs, ...categoriesTitles];
-
         emit(GetCategoriesSuccessState());
       }
     }).catchError((error) {
@@ -668,13 +650,13 @@ class HomeCubit extends Cubit<HomeStates> {
     if (element.id != null && element.inFavorites != null)
       favourites?.addAll({element.id!: element.inFavorites!});
     else
-      throw 'something went wrong when Updating favourites';
+      throw 'error_updating_fav'.tr();
   }
   void _updateCarts (ProductSearchData element){
     if (element.id != null && element.inCart != null)
       carts?.addAll({element.id!: element.inCart!});
     else
-      throw 'something went wrong when Updating carts';
+      throw 'error_updating_carts'.tr();
   }
 
 
@@ -736,38 +718,6 @@ void deleteAddress(int addressId){
     emit(DeleteAddressErrorState(error));
   });
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 enum CartOperation{INCREMENT,DECREMENT,ONCHANGE}

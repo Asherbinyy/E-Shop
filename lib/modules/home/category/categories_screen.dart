@@ -1,15 +1,15 @@
-import 'package:e_shop/models/api/categories/category_products.dart';
-import 'package:e_shop/shared/components/builders/myConditional_builder.dart';
-import 'package:e_shop/shared/components/builders/product_card.dart';
+import '/models/api/categories/category_products.dart';
+import '/shared/components/builders/myConditional_builder.dart';
+import '/shared/components/builders/product_card.dart';
 import '/layout/cubit/home_cubit.dart';
 import '/layout/cubit/home_states.dart';
 import '../../../models/api/categories/categories.dart';
-import '/modules/landing/landing_screen.dart';
 import '/shared/cubit/app_cubit.dart';
 import '/styles/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'package:easy_localization/easy_localization.dart';
+/// REVIEWED
 class CategoryScreen extends StatelessWidget {
   final DataCategoriesData category;
   const CategoryScreen(
@@ -22,18 +22,18 @@ class CategoryScreen extends StatelessWidget {
     return BlocConsumer<HomeCubit, HomeStates>(
       listener: (context, state) {},
       builder: (context, state) {
-        HomeCubit cubit = HomeCubit.get(context);
-        bool isDark = AppCubit.get(context).isDark;
-        double height = MediaQuery.of(context).size.height;
-        TextTheme textTheme = Theme.of(context).textTheme;
-        CategoryProductModel? productModel = cubit.categoryProductModel;
-        List<ProductCategoryData>? products = cubit.categoryProductModel?.data?.data;
+        var cubit = HomeCubit.get(context);
+        var isDark = AppCubit.get(context).isDark;
+        var height = MediaQuery.of(context).size.height;
+        var textTheme = Theme.of(context).textTheme;
+        var productModel = cubit.categoryProductModel;
+        var products = cubit.categoryProductModel?.data?.data;
 
         return MyConditionalBuilder(
           condition: category.name != null && productModel != null,
           builder: Container(
             child: SingleChildScrollView(
-              physics: BouncingScrollPhysics(),
+              physics:const BouncingScrollPhysics(),
               child: Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 5.0, vertical: 2.0),
@@ -47,7 +47,7 @@ class CategoryScreen extends StatelessWidget {
                       builder: _ProductBuilder(cubit, products),
                       feedback: Padding(
                         padding: const EdgeInsets.all(50.0),
-                        child: Center(
+                        child:const Center(
                           child: kLoadingWanderingCubes,
                         ),
                       ),
@@ -58,7 +58,7 @@ class CategoryScreen extends StatelessWidget {
               ),
             ),
           ),
-          feedback: Center(
+          feedback:const Center(
             child: kLoadingHourGlass,
           ),
         );
@@ -85,7 +85,7 @@ class CategoryScreen extends StatelessWidget {
                     : kPrimaryColor.withOpacity(0.3),
                 spreadRadius: 1,
                 blurRadius: 5,
-                offset: Offset(0, 0),
+                offset: const Offset(0, 0),
               ),
             ],
           ),
@@ -98,7 +98,7 @@ class CategoryScreen extends StatelessWidget {
         // text
         Container(
           width: double.infinity,
-          padding: EdgeInsets.all(5.0),
+          padding:const EdgeInsets.all(5.0),
           color: isDark ? Colors.white54 : Colors.black45,
           child: Center(
             child: Text(
@@ -112,7 +112,6 @@ class CategoryScreen extends StatelessWidget {
     );
   }
 }
-
 class _ProductBuilder extends StatelessWidget {
   final HomeCubit cubit;
   final List<ProductCategoryData>? products;
@@ -123,7 +122,7 @@ class _ProductBuilder extends StatelessWidget {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     return ListView.builder(
-      physics: NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       itemCount: products?.length,
       itemBuilder: (context, index) {
@@ -133,7 +132,7 @@ class _ProductBuilder extends StatelessWidget {
           child: ProductCard(
               isGrid:false,
               name: product!.name!,
-              seller: 'E-Shop',
+              seller: 'e_shop'.tr(),
               image: product.image!,
               price: product.price!,
               id: product.id!,

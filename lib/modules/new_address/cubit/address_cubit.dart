@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:e_shop/models/api/addresses/new_address.dart';
 import 'package:e_shop/models/app/delivery_type.dart';
+import 'package:e_shop/models/app/stepper/stepper_controller.dart';
 import 'package:e_shop/modules/new_address/stepper/address_stepper.dart';
 import 'package:e_shop/network/location/location.dart';
 import 'package:e_shop/network/remote/dio_helper.dart';
@@ -28,10 +29,6 @@ class AddressCubit extends Cubit<AddressStates> {
 
   void onStepContinue(int stepperLength, List<GlobalKey<FormState>> keys) {
     bool isLastStep = currentStep == stepperLength - 1;
-     // String _city = '';
-     // String _region = '';
-     // String _details = '';
-     // String _notes = '';
 
     if (isLastStep) {
       addNewAddress(
@@ -52,7 +49,6 @@ class AddressCubit extends Cubit<AddressStates> {
       // print( selectedAddress?.longitude);
     }
     else if (currentStep == 2) {
-      print('hideeeeeeeeeeee');
       currentStep++;
       emit(PlaceYourLocationState());
     } else if (currentStep == 3){
@@ -69,12 +65,6 @@ class AddressCubit extends Cubit<AddressStates> {
     emit(OnStepContinueState());
   }
 
-  //
-  // bool validate (GlobalKey<FormState> formKey){
-  //   if (formKey.currentState!.validate())
-  //     return true ;
-  //   else return false;
-  // }
 
   /// whether to build google map widget or selection menu
   bool isMapSelection = false;
@@ -83,7 +73,6 @@ class AddressCubit extends Cubit<AddressStates> {
     emit(ToggleIsMapSelectionState());
   }
 
-  // void onStepCancel (int stepperLength){
   void onStepCancel() {
     if (currentStep != 0) {
       currentStep--;

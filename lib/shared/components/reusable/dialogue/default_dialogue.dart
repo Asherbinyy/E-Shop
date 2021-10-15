@@ -1,3 +1,5 @@
+import 'package:e_shop/shared/components/methods/navigation.dart';
+import 'package:e_shop/shared/components/methods/operating_system_options.dart';
 import 'package:e_shop/shared/cubit/app_cubit.dart';
 import 'package:e_shop/styles/constants.dart';
 import 'package:flutter/cupertino.dart';
@@ -10,6 +12,12 @@ enum DialogueStates {
   ERROR,
   NONE,
 }
+/// very short lasts for : 500 millisecond
+///short lasts for : 1 sec
+/// normal lasts for :  3 sec
+/// average lasts for : 5 sec
+/// long lasts for :  7 sec
+enum SnackBarDuration{ veryShort,short,normal,average,long}
 
 class DefaultDialogue {
   DefaultDialogue._();
@@ -32,6 +40,28 @@ class DefaultDialogue {
         break;
     }
     return _color;
+  }
+  /// This method gets snackBar duration
+  static _getDuration (SnackBarDuration duration){
+    Duration _duration ;
+    switch (duration){
+      case SnackBarDuration.veryShort:
+        _duration =const Duration(milliseconds: 500);
+        break;
+      case SnackBarDuration.short:
+        _duration =const Duration(seconds: 1);
+        break;
+      case SnackBarDuration.normal:
+        _duration =const Duration(seconds: 3);
+        break;
+      case SnackBarDuration.average:
+        _duration =const Duration(seconds: 5);
+        break;
+      case SnackBarDuration.long:
+        _duration =const Duration(seconds: 7);
+        break;
+    }
+    return _duration;
   }
 
   static Future<bool?> showToast(
@@ -60,6 +90,8 @@ class DefaultDialogue {
     final Color labelColor = Colors.white,
     final bool isFloating = true,
     final bool isAction = false,
+    /// Duration the snackBar appears on screen
+    final SnackBarDuration snackBarDuration = SnackBarDuration.short ,
 
     /// Used in case we want user to interact with snackBar
     final String? actionLabel,
@@ -67,6 +99,7 @@ class DefaultDialogue {
   }) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
+        duration:_getDuration(snackBarDuration),
         content: Text(
           label,
           style: TextStyle(color: labelColor),
@@ -111,7 +144,7 @@ class DefaultDialogue {
     final VoidCallback? onPressedB,
     final String actionLabelB = 'cancel',
   }) {
-    if (getOs() == 'ios')
+    if (OperatingSystemOptions.getOs() == 'ios')
       showCupertinoDialog(
           barrierDismissible: true,
           context: context,
@@ -135,7 +168,7 @@ class DefaultDialogue {
                   ),
                 ),
                 TextButton(
-                  onPressed: () => onPressedB ?? Navigator.pop(context),
+                  onPressed: () => onPressedB ?? navigateBack(context),
                   child: Text(actionLabelB.toUpperCase()),
                 ),
               ],

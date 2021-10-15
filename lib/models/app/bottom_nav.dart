@@ -1,29 +1,25 @@
-import 'package:e_shop/modules/addresses/addresses_screen.dart';
-import 'package:e_shop/modules/home/home_screen.dart';
-
-import '/modules/home/all/all_screen.dart';
-import '/modules/cart/cart_screen.dart';
+import '/modules/addresses/addresses_screen.dart';
+import '/modules/home/home_screen.dart';
 import '/modules/favourites/favourites_screen.dart';
 import '/modules/setting/setting_screen.dart';
 import 'package:flutter/material.dart';
-
+import 'package:easy_localization/easy_localization.dart';
+///reviewed
 class BottomNavModel {
-  String? label;
-  IconData? icon;
-  Widget screen;
+ final String? label;
+ final  IconData? icon;
+ final Widget screen;
 
-
-  BottomNavModel(
+ const BottomNavModel(
     this.label,
     this.icon, {
     required this.screen,
-
   });
   static List<BottomNavModel> _list = [
-    BottomNavModel('Home', Icons.home, screen: HomeScreen()),
-    BottomNavModel('Favourites', Icons.favorite, screen: FavouritesScreen()),
-    BottomNavModel('Addresses', Icons.location_on_rounded, screen: AddressesScreen()),
-    BottomNavModel('Setting', Icons.settings, screen: SettingScreen()),
+    BottomNavModel('home'.tr(), Icons.home, screen:const HomeScreen()),
+    BottomNavModel('favourites'.tr(), Icons.favorite, screen:const FavouritesScreen()),
+    BottomNavModel('addresses'.tr(), Icons.location_on_rounded, screen:const AddressesScreen()),
+    BottomNavModel('setting'.tr(), Icons.settings, screen:const SettingScreen()),
   ];
-  static List<BottomNavModel> get getList => _list;
+  static List <BottomNavModel> get getList => _list;
 }

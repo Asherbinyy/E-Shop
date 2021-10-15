@@ -1,15 +1,12 @@
-import 'package:e_shop/layout/cubit/home_states.dart';
-import 'package:e_shop/shared/components/builders/myConditional_builder.dart';
+import '/layout/cubit/home_states.dart';
+import '/shared/components/builders/myConditional_builder.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '/layout/cubit/home_cubit.dart';
 import '/models/app/bottom_nav.dart';
-import '/modules/landing/landing_screen.dart';
-import '/shared/cubit/app_cubit.dart';
 import '/styles/constants.dart';
 import 'package:flutter/material.dart';
-
+///reviewed
 class CustomBottomNavBar extends StatelessWidget {
   final HomeCubit cubit;
   final bool isDark;
@@ -28,7 +25,7 @@ class CustomBottomNavBar extends StatelessWidget {
             padding: const EdgeInsets.only(top: 8.0),
             child: ListView.builder(
                 shrinkWrap: true,
-                physics: BouncingScrollPhysics(),
+                physics:const BouncingScrollPhysics(),
                 scrollDirection: Axis.horizontal,
                 itemCount: BottomNavModel.getList.length,
                 // separatorBuilder: (context, index)=>SizedBox(width: 4,),
@@ -47,7 +44,6 @@ class CustomBottomNavBar extends StatelessWidget {
 class BottomNavItem extends StatelessWidget {
 
   final BottomNavModel item ;
-
   final int index  ;
   final VoidCallback? onPressed;
   final bool isDark ;
@@ -59,14 +55,11 @@ class BottomNavItem extends StatelessWidget {
       listener: (context,state){},
       builder: (context,state){
         HomeCubit cubit = HomeCubit.get(context);
-
-
         return MaterialButton(
           elevation: 0.0,
-          // color: isDark?kSecondaryColorDarker.withOpacity(0.01):kSecondaryColorDarker.withOpacity(0.01),/// delete
           minWidth: MediaQuery.of(context).size.width/4,
           padding: EdgeInsets.zero,
-          onPressed: onPressed,///select
+          onPressed: onPressed, ///select
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 2.0),
             child: Tooltip(
@@ -74,7 +67,7 @@ class BottomNavItem extends StatelessWidget {
               child: MyConditionalBuilder(
                 condition: cubit.currentIndex==index, /// if selected
                 builder: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 10.0,vertical: 5.0),
+                  padding:const EdgeInsets.symmetric(horizontal: 10.0,vertical: 5.0),
                   decoration: BoxDecoration(
                     color: kSecondaryColor.withOpacity(0.5),
                     borderRadius: BorderRadius.circular(30.0),

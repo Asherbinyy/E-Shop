@@ -27,6 +27,14 @@ class HideWelcomeMessageState extends HomeStates {}
 class ChangeViewSelectionState extends HomeStates {}
 //Rate Product
 class RateProductState extends HomeStates {}
+// Rate the App
+class RateAppLoadingState extends HomeStates {}
+class RateAppSuccessState extends HomeStates {}
+class RateAppErrorState extends HomeStates {
+ final String error ;
+ RateAppErrorState(this.error);
+}
+
 class ToggleExpandedCartsState extends HomeStates {}
 /// METHODS
 // GET HOME DATA

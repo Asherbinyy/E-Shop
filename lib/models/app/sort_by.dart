@@ -1,5 +1,5 @@
-import '../api/home/home.dart';
-
+import 'package:easy_localization/easy_localization.dart';
+///REVIEWED
 class SortByModel {
   final String title;
   final SortByOptions ? options;
@@ -8,11 +8,11 @@ class SortByModel {
   SortByModel(this.title, {this.isSelected=false,this.options});
 
   static List <SortByModel> _sortByOptions  = [
-    SortByModel('Popular',options:SortByOptions.POPULAR ),
-    SortByModel('Random',options:SortByOptions.RANDOM),
-    SortByModel('Offer',options:SortByOptions.OFFERS ),
-    SortByModel('Price : Low to High',options:SortByOptions.LOWER ),
-    SortByModel('Price : High to Low',options:SortByOptions.Higher ),
+    SortByModel('popular'.tr(),options:SortByOptions.POPULAR ),
+    SortByModel('random'.tr(),options:SortByOptions.RANDOM),
+    SortByModel('offer'.tr(),options:SortByOptions.OFFERS ),
+    SortByModel('price_from_low'.tr(),options:SortByOptions.LOWER ),
+    SortByModel('price_from_high'.tr(),options:SortByOptions.Higher ),
   ];
   static List <SortByModel> get getOptions => _sortByOptions;
 }
