@@ -10,8 +10,20 @@ class NotificationScreen extends StatelessWidget {
       tag: ValueKey<String>('Notification'),
       child: Scaffold(
         appBar: SecondaryAppBar(title: 'Notification Screen'),
-        body: Center(child: Text('Notification Screen')),
+        body: Column(
+          children: [
+            Center(child: Text('Notification Screen')),
+          ],
+        ),
       ),
     );
+  }
+}
+class _SectionHeader extends StatelessWidget {
+  const _SectionHeader({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container();
   }
 }

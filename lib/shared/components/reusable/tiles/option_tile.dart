@@ -1,6 +1,8 @@
-import 'package:e_shop/shared/components/reusable/spaces/spaces.dart';
-import 'package:e_shop/shared/cubit/app_cubit.dart';
+import '/shared/components/reusable/spaces/spaces.dart';
+import '/shared/cubit/app_cubit.dart';
 import 'package:flutter/material.dart';
+
+///reviewed
 
 class OptionListTile extends StatelessWidget {
   final String label;

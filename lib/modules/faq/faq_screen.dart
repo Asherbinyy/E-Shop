@@ -1,11 +1,15 @@
+import 'package:e_shop/shared/components/methods/navigation.dart';
+import 'package:e_shop/shared/components/reusable/dialogue/rate_us_dialog.dart';
+import 'package:e_shop/shared/components/reusable/spaces/spaces.dart';
+import '/shared/components/reusable/tiles/expandable_tile.dart';
 import '/models/app/faq.dart';
 import '/shared/components/reusable/app_bar/secondary_app_bar.dart';
-import '/shared/components/reusable/spaces/spaces.dart';
 import '/shared/cubit/app_cubit.dart';
 import '/styles/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import 'package:easy_localization/easy_localization.dart';
+/// REVIEWED
 class FaqScreen extends StatelessWidget {
   const FaqScreen({Key? key}) : super(key: key);
 
@@ -15,43 +19,43 @@ class FaqScreen extends StatelessWidget {
       tag: ValueKey<String>('FAQ'),
       child: Scaffold(
         appBar: SecondaryAppBar(
-          title:'FAQ',
+          title:'faq'.tr(),
         ),
         body: Padding(
           padding: const EdgeInsets.all(8.0),
           child: SingleChildScrollView(
-            physics: BouncingScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: List.generate(FaqModel.list.length, (index) {
-                      return Card(
-                        color: AppCubit.get(context).isDark?kDarkSecondaryColor:kLightSecondaryColor,
-                        child: Container(
-                          padding: EdgeInsets.symmetric(horizontal: 8.0,vertical: 10.0),
-                          width: double.infinity,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('${index+1}. ${FaqModel.list[index].q}',style: Theme.of(context).textTheme.headline6?.copyWith(color: kPrimaryColor),),
-                              YSpace.normal,
-                              Text('     •  ${FaqModel.list[index].a}  ',style: Theme.of(context).textTheme.bodyText2),
-                            ],
-                          ),
-                        ),
-                      );
-                    },)
-                  ,
-                ),
-                Container(
-                  padding:const EdgeInsets.all(8.0),
+                ...List.generate(
+                  FaqModel.getList.length, (index) {
+                  return Card(
+                    color: AppCubit.get(context).isDark?kDarkSecondaryColor:kLightSecondaryColor,
+                    child: Container(
+                      padding:const EdgeInsets.symmetric(horizontal: 8.0,vertical: 10.0),
+                      width: double.infinity,
+                      child: ExpandableListTile(label: '${index+1}. ${FaqModel.getList[index].q}',child:  Text('     •  ${FaqModel.getList[index].a}  ',style: Theme.of(context).textTheme.bodyText2),),
+
+                    ),
+                  );
+                },),
+                SizedBox(
                   width:double.infinity,
                   child: Card(
-                  child: Column(
-                    children: [
-                      Text('Sending your Question / Feedback help us to improve the app . please make sure to give us your feedback'),
-                    ],
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Text('send_us_questions'.tr(),style: Theme.of(context).textTheme.bodyText2?.copyWith(height: 1.5),),
+                        YSpace.normal,
+                        OutlinedButton(
+                          onPressed: (){
+                          navigateTo(context, Scaffold(appBar: SecondaryAppBar(title: 'rate_us'.tr(),),body:const RateUsDialog(),));
+                        }, child: Text('send_feedback'.tr().toUpperCase()),),
+                      ],
+                    ),
                   ),
                 ),),
               ],

@@ -1,7 +1,5 @@
-import 'package:e_shop/modules/landing/landing_screen.dart';
-import 'package:e_shop/shared/components/builders/myConditional_builder.dart';
-import 'package:e_shop/shared/cubit/app_cubit.dart';
-import 'package:e_shop/styles/constants.dart';
+import '/shared/components/builders/myConditional_builder.dart';
+import '/styles/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -9,9 +7,7 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 PageController _pageController = PageController();
 
 class ProductImagesPreviewer extends StatelessWidget {
-
   final List <String> ? images;
-
   const ProductImagesPreviewer({required this.images,Key? key})
       : super(key: key);
 

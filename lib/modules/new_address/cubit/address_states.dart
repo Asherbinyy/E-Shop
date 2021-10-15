@@ -1,17 +1,14 @@
-import 'package:e_shop/models/api/addresses/new_address.dart';
+import '/models/api/addresses/new_address.dart';
 
 abstract class AddressStates {}
 
 class AddressInitialState extends AddressStates {}
-
 class PlaceYourLocationState extends AddressStates {}
 
 // stepper
 class ChangeStepState extends AddressStates {}
 class OnStepContinueState extends AddressStates {}
-
 class ToggleIsMapSelectionState extends AddressStates {}
-
 class OnStepCancelState extends AddressStates {}
 
 

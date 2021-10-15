@@ -55,7 +55,7 @@ final VoidCallback onPressed;
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                ...SigningMethodsModel.getList.map((e) =>  IconButton(
+                ...SitesLinksModel.getSigningMethods.map((e) =>  IconButton(
                   icon: Tooltip(
                     message: e.name,
                     child: Icon(
@@ -65,7 +65,7 @@ final VoidCallback onPressed;
                       size:30.0,
                     ),
                   ),
-                  onPressed: e.onPressed,
+                  onPressed:(){}, /// TODO : UPDATE THIS
                 )),
               ],
             ),

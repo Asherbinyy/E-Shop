@@ -21,6 +21,7 @@ class DefaultTextField extends StatelessWidget {
   final bool obscurePassword;
   final bool isDark;
   final int ? maxLength;
+  final int ? minLines;
   final int ? maxLines;
   final bool isFilled;
   const DefaultTextField({
@@ -43,17 +44,17 @@ class DefaultTextField extends StatelessWidget {
     this.keyboardType = TextInputType.text,
     this.isDark = false,
     this.maxLength,
-    this.maxLines,
+    this.maxLines =1,
+    this.minLines,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-
-      minLines: 1,
+      minLines: minLines,
       maxLength: maxLength ,
       maxLines: maxLines,
-      maxLengthEnforcement:MaxLengthEnforcement.truncateAfterCompositionEnds ,
+      maxLengthEnforcement: obscurePassword ? null :MaxLengthEnforcement.truncateAfterCompositionEnds ,
       cursorColor: primaryColor,
       style: TextStyle(color: isDark? Colors.white:Colors.black54,fontWeight: FontWeight.w400),
       obscureText: obscurePassword,

@@ -1,8 +1,4 @@
-import 'package:e_shop/shared/components/reusable/text_field/default_text_field.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
-import '/modules/landing/landing_screen.dart';
 import '/modules/product_details/product_details.dart';
 import '/shared/components/methods/navigation.dart';
 import '/shared/cubit/app_cubit.dart';
@@ -12,15 +8,9 @@ import '/layout/cubit/home_states.dart';
 import '/shared/components/reusable/spaces/spaces.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'package:easy_localization/easy_localization.dart';
 import 'myConditional_builder.dart';
-// class ProductTextStyle {
-//   static const TextStyle title = TextStyle(fontSize: 14);
-//   static const TextStyle subTitle = TextStyle(fontSize: 12);
-//   static const TextStyle price = TextStyle(fontSize: 12,fontWeight: FontWeight.bold);
-//   static const TextStyle oldPrice = TextStyle(fontSize: 12,color: Colors.red,decoration: TextDecoration.lineThrough);
-//   static const TextStyle discount = TextStyle(fontSize: 12);
-// }
+
 const double kTitleFontSize = 12 ;
 
 class ProductCard extends StatelessWidget {
@@ -55,16 +45,15 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    /// TextStyles Used is :
-    /// Title : fontSize 12
     return BlocConsumer <HomeCubit, HomeStates> (
         listener: (context, state) {},
         builder: (context, state) {
-          double height = MediaQuery.of(context).size.height;
-          double width = MediaQuery.of(context).size.width;
-          TextTheme textTheme =Theme.of(context).textTheme;
-          bool isDark = AppCubit.get(context).isDark;
-          HomeCubit cubit = HomeCubit.get(context);
+          var height = MediaQuery.of(context).size.height;
+          var width = MediaQuery.of(context).size.width;
+          var textTheme =Theme.of(context).textTheme;
+          var isDark = AppCubit.get(context).isDark;
+          var cubit = HomeCubit.get(context);
+          var theme = Theme.of(context);
           return Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
@@ -83,15 +72,14 @@ class ProductCard extends StatelessWidget {
                   children: [
                     Column(
                       mainAxisAlignment: MainAxisAlignment.start,
-                      // mainAxisSize: MainAxisSize.max,
                       children: [
                         // image and offer
                         Expanded(
-                          child: _imageStack(isDark,textTheme),
+                          child: _imageStack(isDark,textTheme,theme),
                         ),
                         // product info
                         Expanded(
-                          child: _productInfo(cubit,isDark,width, textTheme, height,),
+                          child: _productInfo(cubit,isDark,width, textTheme, height,theme),
                         ),
                       ],
                     ),
@@ -109,7 +97,7 @@ class ProductCard extends StatelessWidget {
                       child: Stack(
                         alignment: AlignmentDirectional.bottomStart,
                         children: [
-                          _imageStack(isDark,textTheme),
+                          _imageStack(isDark,textTheme,theme),
                           // Like
                         Row(
                           children: [
@@ -122,7 +110,7 @@ class ProductCard extends StatelessWidget {
                     ),
                     // product info
                     Expanded(
-                      child: _productInfo(cubit,isDark,width, textTheme, height,),
+                      child: _productInfo(cubit,isDark,width, textTheme, height,theme),
                     ),
                   ],
                 ),
@@ -134,7 +122,7 @@ class ProductCard extends StatelessWidget {
 
 
 
-  Widget _imageStack(bool isDark,TextTheme textTheme) =>Stack(
+  Widget _imageStack(bool isDark,TextTheme textTheme,ThemeData theme) =>Stack(
     children: [
       ColorFiltered(
         colorFilter: ColorFilter.mode(
@@ -164,12 +152,12 @@ class ProductCard extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.all(8.0),
               decoration: BoxDecoration(
-                color: Colors.teal.shade800,
+                color:theme.primaryColorDark,
                 borderRadius: BorderRadius.circular(20.0),
               ),
               child: FittedBox(
                 child: Text(
-                  '$discount % OFF',
+                  '$discount % '+'offer_off'.tr(),
                   style: textTheme
                       .bodyText2
                       ?.copyWith(
@@ -183,7 +171,7 @@ class ProductCard extends StatelessWidget {
         ),
     ],
   );
-  Widget _productInfo(HomeCubit cubit,bool isDark,double width, TextTheme textTheme, double height ) => Container(
+  Widget _productInfo(HomeCubit cubit,bool isDark,double width, TextTheme textTheme, double height,ThemeData theme ) => Container(
     width: width,
     padding:const EdgeInsets.all(10.0),
     decoration: BoxDecoration(
@@ -207,7 +195,7 @@ class ProductCard extends StatelessWidget {
         ),
         // SizedBox(height:height*0.002),
         Text(
-          'by : $seller',
+          'by'.tr()+' $seller',
           style: textTheme.caption?.copyWith(fontSize: 8),
           overflow: TextOverflow.ellipsis,
           maxLines: 1,
@@ -223,7 +211,7 @@ class ProductCard extends StatelessWidget {
                     ?.copyWith(
                     fontSize: kTitleFontSize,
                     fontWeight: FontWeight.bold),
-                text: 'EGP ${price.toString()}  ',
+                text: 'egp'.tr()+' ${price.toString()}  ',
                 children: [
                   TextSpan(
                     text: ' ${oldPrice.toString()}',
@@ -252,7 +240,7 @@ class ProductCard extends StatelessWidget {
        MyConditionalBuilder (
          condition: isCartScreen,
          builder: _buildCartAmount(textTheme, height, isDark,cubit),
-         feedback:  _addToCartButton(cubit, width, height, textTheme),
+         feedback:  _addToCartButton(cubit, width, height, textTheme,theme),
        ),
       ],
     ),
@@ -331,7 +319,7 @@ class ProductCard extends StatelessWidget {
 
 
 
-  Widget _addToCartButton(HomeCubit cubit, double width, double height, TextTheme textTheme) {
+  Widget _addToCartButton(HomeCubit cubit, double width, double height, TextTheme textTheme,ThemeData theme) {
     return FittedBox(
          fit: BoxFit.contain,
          child: OutlinedButton(
@@ -340,7 +328,7 @@ class ProductCard extends StatelessWidget {
            },
            style: OutlinedButton.styleFrom(
              minimumSize: Size(width, height * 0.08),
-             backgroundColor: cubit.carts?[id]==true ?kPrimaryColor : null,
+             backgroundColor: cubit.carts?[id]==true ?theme.primaryColor : null,
            ),
            child: cubit.carts?[id]==true
                ? Row(
@@ -352,7 +340,7 @@ class ProductCard extends StatelessWidget {
                  size: 40,
                ),
                XSpace.normal,
-               Text('Added To Cart',style: textTheme.headline5?.copyWith(color: Colors.white),),
+               Text('add_to_cart'.tr(),style: textTheme.headline5?.copyWith(color: Colors.white),),
              ],
            )
                : Icon(
@@ -413,8 +401,6 @@ class _CardAmount extends StatefulWidget {
 }
 
 class _CardAmountState extends State<_CardAmount> {
-
-
   @override
   Widget build(BuildContext context) {
     return  Builder(
@@ -426,7 +412,7 @@ class _CardAmountState extends State<_CardAmount> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text('Amount'),
+                Text('amount'.tr()),
                 SizedBox(
                   width: 50,
                   child: DropdownButtonFormField<int>(

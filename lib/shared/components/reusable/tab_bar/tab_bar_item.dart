@@ -1,4 +1,6 @@
+import 'package:e_shop/shared/cubit/app_cubit.dart';
 import 'package:flutter/material.dart';
+///reviewed
 
 /// The way tab bar item looks
 class TabItem extends StatelessWidget {
@@ -14,10 +16,14 @@ class TabItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: tabHeight,
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(20.0)),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20.0)),
       child: Center(
         child: FittedBox(
-          child: Text(label.toUpperCase()),
+          child: Text(
+            label.toUpperCase(),
+            // style: TextStyle(color:AppCubit.get(context).isDark?Colors.white:Colors.amber),
+          ),
         ),
       ),
     );

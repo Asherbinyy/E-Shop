@@ -1,22 +1,19 @@
 import 'dart:async';
-
-import 'package:e_shop/layout/cubit/home_cubit.dart';
-import 'package:e_shop/layout/cubit/home_states.dart';
-import 'package:e_shop/layout/layout_screen.dart';
-import 'package:e_shop/models/api/user/profile.dart';
-import 'package:e_shop/models/api/user/email_verification.dart';
-import 'package:e_shop/modules/landing/landing_screen.dart';
-import 'package:e_shop/shared/components/builders/myConditional_builder.dart';
-import 'package:e_shop/shared/components/reusable/buttons/simple_rounded_button.dart';
-import 'package:e_shop/shared/components/reusable/dialogue/default_dialogue.dart';
-import 'package:e_shop/shared/components/reusable/spaces/spaces.dart';
-import 'package:e_shop/shared/cubit/app_cubit.dart';
-import 'package:e_shop/styles/constants.dart';
+import '/shared/components/reusable/play_animation/play_animation.dart';
+import 'package:easy_localization/easy_localization.dart';
+import '/layout/cubit/home_cubit.dart';
+import '/layout/cubit/home_states.dart';
+import '/models/api/user/profile.dart';
+import '/shared/components/builders/myConditional_builder.dart';
+import '/shared/components/reusable/buttons/simple_rounded_button.dart';
+import '/shared/components/reusable/dialogue/default_dialogue.dart';
+import '/shared/components/reusable/spaces/spaces.dart';
+import '/shared/cubit/app_cubit.dart';
+import '/styles/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lottie/lottie.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
-
+/// REVIEWED
 
 class EmailVerificationScreen extends StatelessWidget {
   const EmailVerificationScreen({Key? key}) : super(key: key);
@@ -27,57 +24,16 @@ class EmailVerificationScreen extends StatelessWidget {
     return BlocConsumer<HomeCubit, HomeStates>(
       listener: (context, state) {
         if (state is SendVerificationSuccessState) {
-          showDialog(
-              barrierDismissible: true,
-              context: context,
-              builder: (context) {
-                return Dialog(
-                  backgroundColor: AppCubit.get(context).isDark
-                      ? kDarkSecondaryColor
-                      : kLightSecondaryColor,
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Lottie.asset(
-                            (state.verifyEmailModel.status!)
-                                ? kSuccessLottie
-                                : kFailedLottie,
-                            repeat: false,
-                            height: 300,
-                            width: 300),
-                        Container(
-                            padding: EdgeInsets.all(10.0),
-                            child: Text(
-                              '${state.verifyEmailModel.message}',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: (state.verifyEmailModel.status!)
-                                      ? AppCubit.get(context).isDark
-                                          ? Colors.white
-                                          : Colors.black87
-                                      : Colors.red),
-                            )),
-                      ],
-                    ),
-                  ),
-                );
-              }).then((value) {
-            // if (state.verifyEmailModel.status!) Navigator.pop(context);
-          });
+          PlayAnimation.animationDialog(context, PlayedAnimationStyle.SUCCESS,msg: state.verifyEmailModel.message);
         }
         if (state is VerifyCodeSuccessState) {
-          if (state.verifyCodeModel!.status!)  DefaultDialogue.showSnackBar(context, 'Email verified Successfully', dialogueStates: DialogueStates.SUCCESS, isDark: AppCubit.get(context).isDark);
-        else DefaultDialogue.showSnackBar(context, 'Something went wrong .. Try again', dialogueStates: DialogueStates.ERROR, isDark: AppCubit.get(context).isDark);
+          if (state.verifyCodeModel!.status!)  DefaultDialogue.showSnackBar(context, 'mail_verified_success'.tr(), dialogueStates: DialogueStates.SUCCESS, isDark: AppCubit.get(context).isDark);
+        else DefaultDialogue.showSnackBar(context, 'error_try_again'.tr(), dialogueStates: DialogueStates.ERROR, isDark: AppCubit.get(context).isDark);
         }
       },
       builder: (context, state) {
         HomeCubit cubit = HomeCubit.get(context);
-        ProfileData profile = cubit.profileModel!.data!;
-        double height = MediaQuery.of(context).size.height;
-        double width = MediaQuery.of(context).size.width;
-
+        var profile = cubit.profileModel!.data!;
         return Scaffold(
           extendBodyBehindAppBar: true,
           appBar: AppBar(
@@ -109,7 +65,7 @@ class _PinCodeBuilder extends StatefulWidget {
 }
 class _PinCodeBuilderState extends State<_PinCodeBuilder>  {
 
-  TextEditingController textEditingController = TextEditingController();
+  var _textEditingController = TextEditingController();
   StreamController<ErrorAnimationType>? errorController;
   bool hasError = false;
   String currentText = "";
@@ -121,11 +77,11 @@ class _PinCodeBuilderState extends State<_PinCodeBuilder>  {
       physics: BouncingScrollPhysics(),
       children: <Widget>[
         Image.asset(AppCubit.get(context).isDark?kLogoDark:kLogoLight,height: 100,width: 100,),
-        SizedBox(height: 8),
+       const SizedBox(height: 8),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           child: Text(
-            'Email Address Verification',
+            'email_add_verification'.tr(),
             style:const TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
             textAlign: TextAlign.center,
           ),
@@ -134,14 +90,14 @@ class _PinCodeBuilderState extends State<_PinCodeBuilder>  {
           padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 8),
           child: RichText(
             text: TextSpan(
-                text: "Enter the code sent to ",
+                text: 'enter_code'.tr(),
                 children: [
                   TextSpan(
                       text: widget.profile.email,
-                      style: TextStyle(
+                      style:const TextStyle(
                         color: kPrimaryColor,
                           fontWeight: FontWeight.bold,
-                          fontSize: 15)),
+                          fontSize: 15),),
                 ],
             style:TextStyle(color: Theme.of(context).textTheme.caption?.color), ),
             textAlign: TextAlign.center,
@@ -154,6 +110,7 @@ class _PinCodeBuilderState extends State<_PinCodeBuilder>  {
               padding: const EdgeInsets.symmetric(
                   vertical: 8.0, horizontal: 50),
               child: PinCodeTextField(
+                textStyle: Theme.of(context).textTheme.headline4,
                 appContext: context,
                 pastedTextStyle: TextStyle(
                   color: kPrimaryColor.withOpacity(0.5),
@@ -166,7 +123,7 @@ class _PinCodeBuilderState extends State<_PinCodeBuilder>  {
                 animationType: AnimationType.fade,
                 validator: (v) {
                   if (v!.length < 4) {
-                    return "Code is too short ..";
+                    return "short_code".tr();
                   } else {
                     return null;
                   }
@@ -180,14 +137,14 @@ class _PinCodeBuilderState extends State<_PinCodeBuilder>  {
                   activeFillColor: Colors.white,
                 ),
                 cursorColor: Colors.black,
-                animationDuration: Duration(milliseconds: 300),
+                animationDuration:const Duration(milliseconds: 300),
                 enableActiveFill: true,
                 errorAnimationController: errorController,
-                controller: textEditingController,
+                controller: _textEditingController,
                 keyboardType: TextInputType.number,
-                boxShadows: [
+                boxShadows: const [
                   BoxShadow(
-                    offset: Offset(0, 1),
+                    offset:const Offset(0, 1),
                     color: Colors.black12,
                     blurRadius: 10,
                   )
@@ -210,16 +167,16 @@ class _PinCodeBuilderState extends State<_PinCodeBuilder>  {
               )),
         ),
         TextButton(
-          child: Text("Clear"),
+          child: Text('clear'.tr()),
           onPressed: () {
-            textEditingController.clear();
+            _textEditingController.clear();
           },
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 30.0),
           child: Text(
-            hasError ? "*Please fill up all the cells properly" : "",
-            style: TextStyle(
+            hasError ? 'fill_all_cells'.tr() : '',
+            style:const TextStyle(
                 color: Colors.red,
                 fontSize: 12,
                 fontWeight: FontWeight.w400),
@@ -230,13 +187,13 @@ class _PinCodeBuilderState extends State<_PinCodeBuilder>  {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              "Didn't receive the code? ",
+              'have_not_received_code'.tr(),
             ),
             TextButton(
                 onPressed: () => widget.cubit.sendEmailVerification(),
                 child: Text(
-                  "RESEND",
-                  style: TextStyle(
+                  'resend'.tr().toUpperCase(),
+                  style: const TextStyle(
                       color: Color(0xFF91D3B3),
                       fontWeight: FontWeight.bold,
                       fontSize: 16),
@@ -247,7 +204,7 @@ class _PinCodeBuilderState extends State<_PinCodeBuilder>  {
        /// current text must be modified with the api response
        SimpleRoundedButton(
          color: kThirdColor,
-         label: 'Verify',
+         label: 'verify'.tr(),
          onPressed: (){
            formKey.currentState!.validate();
            // conditions for validating
@@ -297,7 +254,7 @@ class _SendVerificationBuilder extends StatelessWidget {
             )),
         YSpace.titan,
         Text(
-          'Send code ',
+          'send_code'.tr(),
           style: Theme.of(context).textTheme.headline5,
           textAlign: TextAlign.center,
         ),
@@ -305,15 +262,14 @@ class _SendVerificationBuilder extends StatelessWidget {
         RichText(
           text: TextSpan(
             style: TextStyle(color: Theme.of(context).textTheme.caption!.color),
-            text: 'Please confirm that you want to use this email ',
+            text: 'confirm_mail'.tr(),
             children: [
               TextSpan(
-                style: TextStyle(
-                    color: kSecondaryColor, fontWeight: FontWeight.bold),
+                style: const TextStyle(color: kSecondaryColor, fontWeight: FontWeight.bold),
                 text: profile.email,
               ),
-              const TextSpan(
-                text: ' as your account email address ',
+               TextSpan(
+                text: 'as_main_mail'.tr(),
               ),
             ],
           ),
@@ -322,10 +278,10 @@ class _SendVerificationBuilder extends StatelessWidget {
         MyConditionalBuilder(
           condition: state is! SendVerificationLoadingState,
           builder: SimpleRoundedButton(
-            label: 'Send Verification Code',
+            label: 'send_verification_code'.tr(),
             onPressed: () => cubit.sendEmailVerification(),
           ),
-          feedback: Center(
+          feedback:const Center(
             child: kLoadingWanderingCubes,
           ),
         ),

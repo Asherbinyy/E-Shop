@@ -17,27 +17,27 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'dart:async';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-
 import '../new_address/new_address_screen.dart';
+import 'package:easy_localization/easy_localization.dart';
 
+/// REVIEWED
 class AddressesScreen extends StatefulWidget {
+  const AddressesScreen({Key? key}):super(key: key);
   @override
   State<AddressesScreen> createState() => AddressesScreenState();
 }
 
 class AddressesScreenState extends State<AddressesScreen> {
-  Completer<GoogleMapController> _controller = Completer();
-
-  static final CameraPosition _kInitialPosition = CameraPosition(
-    target: LatLng(31.03296133580664, 31.393749655962),
-    zoom: 14.4746,
-  );
-
-  static final CameraPosition _kLake = CameraPosition(
-    target: LatLng(37.43296265331129, -122.08832357078792),
-    tilt: 59.440717697143555,
-    zoom: 19.151926040649414,
-  );
+  // Completer<GoogleMapController> _controller = Completer();
+  // static final CameraPosition _kInitialPosition = CameraPosition(
+  //   target: LatLng(31.03296133580664, 31.393749655962),
+  //   zoom: 14.4746,
+  // );
+  // static final CameraPosition _kLake = CameraPosition(
+  //   target: LatLng(37.43296265331129, -122.08832357078792),
+  //   tilt: 59.440717697143555,
+  //   zoom: 19.151926040649414,
+  // );
 
   @override
   Widget build(BuildContext context) {
@@ -57,65 +57,19 @@ class AddressesScreenState extends State<AddressesScreen> {
       },
       builder: (context, state) {
         HomeCubit cubit = HomeCubit.get(context);
-        bool isDark = AppCubit.get(context).isDark;
-        List<AddressData>? addressModel = cubit.addressModel?.data?.data;
+        var isDark = AppCubit.get(context).isDark;
+        var addressModel = cubit.addressModel?.data?.data;
 
         return Scaffold(
           body: Padding(
             padding: const EdgeInsets.all(8.0),
             child: SingleChildScrollView(
-              physics: BouncingScrollPhysics(),
+              physics: const BouncingScrollPhysics(),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10.0),
-                    child: Text(
-                      'Your Addresses',
-                      style: Theme.of(context).textTheme.headline6,
-                    ),
-                  ),
-                  // Padding(
-                  //   padding: const EdgeInsets.symmetric(vertical: 10.0),
-                  //   child: Text(
-                  //     '* Update your address /addresses for the shipped products *',
-                  //     style: Theme.of(context).textTheme.caption,
-                  //   ),
-                  // ),
-
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.2,
-                    width: double.infinity,
-                    child: DashedRect(
-                      color: Colors.grey,
-                      gap: 10,
-                      child: MaterialButton(
-                        textColor: Colors.grey,
-                        padding: EdgeInsets.zero,
-                        onPressed: () => navigateTo(
-                            context,
-                            NewAddressScreen(
-                              'new',
-                            )),
-                        child: Tooltip(
-                          padding: EdgeInsets.all(10.0),
-                          message:
-                              ' Update your address /addresses for the shipped products ',
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.add,
-                                size: 50,
-                              ),
-                              YSpace.titan,
-                              Text('Add new Address'),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
+                 const _HeaderLabel(),
+                  const _AddNewAddress(),
 
                   // Padding(
                   //   padding: const EdgeInsets.symmetric(vertical: 10.0),
@@ -133,263 +87,22 @@ class AddressesScreenState extends State<AddressesScreen> {
                     builder: (addressModel != null && addressModel.length > 0)
                         ? ListView.builder(
                             itemCount: (addressModel.length),
-                            physics: NeverScrollableScrollPhysics(),
+                            physics: const NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
-                            // separatorBuilder: (context, index) {
-                            //   return Divider();
-                            // },
                             itemBuilder: (context, index) {
                               var address = addressModel[index];
-                              var markers = HashSet<Marker>();
-                              Completer<GoogleMapController> _controller =
-                                  Completer();
 
-                              return ExpansionTile(
-                                initiallyExpanded: true,
-                                collapsedIconColor:
-                                    isDark ? Colors.white : Colors.black87,
-                                title: Text('Address ${index + 1}'),
-                                subtitle: Text(
-                                  '${address.city?.toUpperCase() ?? ''}',
-                                  style: Theme.of(context).textTheme.caption,
-                                ),
-                                children: [
-                                  Stack(
-                                    alignment: AlignmentDirectional.topEnd,
-                                    children: [
-                                      Container(
-                                        padding: const EdgeInsets.all(10.0),
-                                        width: double.infinity,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10.0),
-                                          color: kPrimaryColor,
-                                        ),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                              'Address ${index + 1}',
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .subtitle1
-                                                  ?.copyWith(
-                                                      color: Colors.white),
-                                            ),
-                                            YSpace.hard,
-                                            Row(
-                                              children: [
-                                                Text(
-                                                  'Country',
-                                                  style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                ),
-                                                XSpace.normal,
-                                                Text(
-                                                  'Egypt',
-                                                  style: TextStyle(
-                                                      color: Colors.white),
-                                                ),
-                                              ],
-                                            ),
-                                            Row(
-                                              children: [
-                                                Text(
-                                                  'City',
-                                                  style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                ),
-                                                XSpace.normal,
-                                                Text(
-                                                  '${address.city}',
-                                                  style: TextStyle(
-                                                      color: Colors.white),
-                                                ),
-                                              ],
-                                            ),
-                                            Row(
-                                              children: [
-                                                Text(
-                                                  'Region',
-                                                  style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                ),
-                                                XSpace.normal,
-                                                Text(
-                                                  '${address.region}',
-                                                  style: TextStyle(
-                                                      color: Colors.white),
-                                                ),
-                                              ],
-                                            ),
-                                            Row(
-                                              children: [
-                                                Text(
-                                                  'Address Type',
-                                                  style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                ),
-                                                XSpace.normal,
-                                                Text(
-                                                  '${address.name}',
-                                                  style: TextStyle(
-                                                      color: Colors.white),
-                                                ),
-                                              ],
-                                            ),
-                                            Row(
-                                              children: [
-                                                Text(
-                                                  'Details',
-                                                  style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                ),
-                                                XSpace.normal,
-                                                Text(
-                                                  '${address.details}',
-                                                  style: TextStyle(
-                                                      color: Colors.white),
-                                                ),
-                                              ],
-                                            ),
-                                        if (address.notes!=null)  Row(
-                                              children: [
-                                                Text(
-                                                  'Notes',
-                                                  style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                ),
-                                                XSpace.normal,
-                                                Text(
-                                                  '${address.notes}',
-                                                  style: TextStyle(
-                                                      color: Colors.white),
-                                                ),
-                                              ],
-                                            ),
-                                            YSpace.normal,
-                                            // MAP
-                                            SizedBox(
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  0.18,
-                                              child: Hero(
-                                                tag: '${address.id}',
-                                                child: GoogleMap(
-                                                  markers: markers,
-                                                  onMapCreated:
-                                                      (GoogleMapController
-                                                          controller) {
-                                                    setState(() {
-                                                      if (_controller
-                                                          .isCompleted) {
-                                                        markers.add(
-                                                          Marker(
-                                                            visible: true,
-                                                            markerId: MarkerId(
-                                                                '${address.id}'),
-                                                            position: LatLng(
-                                                                address
-                                                                    .latitude!,
-                                                                address
-                                                                    .longitude!),
-                                                          ),
-                                                        );
-                                                      }
-                                                    });
-                                                  },
-                                                  mapType: MapType.hybrid,
-                                                  onTap: (latLng) => navigateTo(
-                                                      context,
-                                                      MapPreviewer(address)),
-                                                  initialCameraPosition:
-                                                      CameraPosition(
-                                                    zoom: 14.5,
-                                                    target: LatLng(
-                                                        address.latitude!,
-                                                        address.longitude!),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      // Delete / Edit
-                                      Container(
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Tooltip(
-                                              message: 'edit address',
-                                              child: IconButton(
-                                                onPressed: () {},
-                                                icon: CircleAvatar(
-                                                  backgroundColor:
-                                                      Colors.lightGreen,
-                                                  child: Icon(
-                                                    Icons.edit,
-                                                    color: Colors.white,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            XSpace.normal,
-                                            Tooltip(
-                                              message: 'delete address',
-                                              child: IconButton(
-                                                onPressed: () => DefaultDialogue
-                                                    .showAlertDialog(
-                                                  context,
-                                                  title: 'Delete addresses  ',
-                                                  content:
-                                                      'Are you sure that you want to delete this address from your addresses ? ',
-                                                  isDestructiveAction: true,
-                                                  onPressedA: () {
-                                                    cubit.deleteAddress(
-                                                        address.id!);
-                                                    Navigator.pop(context);
-                                                  },
-                                                ),
-                                                icon: CircleAvatar(
-                                                  backgroundColor:
-                                                      Colors.redAccent,
-                                                  child: Icon(
-                                                    Icons.close,
-                                                    color: Colors.white,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              );
+
+                              return _AddressItem(cubit, isDark, index, address);
                             },
                           )
                         : Center(
                             child: Padding(
                             padding: const EdgeInsets.all(50.0),
-                            child: Text('No Addresses Added yet '),
-                          )),
-                    feedback: Center(
+                            child: Text('no_addresses'.tr()),
+                          ),
+                    ),
+                    feedback:const Center(
                       child: kLoadingFadingCircle,
                     ),
                   ),
@@ -397,15 +110,293 @@ class AddressesScreenState extends State<AddressesScreen> {
               ),
             ),
           ),
-          // GoogleMap(
-          //   mapType: MapType.satellite,
-          //   initialCameraPosition: _kInitialPosition,
-          //   // onMapCreated: (GoogleMapController controller) {
-          //   //   _controller.complete(controller);
-          //   // },
-          // ),
+
         );
       },
     );
   }
 }
+
+class _HeaderLabel extends StatelessWidget {
+  const _HeaderLabel({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10.0),
+          child: Text(
+            'your_addresses'.tr(),
+            style: Theme.of(context).textTheme.headline6,
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10.0),
+          child: Text(
+            'update_your_address'.tr(),
+            style: Theme.of(context).textTheme.caption,
+          ),
+        ),
+      ],
+    );
+  }
+}
+class _AddNewAddress extends StatelessWidget {
+  const _AddNewAddress({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: MediaQuery.of(context).size.height * 0.2,
+      width: double.infinity,
+      child: DashedRect(
+        color: Colors.grey,
+        gap: 10,
+        child: MaterialButton(
+          textColor: Colors.grey,
+          padding: EdgeInsets.zero,
+          onPressed: () => navigateTo(
+          context,
+           const NewAddressScreen(
+                heroTag: 'new',
+              ),
+          ),
+          child: Tooltip(
+            padding: EdgeInsets.all(10.0),
+            message:
+                'add_new_address'.tr(),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+               const Icon(
+                  Icons.add,
+                  size: 50,
+                ),
+                YSpace.titan,
+                 Text( 'add_new_address'.tr(),),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _AddressItem extends StatelessWidget {
+  final HomeCubit cubit;
+  final bool isDark ;
+  final int index ;
+  final AddressData address ;
+  const _AddressItem( this.cubit,this.isDark, this.index, this.address,{Key? key,}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ExpansionTile(
+      initiallyExpanded: true,
+      collapsedIconColor:
+      isDark ? Colors.white : Colors.black87,
+      title: Text('address'.tr()+' ${index + 1}'),
+      subtitle: Text(
+        '${address.city?.toUpperCase() ?? ''}',
+        style: Theme.of(context).textTheme.caption,
+      ),
+      children: [
+        Stack(
+          alignment: AlignmentDirectional.topEnd,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(10.0),
+              width: double.infinity,
+              decoration: BoxDecoration(
+                borderRadius:
+                BorderRadius.circular(10.0),
+                color: Theme.of(context).primaryColor.withOpacity(0.7),
+              ),
+              child: Column(
+                crossAxisAlignment:
+                CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    'address'.tr()+' ${index + 1}',
+                    style: Theme.of(context)
+                        .textTheme
+                        .subtitle1
+                        ?.copyWith(
+                        color: Colors.white),
+                  ),
+                  YSpace.hard,
+                  _AddressSectionText(title:  'country'.tr(), subTitle: 'egypt'.tr()),
+                  _AddressSectionText(title:  'city'.tr(), subTitle: '${address.city}'),
+                  _AddressSectionText(title: 'region'.tr(), subTitle: '${address.region}'),
+                  _AddressSectionText(title: 'region'.tr(), subTitle: '${address.region}'),
+                 _AddressSectionText(title:  'address_type'.tr(), subTitle:  '${address.name}'),
+                  _AddressSectionText(title:  'details'.tr(), subTitle:  '${address.details}'),
+                  if (address.notes!=null)  Row(
+                    children: [
+                      Text(
+                        'Notes',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight:
+                            FontWeight.bold),
+                      ),
+                      XSpace.normal,
+                      Text(
+                        '${address.notes}',
+                        style: TextStyle(
+                            color: Colors.white),
+                      ),
+                    ],
+                  ),
+                  YSpace.normal,
+                  // MAP
+                  _AddressOnMap(address),
+                ],
+              ),
+            ),
+            // Delete / Edit
+            Container(
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Tooltip(
+                    message: 'edit address',
+                    child: IconButton(
+                      onPressed: () {},
+                      icon: CircleAvatar(
+                        backgroundColor:
+                        Colors.lightGreen,
+                        child: Icon(
+                          Icons.edit,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                  XSpace.normal,
+                  Tooltip(
+                    message: 'delete address',
+                    child: IconButton(
+                      onPressed: () => DefaultDialogue
+                          .showAlertDialog(
+                        context,
+                        title: 'Delete addresses  ',
+                        content:
+                        'Are you sure that you want to delete this address from your addresses ? ',
+                        isDestructiveAction: true,
+                        onPressedA: () {
+                          cubit.deleteAddress(
+                              address.id!);
+                          Navigator.pop(context);
+                        },
+                      ),
+                      icon: CircleAvatar(
+                        backgroundColor:
+                        Colors.redAccent,
+                        child: Icon(
+                          Icons.close,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}
+class _AddressSectionText extends StatelessWidget {
+  final String title ;
+  final String subTitle ;
+
+  const _AddressSectionText({Key? key,required this.title,required this.subTitle}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return  Row(
+      children: [
+      Text(
+        title,
+      style: const TextStyle(
+        color: Colors.white,
+        fontWeight:
+        FontWeight.bold,
+      ),
+    ),
+        XSpace.normal,
+        Text(
+          subTitle,
+          style:const TextStyle(
+              color: Colors.white),
+        ),
+      ],
+    );
+  }
+}
+class _AddressOnMap extends StatefulWidget {
+  final AddressData address;
+  const _AddressOnMap(this.address,{Key? key}) : super(key: key);
+
+  @override
+  _AddressOnMapState createState() => _AddressOnMapState();
+}
+class _AddressOnMapState extends State<_AddressOnMap> {
+
+  var markers = HashSet<Marker>();
+  Completer<GoogleMapController> _controller = Completer();
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: MediaQuery.of(context).size.height * 0.18,
+      child: Hero(
+        tag: '${widget.address.id}',
+        child: GoogleMap(
+          markers: markers,
+          onMapCreated:
+              (GoogleMapController
+          controller) {
+            setState(() {
+              if (_controller.isCompleted) {
+                markers.add(
+                  Marker(
+                    visible: true,
+                    markerId: MarkerId(
+                        '${widget.address.id}'),
+                    position: LatLng(
+                        widget.address
+                            .latitude!,
+                        widget.address
+                            .longitude!,
+                    ),
+                  ),
+                );
+              }
+            });
+          },
+          mapType: MapType.hybrid,
+          onTap: (latLng) => navigateTo(context, MapPreviewer(widget.address)),
+          initialCameraPosition:
+          CameraPosition(
+            zoom: 14.5,
+            target: LatLng(
+                widget.address.latitude!,
+                widget.address.longitude!),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+

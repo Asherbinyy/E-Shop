@@ -1,19 +1,34 @@
+import 'package:e_shop/styles/constants.dart';
 import '/shared/components/reusable/spaces/spaces.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 
 class ExpandableListTile extends StatelessWidget {
   final String label;
-  final IconData ? icon;
+  final IconData ? prefixIcon;
+  final IconData  expandIcon;
+  final IconData  collapseIcon;
   final Widget? child;
   final VoidCallback? onPressed;
+  final Color? primaryColor;
+  final Color? prefixIconColor;
+  final double fontSize ;
+  final double iconsSize ;
+  final double ? iconPadding ;
 
   const ExpandableListTile(
       {Key? key,
         this.child,
         this.onPressed,
         required this.label,
-         this.icon,
+         this.prefixIcon,
+        this.primaryColor=kPrimaryColor,
+        this.prefixIconColor=Colors.white,
+        this.fontSize=12.0,
+        this.iconsSize=14.0,
+        this.iconPadding,
+        this.expandIcon=Icons.keyboard_arrow_down,
+        this.collapseIcon=Icons.keyboard_arrow_up,
       })
       : super(key: key);
 
@@ -25,30 +40,33 @@ class ExpandableListTile extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: ExpandablePanel(
         theme: ExpandableThemeData(
-          iconColor: Theme.of(context).primaryColorDark,
-          iconSize: 18,
+          iconPadding:iconPadding != null? EdgeInsets.all(iconPadding??0):null,
+          expandIcon:expandIcon,
+          collapseIcon:collapseIcon ,
+          iconColor: primaryColor,
+          iconSize: iconsSize,
         ),
         header: Row(
           children: [
-          if (icon != null)  CircleAvatar(
-              child: Icon(icon,color: Colors.white,),
-              backgroundColor: Theme.of(context).primaryColorDark,
+          if (prefixIcon != null)  CircleAvatar(
+              child: Icon(prefixIcon,color:prefixIconColor,),
+              backgroundColor: primaryColor,
             ),
-         if (icon != null) XSpace.extreme,
+         if (prefixIcon != null) XSpace.extreme,
             Text(
               label,
               style: Theme.of(context)
                   .textTheme
                   .subtitle1!
-                  .copyWith(color: Theme.of(context).primaryColorDark),
+                  .copyWith(color: primaryColor,fontSize: fontSize),
             ),
           ],
         ),
         collapsed: Visibility(
           visible: false,
-          child: Text(''),
+          child: const Text(''),
         ),
-        expanded: child ?? Container(),
+        expanded: child ??const SizedBox(),
       ),
     );
   }

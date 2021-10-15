@@ -1,19 +1,20 @@
-
 import 'dart:async';
-
-import 'package:e_shop/layout/cubit/home_cubit.dart';
-import 'package:e_shop/layout/cubit/home_states.dart';
-import 'package:e_shop/shared/components/reusable/buttons/rounded_button.dart';
-import 'package:e_shop/shared/components/reusable/dialogue/default_dialogue.dart';
-import 'package:e_shop/shared/components/reusable/spaces/spaces.dart';
-import 'package:e_shop/shared/components/reusable/text_field/default_text_field.dart';
-import 'package:e_shop/shared/cubit/app_cubit.dart';
-import 'package:e_shop/styles/constants.dart';
+import '/layout/cubit/home_cubit.dart';
+import '/layout/cubit/home_states.dart';
+import '/shared/components/methods/navigation.dart';
+import '/shared/components/reusable/app_bar/secondary_app_bar.dart';
+import '/shared/components/reusable/buttons/rounded_button.dart';
+import '/shared/components/reusable/dialogue/default_dialogue.dart';
+import '/shared/components/reusable/spaces/spaces.dart';
+import '/shared/components/reusable/text_field/default_text_field.dart';
+import '/shared/cubit/app_cubit.dart';
+import '/styles/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-var _currentPasswordController = TextEditingController();
-var _newPasswordController = TextEditingController();
+/// REVIEWED
+final _currentPasswordController = TextEditingController();
+final _newPasswordController = TextEditingController();
 var _formKey = GlobalKey<FormState>();
 
 class ChangePasswordScreen extends StatefulWidget {
@@ -25,11 +26,15 @@ class ChangePasswordScreen extends StatefulWidget {
 
 class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   Timer ? timer ;
+
   @override
   void initState() {
     super.initState();
     timer = Timer.periodic(Duration(seconds: 4), (Timer t) {
-      HomeCubit.get(context).checkUpdateButtonDisable(_currentPasswordController.text, _newPasswordController.text);
+      HomeCubit.get(context).checkUpdateButtonDisable(
+          _currentPasswordController.text,
+          _newPasswordController.text,
+      );
     });
   }
   @override
@@ -46,7 +51,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
         if (state is ChangePasswordSuccessState){
           if (state.changePasswordModel!.status!){
             DefaultDialogue.showSnackBar(context, state.changePasswordModel!.message!, dialogueStates: DialogueStates.SUCCESS);
-            Navigator.pop(context);
+           navigateBack(context);
           }
           else  DefaultDialogue.showSnackBar(context, state.changePasswordModel!.message!, dialogueStates: DialogueStates.ERROR);
 
@@ -60,86 +65,81 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
         HomeCubit cubit = HomeCubit.get(context);
         bool isDark= AppCubit.get(context).isDark;
         return Scaffold(
-          appBar: AppBar(
-            title: Text('Change Password'),
-          ),
+         appBar: SecondaryAppBar(title: 'change_password'.tr(),),
           body: Container(
-            padding: EdgeInsets.all(20.0),
+            padding:const EdgeInsets.all(20.0),
             child: Form(
               key: _formKey ,
-              child: Column(
-                children: [
-                  DefaultTextField(
-                      isDark: isDark,
-                      primaryColor: kSecondaryColor,
-                      controller: _currentPasswordController,
-                      keyboardType: TextInputType.visiblePassword,
-                      label: 'Current Password',
-                      suffixOnChanged:() => cubit.togglePasswordVisibility(),
-                      obscurePassword: cubit.isPassword ,
-                      suffixIcon: cubit.passwordSuffix,
-                      prefixIcon: Icons.lock,
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Password must not be empty !';
-                        } else {
-                          return null;
-                        }
-                      }),
-                  YSpace.extreme,
-                  DefaultTextField(
-                      isDark: isDark,
-                      primaryColor: kSecondaryColor,
-                      controller: _newPasswordController,
-                      keyboardType: TextInputType.visiblePassword,
-                      label: 'New Password',
-                      suffixOnChanged: ()=> cubit.togglePasswordVisibility(),
-                      obscurePassword: cubit.isPassword ,
-                      suffixIcon:cubit.passwordSuffix,
-                      prefixIcon: Icons.lock,
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Password must not be empty !';
-                        }
-                        else {
-                          return null;
+              child: SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
+                child: Column(
+                  children: [
+
+                    DefaultTextField(
+                        isDark: isDark,
+                        primaryColor: kSecondaryColor,
+                        controller: _currentPasswordController,
+                        keyboardType: TextInputType.visiblePassword,
+                        label: 'current_password'.tr(),
+                        suffixOnChanged:() => cubit.togglePasswordVisibility(),
+                         obscurePassword: cubit.isPassword ,
+                        suffixIcon: cubit.passwordSuffix,
+                         prefixIcon: Icons.lock,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'empty_password'.tr();
+                          } else {
+                            return null;
+                          }
+                        }),
+                    YSpace.extreme,
+                    DefaultTextField(
+                        isDark: isDark,
+                        primaryColor: kSecondaryColor,
+                        controller: _newPasswordController,
+                        keyboardType: TextInputType.visiblePassword,
+                        label: 'new_password'.tr(),
+                        suffixOnChanged: ()=> cubit.togglePasswordVisibility(),
+                         obscurePassword: cubit.isPassword ,
+                        suffixIcon:cubit.passwordSuffix,
+                        prefixIcon: Icons.lock,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'empty_password'.tr();
+                          }
+                          else {
+                            return null;
+                          }
+                        },
+                      onSubmitted: (_){
+                          cubit.checkUpdateButtonDisable(_currentPasswordController.text, _newPasswordController.text);
+                      },
+                      onTap: (){
+                         Future.delayed(Duration(seconds: 2)).then((value) => cubit.checkUpdateButtonDisable(_currentPasswordController.text, _newPasswordController.text),
+                      );},
+                    ),
+                    YSpace.extreme,
+                    RoundedButton.icon(
+                      isDisabled:cubit.isUpdateButtonDisabled,
+                      label: 'update_profile'.tr(),
+                      icon:  Icons.edit,
+                      color: isDark
+                          ? kSecondaryColor
+                          : Colors.white,
+                      backgroundColor: isDark
+                          ? Colors.white
+                          : kSecondaryColor,
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          cubit.changePassword(
+                              oldPassword: _currentPasswordController.text,
+                              newPassword:  _newPasswordController.text,
+                          );
                         }
                       },
-                    onSubmitted: (_){
-                        cubit.checkUpdateButtonDisable(_currentPasswordController.text, _newPasswordController.text);
-                    },
-                    onTap: (){
-                       Future.delayed(Duration(seconds: 2)).then((value) => cubit.checkUpdateButtonDisable(_currentPasswordController.text, _newPasswordController.text),
-                    );},
-                  ),
-                  YSpace.extreme,
-                  RoundedButton(
-                    isDisabled:cubit.isUpdateButtonDisabled,
-                    label: 'Update Profile',
-                    icon: Icons.edit,
-                    isIcon: true,
-                    color: isDark
-                        ? kSecondaryColor
-                        : Colors.white,
-                    backgroundColor: isDark
-                        ? Colors.white
-                        : kSecondaryColor,
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        cubit.changePassword(
-                            oldPassword: _currentPasswordController.text,
-                            newPassword:  _newPasswordController.text
-                          ,);
-                        // don't uses this
-                        // sCubit.updateProfile(
-                        //   email: _emailController.text,
-                        //   name: _nameController.text,
-                        //   phone: _phoneController.text,
-                        // );
-                      }
-                    },
-                  ),
-                ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

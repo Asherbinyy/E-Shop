@@ -1,11 +1,11 @@
 import 'dart:async';
-import 'package:e_shop/modules/new_address/cubit/address_cubit.dart';
-import 'package:e_shop/modules/new_address/cubit/address_states.dart';
-
-import '../new_address_screen.dart';
+import '/models/app/stepper/stepper_controller.dart';
+import '/models/app/stepper/stepper_keys.dart';
+import '/modules/new_address/cubit/address_cubit.dart';
+import '/modules/new_address/cubit/address_states.dart';
+import 'package:easy_localization/easy_localization.dart';
 import '/layout/cubit/home_cubit.dart';
 import '/layout/cubit/home_states.dart';
-import '/models/api/addresses/get_addresses.dart';
 import '/models/app/countries.dart';
 import '/models/app/delivery_type.dart';
 import '/modules/profile/profile_screen.dart';
@@ -19,26 +19,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-
-// class AddressStepper{
-//   static List<GlobalKey<FormState>> keys = [
-//     GlobalKey<FormState>(debugLabel: 'step1'),
-//     GlobalKey<FormState>(debugLabel: 'step2'),
-//   ];
-//   static List<Step> steps (BuildContext context, AddressCubit addressCubit) =>
-//       AddressStepperData.data.map((item) => Step(
-//         state: addressCubit.currentStep > item.index
-//             ? StepState.complete
-//             : StepState.indexed,
-//         isActive: addressCubit.currentStep >= item.index,
-//         title: StepperTitle(item.title),
-//         subtitle: addressCubit.currentStep == item.index
-//             ? StepperSubTitle(item.subTitle)
-//             : null,
-//         content: item.content,
-//       ),).toList();
-// }
-
+///REVIEWED
 
 
 /// title
@@ -81,10 +62,6 @@ class BasicInfoContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print( StepperControllers.city.text);
-    print( StepperControllers.region.text);
-    print( StepperControllers.details.text);
-    print( StepperControllers.notes.text);
     return Builder(builder: (context) {
       return BlocConsumer<HomeCubit, HomeStates>(
           listener: (context, state) {},
@@ -93,12 +70,12 @@ class BasicInfoContent extends StatelessWidget {
             var profile = HomeCubit.get(context).profileModel?.data;
             StepperControllers.name.text = profile?.name ?? '';
             StepperControllers.phone.text = profile?.phone ?? '';
-            bool isDark = AppCubit.get(context).isDark;
+            var isDark = AppCubit.get(context).isDark;
             return Stack(
               alignment: AlignmentDirectional.topEnd,
               children: [
                 Container(
-                  padding: EdgeInsets.all(5.0),
+                  padding:const EdgeInsets.all(5.0),
                   decoration: BoxDecoration(
                       border: Border.all(
                     color: Colors.grey,
@@ -108,27 +85,30 @@ class BasicInfoContent extends StatelessWidget {
                     child: Column(
                       children: [
                         DefaultTextField(
+                          primaryColor:  Theme.of(context).primaryColor.withOpacity(0.6),
                           validator: (value) {
                             if (value!.isEmpty)
-                              return 'Name Must not be empty !';
+                              return 'empty_name'.tr();
                             else
                               return null;
                           },
                           prefixIcon: Icons.verified_user,
-                          label: 'Name',
+                          label: 'name'.tr(),
                           controller: StepperControllers.name,
                           isDark: isDark,
                           readOnly: true,
                         ),
                         DefaultTextField(
+                          primaryColor:  Theme.of(context).primaryColor.withOpacity(0.6),
+
                           validator: (value) {
                             if (value!.isEmpty)
-                              return 'Phone number must be provided ';
+                              return 'empty_phone'.tr();
                             else
                               return null;
                           },
                           prefixIcon: Icons.phone_android,
-                          label: 'Phone',
+                          label: 'phone'.tr(),
                           controller: StepperControllers.phone,
                           isDark: isDark,
                           readOnly: true,
@@ -139,15 +119,15 @@ class BasicInfoContent extends StatelessWidget {
                 ),
                 TextButton(
                   onPressed: () {
-                    navigateTo(context, ProfileScreen());
+                    navigateTo(context,const ProfileScreen());
                     cubit.isEditableProfile = true;
                   },
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Icon(Icons.edit),
+                      const Icon(Icons.edit),
                       XSpace.tiny,
-                      Text('Edit'),
+                       Text('edit'.tr()),
                     ],
                   ),
                 ),
@@ -164,12 +144,12 @@ class AddressContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isDark = AppCubit.get(context).isDark;
+    var isDark = AppCubit.get(context).isDark;
     return Builder(builder: (context) {
       return BlocConsumer<AddressCubit, AddressStates>(
           listener: (context, state) {},
           builder: (context, state) {
-            AddressCubit cubit = AddressCubit.get(context);
+            var cubit = AddressCubit.get(context);
             return Form(
               key: StepperFormKeys.stepperKeys.last,
               child: Column(
@@ -178,24 +158,24 @@ class AddressContent extends StatelessWidget {
                       decoration: InputDecoration(
                         enabledBorder: UnderlineInputBorder(
                           borderRadius: BorderRadius.circular(15.0),
-                          borderSide: BorderSide(color: Colors.transparent),
+                          borderSide:const BorderSide(color: Colors.transparent),
                         ),
                         label: Text(
-                          'Country',
+                          'country'.tr(),
                           style: TextStyle(
                               color:
-                                  isDark ? Colors.white : kPrimaryColor),
+                                  isDark ? Colors.white : Theme.of(context).primaryColor),
                         ),
                       ),
                       iconDisabledColor: Colors.grey,
                       dropdownColor:
                           isDark ? kDarkSecondaryColor : kLightSecondaryColor,
-                      iconEnabledColor: kPrimaryColor,
+                      iconEnabledColor: Theme.of(context).primaryColor,
                       value: cubit.initialValue,
                       onChanged: (value) => cubit.changeCountryValue(value!),
                       items: CountriesModel.getCountries
                           .map((e) => DropdownMenuItem<dynamic>(
-                                value: e.name,
+                                value: e.value,
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 12.0),
@@ -212,7 +192,7 @@ class AddressContent extends StatelessWidget {
                                         style: TextStyle(
                                           color: isDark
                                               ? Colors.white
-                                              : kPrimaryColor,
+                                              : Theme.of(context).primaryColor,
                                         ),
                                       ),
                                     ],
@@ -221,29 +201,33 @@ class AddressContent extends StatelessWidget {
                               ))
                           .toList()),
                   DefaultTextField(
+                    primaryColor:  Theme.of(context).primaryColor.withOpacity(0.6),
+
                     controller: StepperControllers.city,
                     keyboardType: TextInputType.name,
                     validator: (value) {
                       if (value!.isEmpty)
-                        return 'City Must not be empty';
+                        return 'empty_city'.tr();
                       else
                         return null;
                     },
                     isDark: isDark,
-                    label: 'City',
+                    label: 'city'.tr(),
                     prefixIcon: FontAwesomeIcons.city,
                   ),
                   DefaultTextField(
+                    primaryColor:  Theme.of(context).primaryColor.withOpacity(0.6),
+
                     controller: StepperControllers.region,
                     keyboardType: TextInputType.name,
                     validator: (value) {
                       if (value!.isEmpty)
-                        return 'Region Must not be empty';
+                        return 'empty_region'.tr();
                       else
                         return null;
                     },
                     isDark: isDark,
-                    label: 'Region',
+                    label: 'region'.tr(),
                     prefixIcon: FontAwesomeIcons.locationArrow,
                   ),
                   Theme(
@@ -251,16 +235,18 @@ class AddressContent extends StatelessWidget {
                       hintColor: isDark ? Colors.amber : Colors.amber.shade700,
                     ),
                     child: DefaultTextField(
+                      primaryColor:  Theme.of(context).primaryColor.withOpacity(0.6),
+
                       controller: StepperControllers.details,
                       keyboardType: TextInputType.name,
                       validator: (value) {
                         if (value!.isEmpty)
-                          return 'Please, add some details for example : street and flat number';
+                          return 'empty_details'.tr();
                         else
                           return null;
                       },
                       isDark: isDark,
-                      label: 'Detailed Address St..etc',
+                      label: 'details_address'.tr(),
                       maxLength: 80,
                       maxLines: 3,
                       prefixIcon: FontAwesomeIcons.searchLocation,
@@ -271,10 +257,12 @@ class AddressContent extends StatelessWidget {
                       hintColor: isDark ? Colors.amber : Colors.amber.shade700,
                     ),
                     child: DefaultTextField(
+                      primaryColor:  Theme.of(context).primaryColor.withOpacity(0.6),
+
                       controller: StepperControllers.notes,
                       keyboardType: TextInputType.name,
                       isDark: isDark,
-                      label: '( Optional ) Notes',
+                      label: 'notes'.tr(),
                       maxLength: 80,
                       maxLines: 3,
                       prefixIcon: FontAwesomeIcons.solidStickyNote,
@@ -295,7 +283,6 @@ class DeliveryTypeContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Builder(builder: (context) {
-      final bool isDark = AppCubit.get(context).isDark;
       final TextTheme textTheme = Theme.of(context).textTheme;
       final Color unselectedColor = Colors.grey;
       final Color selectedColor = kSecondaryColor;
@@ -306,10 +293,9 @@ class DeliveryTypeContent extends StatelessWidget {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Text('Specify your address type :',style: TextStyle(color: Colors.grey),),
                 ListView.builder(
                     shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     itemCount: DeliveryTypeModel.getAddressesType.length,
                     itemBuilder: (context, index) {
                       var model = DeliveryTypeModel.getAddressesType[index];
@@ -357,11 +343,11 @@ class LocationContent extends StatelessWidget {
     return BlocConsumer<AddressCubit, AddressStates>(
         listener: (context, state) {},
         builder: (context, state) {
-          AddressCubit addressCubit = AddressCubit.get(context);
+          var addressCubit = AddressCubit.get(context);
           return MyConditionalBuilder(
             condition: addressCubit.isMapSelection,
-            builder: _LocateOnMap(),
-            feedback: _SelectionMenu(),
+            builder: const _LocateOnMap(),
+            feedback:const _SelectionMenu(),
           );
         });
   }
@@ -380,30 +366,23 @@ class _LocateOnMapState extends State<_LocateOnMap> {
     return BlocConsumer<HomeCubit, HomeStates>(
         listener: (context, state) {},
         builder: (context, state) {
-          HomeCubit cubit = HomeCubit.get(context);
-
-          AddressData? lastKnowAddress = cubit.addressModel?.data?.data?.last;
-
-          /// Egypt co-ordinates used if no previous address provided
-          const LatLng kDefaultLatLng =
-              LatLng(30.346642654529937, 31.17326803807425);
+          var cubit = HomeCubit.get(context);
+          var lastKnowAddress = cubit.addressModel?.data?.data?.last ;
           List<Marker> _markers = [];
-          Completer<GoogleMapController> _controller = Completer();
-
+          Completer<GoogleMapController> _controller =  Completer();
           return MyConditionalBuilder(
             condition: lastKnowAddress != null,
             builder: SizedBox(
               height: MediaQuery.of(context).size.height * 0.2,
               child: GoogleMap(
                 onMapCreated: (GoogleMapController googleMapController) {
-                  // if (_controller.isCompleted){
-                  //   print('isCompleted');
+
                   setState(() {
                     if (_controller.isCompleted) {
                       _markers.add(
                         Marker(
                           position: kDefaultLatLng,
-                          markerId: MarkerId('kDefaultLatLng'),
+                          markerId:const MarkerId('kDefaultLatLng'),
                           // draggable: true,
                         ),
                       );
@@ -414,19 +393,21 @@ class _LocateOnMapState extends State<_LocateOnMap> {
                 markers: _markers.map((e) => e).toSet(),
                 mapType: MapType.hybrid,
                 onTap: (LatLng point) {
-                  print('New Point is : $point}');
+                  print('new_point'.tr()+'$point}');
                   AddressCubit.get(context).saveAddressLatLng(point);
                   Marker _newMarker = Marker(
-                      infoWindow: InfoWindow(title: 'New Point'),
+                      infoWindow: InfoWindow(title: 'new_point'),
                       position: point,
-                      markerId: MarkerId(point.toString()));
+                      markerId: MarkerId(point.toString()),
+                  );
                   _markers.add(_newMarker);
                   setState(() {});
                 },
                 initialCameraPosition: CameraPosition(
                   target: LatLng(
                       lastKnowAddress?.latitude ?? kDefaultLatLng.latitude,
-                      lastKnowAddress?.longitude ?? kDefaultLatLng.longitude),
+                      lastKnowAddress?.longitude ?? kDefaultLatLng.longitude,
+                  ),
                   zoom: 14.5,
                 ),
               ),
@@ -438,7 +419,7 @@ class _LocateOnMapState extends State<_LocateOnMap> {
 
   Widget _loading() => Padding(
         padding: const EdgeInsets.all(20.0),
-        child: Center(child: kLoadingWanderingCubes),
+        child :const Center(child: kLoadingWanderingCubes),
       );
 }
 
@@ -449,18 +430,17 @@ class _SelectionMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<AddressCubit, AddressStates>(
         listener: (context, state) {
-      if (state is GetCurrentLocationSuccessState) {}
+      // if (state is GetCurrentLocationSuccessState) {}
     }, builder: (context, state) {
-      AddressCubit addressCubit = AddressCubit.get(context);
+      var addressCubit = AddressCubit.get(context);
       return MyConditionalBuilder(
         condition: state is GetCurrentLocationLoadingState,
         builder: Padding(
           padding: const EdgeInsets.all(20.0),
-          child: Center(child: kLoadingPulse),
+          child: const Center(child: kLoadingPulse),
         ),
         feedback: Container(
           padding: const EdgeInsets.all(8.0),
-          // color:kPrimaryColorDarker.withOpacity(0.1),
           child: Column(
             children: [
               SizedBox(
@@ -472,7 +452,7 @@ class _SelectionMenu extends StatelessWidget {
                   onPressed: () =>
                       addressCubit.getCurrentLocationAsNewAddress(),
                   icon: const Icon(Icons.my_location),
-                  label: const Text('My Current Location'),
+                  label:  Text('my_current_location'.tr()),
                 ),
               ),
               SizedBox(
@@ -485,8 +465,8 @@ class _SelectionMenu extends StatelessWidget {
                   ),
                   onPressed: () => addressCubit.toggleIsMapSelection(),
                   icon: const Icon(Icons.location_on_rounded),
-                  label: const Text(
-                    'Locate on Map',
+                  label:  Text(
+                    'locate_on_map'.tr(),
                   ),
                 ),
               ),
