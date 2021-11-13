@@ -1,27 +1,29 @@
-import '/modules/contact_us/contact_us_screen.dart';
+import 'package:e_shop/helpers/local/shared_pref/cache_helper.dart';
+import 'package:e_shop/helpers/local/shared_pref/cached_values.dart';
+import 'package:e_shop/modules/auth/login/view/login_imports.dart';
+import 'package:e_shop/shared/components/reusable/spaces_and_dividers/custom_divider.dart';
+import 'package:e_shop/shared/components/reusable/spaces_and_dividers/spaces.dart';
+import 'package:e_shop/shared/models/api/user/profile.dart';
+import '../../../../modules/contact_us/view/contact_us_screen.dart';
 
-import '/modules/faq/faq_screen.dart';
-import '/modules/notification/notification_screen.dart';
-import '/modules/payment/payment_screen.dart';
-import '/modules/promo_codes/promo_code_screen.dart';
+import '../../../../modules/faq/view/faq_screen.dart';
+import '../../../../modules/notification/view/notification_screen.dart';
+import '../../../../modules/payment/view/payment_screen.dart';
+import '../../../../modules/promo_codes/view/promo_code_screen.dart';
 import '/shared/components/reusable/dialogue/rate_us_dialog.dart';
 import '/shared/components/reusable/tiles/option_tile.dart';
-import '../../../../models/api/user/profile.dart';
-import '/modules/email_verification/email_verification_screen.dart';
-import '/modules/login/login_screen.dart';
-import '/modules/profile/profile_screen.dart';
-import '/network/local/cache_helper.dart';
-import '/network/local/cached_values.dart';
-import '/shared/components/methods/navigation.dart';
+import '../../../../modules/email_verification/view/email_verification_screen.dart';
+import '../../../../modules/profile/view/profile_screen.dart';
 import '/shared/components/reusable/dialogue/default_dialogue.dart';
-import '/layout/cubit/home_cubit.dart';
-import '/layout/cubit/home_states.dart';
-import '/shared/components/reusable/spaces/spaces.dart';
-import '/shared/cubit/app_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:e_shop/modules/layout/cubit/home_cubit.dart';
+import 'package:e_shop/modules/layout/cubit/home_states.dart';
+import 'package:e_shop/services/routing/navigation.dart';
+import 'package:e_shop/shared/cubits/app_cubit/app_cubit.dart';
+
 ///reviewed
 class CustomDrawerScreen extends StatelessWidget {
   const CustomDrawerScreen({Key? key}) : super(key: key);

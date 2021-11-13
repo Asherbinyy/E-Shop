@@ -4,13 +4,32 @@
             "outputFile": "F:\\Flutter\\P R O J E C T S\\e_shop\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v16\\values-v16.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\AMS\\.gradle\\caches\\transforms-3\\607a76edee2614cbc0a129eb5d5b8512\\transformed\\core-1.1.0\\res\\values-v16\\values-v16.xml",
+                    "source": "C:\\Users\\AMS\\.gradle\\caches\\transforms-3\\1ea8c0608b33d5574a69c93062b8ea75\\transformed\\core-1.3.2\\res\\values-v16\\values-v16.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
                         "startOffsets": "55",
                         "endColumns": "65",
                         "endOffsets": "116"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\AMS\\.gradle\\caches\\transforms-3\\fec9010b6850e1b9f82ef4ce60c7cda0\\transformed\\appcompat-1.1.0\\res\\values-v16\\values-v16.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endLines": "5",
+                        "endColumns": "12",
+                        "endOffsets": "223"
+                    },
+                    "to": {
+                        "startLines": "3",
+                        "startColumns": "4",
+                        "startOffsets": "121",
+                        "endLines": "6",
+                        "endColumns": "12",
+                        "endOffsets": "289"
                     }
                 }
             ]

@@ -1,4 +1,4 @@
-import 'package:e_shop/styles/constants.dart';
+import 'package:e_shop/styles/constants/constants.dart';
 import 'package:flutter/material.dart';
 
 // basic configurations

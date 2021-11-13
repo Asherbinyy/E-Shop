@@ -1,5 +1,5 @@
+import 'package:e_shop/styles/constants/constants.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import '/styles/constants.dart';
 import 'package:flutter/material.dart';
 
 class SigningButton extends StatelessWidget {
@@ -57,11 +57,13 @@ class OutlinedSigningButton extends StatelessWidget {
   final double width;
   final double height;
   final Color color;
+  final IconData ? icon ;
 final bool isDark;
   const OutlinedSigningButton({
     Key? key,
     required this.title,
     required this.onPressed,
+    this.icon,
     this.width=40,
     this.height=40,
     this.isDark=false,
@@ -90,7 +92,7 @@ final bool isDark;
           ),
         ),
       ),
-      icon: Icon(FontAwesomeIcons.mask,color: isDark ? Colors.white :kSecondaryColor ,),
+      icon: Icon(icon,color: isDark ? Colors.white :kSecondaryColor ,),
       onPressed: onPressed,
     );
   }

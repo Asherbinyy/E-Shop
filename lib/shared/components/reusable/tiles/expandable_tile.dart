@@ -1,5 +1,6 @@
-import 'package:e_shop/styles/constants.dart';
-import '/shared/components/reusable/spaces/spaces.dart';
+import 'package:e_shop/shared/components/reusable/spaces_and_dividers/spaces.dart';
+import 'package:e_shop/styles/constants/constants.dart';
+
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 

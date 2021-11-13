@@ -2,25 +2,25 @@ import 'package:flutter/material.dart';
 
 class MyConditionalBuilder extends StatelessWidget {
   final bool condition;
-  final Widget builder;
-  final Widget? feedback;
+  final Widget onBuild;
+  final Widget? onError;
 
   const MyConditionalBuilder(
-      {Key? key, required this.condition, required this.builder, this.feedback})
+      {Key? key, required this.condition, required this.onBuild, this.onError})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     var widgetIs;
-    if (feedback == null) {
+    if (onError == null) {
       if (condition == true) {
-        widgetIs = builder;
+        widgetIs = onBuild;
       }
     } else {
       if (condition == true) {
-        widgetIs = builder;
+        widgetIs = onBuild;
       } else {
-        widgetIs = feedback;
+        widgetIs = onError;
       }
     }
     return widgetIs;

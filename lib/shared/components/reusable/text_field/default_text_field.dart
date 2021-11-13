@@ -1,4 +1,4 @@
-import 'package:e_shop/styles/constants.dart';
+import 'package:e_shop/styles/constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/services.dart';

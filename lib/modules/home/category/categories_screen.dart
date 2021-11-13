@@ -1,14 +1,20 @@
-import '/models/api/categories/category_products.dart';
+import 'package:e_shop/shared/models/api/categories/categories.dart';
+import 'package:e_shop/shared/models/api/categories/category_products.dart';
+
 import '/shared/components/builders/myConditional_builder.dart';
 import '/shared/components/builders/product_card.dart';
-import '/layout/cubit/home_cubit.dart';
-import '/layout/cubit/home_states.dart';
-import '../../../models/api/categories/categories.dart';
-import '/shared/cubit/app_cubit.dart';
-import '/styles/constants.dart';
+import 'package:e_shop/modules/layout/cubit/home_cubit.dart';
+import 'package:e_shop/modules/layout/cubit/home_states.dart';
+import 'package:e_shop/shared/cubits/app_cubit/app_cubit.dart';
+
+import 'package:e_shop/styles/constants/constants.dart';
+
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
+
 /// REVIEWED
 class CategoryScreen extends StatelessWidget {
   final DataCategoriesData category;
@@ -31,7 +37,7 @@ class CategoryScreen extends StatelessWidget {
 
         return MyConditionalBuilder(
           condition: category.name != null && productModel != null,
-          builder: Container(
+          onBuild: Container(
             child: SingleChildScrollView(
               physics:const BouncingScrollPhysics(),
               child: Padding(
@@ -44,8 +50,8 @@ class CategoryScreen extends StatelessWidget {
                     MyConditionalBuilder(
                       condition: productModel?.status == true &&
                           productModel!.data!.total! > 0,
-                      builder: _ProductBuilder(cubit, products),
-                      feedback: Padding(
+                      onBuild: _ProductBuilder(cubit, products),
+                      onError: Padding(
                         padding: const EdgeInsets.all(50.0),
                         child:const Center(
                           child: kLoadingWanderingCubes,
@@ -58,7 +64,7 @@ class CategoryScreen extends StatelessWidget {
               ),
             ),
           ),
-          feedback:const Center(
+          onError:const Center(
             child: kLoadingHourGlass,
           ),
         );

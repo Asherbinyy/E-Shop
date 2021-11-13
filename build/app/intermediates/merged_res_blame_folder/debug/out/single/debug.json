@@ -24,20 +24,20 @@
         "source": "F:\\Flutter\\P R O J E C T S\\e_shop\\android\\app\\src\\main\\res\\drawable-hdpi\\splash.png"
     },
     {
-        "merged": "F:\\Flutter\\P R O J E C T S\\e_shop\\build\\app\\intermediates\\merged_res\\debug\\mipmap-xhdpi_ic_launcher.png.flat",
-        "source": "F:\\Flutter\\P R O J E C T S\\e_shop\\android\\app\\src\\main\\res\\mipmap-xhdpi\\ic_launcher.png"
-    },
-    {
         "merged": "F:\\Flutter\\P R O J E C T S\\e_shop\\build\\app\\intermediates\\merged_res\\debug\\drawable_background.png.flat",
         "source": "F:\\Flutter\\P R O J E C T S\\e_shop\\android\\app\\src\\main\\res\\drawable\\background.png"
     },
     {
-        "merged": "F:\\Flutter\\P R O J E C T S\\e_shop\\build\\app\\intermediates\\merged_res\\debug\\drawable-night-xhdpi_splash.png.flat",
-        "source": "F:\\Flutter\\P R O J E C T S\\e_shop\\android\\app\\src\\main\\res\\drawable-night-xhdpi\\splash.png"
+        "merged": "F:\\Flutter\\P R O J E C T S\\e_shop\\build\\app\\intermediates\\merged_res\\debug\\mipmap-xhdpi_ic_launcher.png.flat",
+        "source": "F:\\Flutter\\P R O J E C T S\\e_shop\\android\\app\\src\\main\\res\\mipmap-xhdpi\\ic_launcher.png"
     },
     {
         "merged": "F:\\Flutter\\P R O J E C T S\\e_shop\\build\\app\\intermediates\\merged_res\\debug\\drawable-v21_background.png.flat",
         "source": "F:\\Flutter\\P R O J E C T S\\e_shop\\android\\app\\src\\main\\res\\drawable-v21\\background.png"
+    },
+    {
+        "merged": "F:\\Flutter\\P R O J E C T S\\e_shop\\build\\app\\intermediates\\merged_res\\debug\\drawable-night-xhdpi_splash.png.flat",
+        "source": "F:\\Flutter\\P R O J E C T S\\e_shop\\android\\app\\src\\main\\res\\drawable-night-xhdpi\\splash.png"
     },
     {
         "merged": "F:\\Flutter\\P R O J E C T S\\e_shop\\build\\app\\intermediates\\merged_res\\debug\\drawable-night-hdpi_splash.png.flat",
@@ -60,16 +60,16 @@
         "source": "F:\\Flutter\\P R O J E C T S\\e_shop\\android\\app\\src\\main\\res\\drawable-night\\launch_background.xml"
     },
     {
-        "merged": "F:\\Flutter\\P R O J E C T S\\e_shop\\build\\app\\intermediates\\merged_res\\debug\\drawable-xhdpi_splash.png.flat",
-        "source": "F:\\Flutter\\P R O J E C T S\\e_shop\\android\\app\\src\\main\\res\\drawable-xhdpi\\splash.png"
-    },
-    {
         "merged": "F:\\Flutter\\P R O J E C T S\\e_shop\\build\\app\\intermediates\\merged_res\\debug\\drawable-night-mdpi_splash.png.flat",
         "source": "F:\\Flutter\\P R O J E C T S\\e_shop\\android\\app\\src\\main\\res\\drawable-night-mdpi\\splash.png"
     },
     {
         "merged": "F:\\Flutter\\P R O J E C T S\\e_shop\\build\\app\\intermediates\\merged_res\\debug\\mipmap-xxhdpi_ic_launcher.png.flat",
         "source": "F:\\Flutter\\P R O J E C T S\\e_shop\\android\\app\\src\\main\\res\\mipmap-xxhdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "F:\\Flutter\\P R O J E C T S\\e_shop\\build\\app\\intermediates\\merged_res\\debug\\drawable-xhdpi_splash.png.flat",
+        "source": "F:\\Flutter\\P R O J E C T S\\e_shop\\android\\app\\src\\main\\res\\drawable-xhdpi\\splash.png"
     },
     {
         "merged": "F:\\Flutter\\P R O J E C T S\\e_shop\\build\\app\\intermediates\\merged_res\\debug\\drawable-xxhdpi_ic_launcher_foreground.png.flat",
@@ -80,12 +80,12 @@
         "source": "F:\\Flutter\\P R O J E C T S\\e_shop\\android\\app\\src\\main\\res\\mipmap-mdpi\\ic_launcher.png"
     },
     {
-        "merged": "F:\\Flutter\\P R O J E C T S\\e_shop\\build\\app\\intermediates\\merged_res\\debug\\drawable-xxxhdpi_splash.png.flat",
-        "source": "F:\\Flutter\\P R O J E C T S\\e_shop\\android\\app\\src\\main\\res\\drawable-xxxhdpi\\splash.png"
-    },
-    {
         "merged": "F:\\Flutter\\P R O J E C T S\\e_shop\\build\\app\\intermediates\\merged_res\\debug\\drawable-mdpi_splash.png.flat",
         "source": "F:\\Flutter\\P R O J E C T S\\e_shop\\android\\app\\src\\main\\res\\drawable-mdpi\\splash.png"
+    },
+    {
+        "merged": "F:\\Flutter\\P R O J E C T S\\e_shop\\build\\app\\intermediates\\merged_res\\debug\\drawable-xxxhdpi_splash.png.flat",
+        "source": "F:\\Flutter\\P R O J E C T S\\e_shop\\android\\app\\src\\main\\res\\drawable-xxxhdpi\\splash.png"
     },
     {
         "merged": "F:\\Flutter\\P R O J E C T S\\e_shop\\build\\app\\intermediates\\merged_res\\debug\\drawable-night-xxxhdpi_splash.png.flat",

@@ -1,7 +1,7 @@
-import 'package:e_shop/styles/constants.dart';
 import 'package:e_shop/styles/palette.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'constants/constants.dart';
 
 ThemeData lightMode = ThemeData(
   scaffoldBackgroundColor: kLightPrimaryColor,

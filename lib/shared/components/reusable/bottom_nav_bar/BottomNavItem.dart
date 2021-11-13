@@ -1,11 +1,13 @@
-import '/layout/cubit/home_states.dart';
+import 'package:e_shop/shared/models/app/bottom_nav.dart';
+
 import '/shared/components/builders/myConditional_builder.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '/layout/cubit/home_cubit.dart';
-import '/models/app/bottom_nav.dart';
-import '/styles/constants.dart';
+import 'package:e_shop/modules/layout/cubit/home_cubit.dart';
+import 'package:e_shop/modules/layout/cubit/home_states.dart';
+import 'package:e_shop/styles/constants/constants.dart';
 import 'package:flutter/material.dart';
+
 ///reviewed
 class CustomBottomNavBar extends StatelessWidget {
   final HomeCubit cubit;
@@ -66,7 +68,7 @@ class BottomNavItem extends StatelessWidget {
               message: '${item.label}',
               child: MyConditionalBuilder(
                 condition: cubit.currentIndex==index, /// if selected
-                builder: Container(
+                onBuild: Container(
                   padding:const EdgeInsets.symmetric(horizontal: 10.0,vertical: 5.0),
                   decoration: BoxDecoration(
                     color: kSecondaryColor.withOpacity(0.5),
@@ -80,7 +82,7 @@ class BottomNavItem extends StatelessWidget {
                     ],
                   ),
                 ),
-                feedback: Stack(
+                onError: Stack(
                   alignment: AlignmentDirectional.topEnd,
                   children: [
                     Padding(
