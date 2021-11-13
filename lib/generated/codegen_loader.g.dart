@@ -109,7 +109,7 @@ class CodegenLoader extends AssetLoader{
   "by": "بواسطة :",
   "e_shop": "E-Shop",
   "egp": "جنيه مصري",
-  "added_to_cart": "أضف للعربة",
+  "added_to_cart": "تمت الإضافة",
   "basic_info": "المعلومات الأساسية.",
   "basic_info_SubTitle": "تأكد من تحديث رقم هاتفك الأخير",
   "address": "العنوان",
@@ -434,7 +434,9 @@ static const Map<String,dynamic> en = {
   "restart_app": "Please ,make sure to restart the application to apply changes",
   "cancel": "Cancel",
   "restart_app_lang": "Please , restart your app to make changes take place properly",
-  "skip": "Skip"
+  "skip": "Skip",
+  "font_size": "Font Size",
+  "normal_is": "Normal is : "
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"ar": ar, "en": en};
 }

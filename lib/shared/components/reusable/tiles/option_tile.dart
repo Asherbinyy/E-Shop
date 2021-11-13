@@ -1,5 +1,5 @@
-import '/shared/components/reusable/spaces/spaces.dart';
-import '/shared/cubit/app_cubit.dart';
+import '../spaces_and_dividers/spaces.dart';
+import '../../../cubits/app_cubit/app_cubit.dart';
 import 'package:flutter/material.dart';
 
 ///reviewed

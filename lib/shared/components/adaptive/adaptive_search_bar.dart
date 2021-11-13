@@ -1,6 +1,7 @@
-import 'package:e_shop/shared/components/methods/operating_system_options.dart';
 
-import '/shared/cubit/app_cubit.dart';
+
+import 'package:e_shop/services/methods/operating_system_options.dart';
+import 'package:e_shop/shared/cubits/app_cubit/app_cubit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';

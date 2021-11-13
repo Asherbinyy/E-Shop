@@ -1,8 +1,9 @@
-import '/shared/cubit/app_cubit.dart';
-import '/styles/constants.dart';
+import 'package:e_shop/styles/constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:e_shop/shared/cubits/app_cubit/app_cubit.dart';
+import 'package:flutter/cupertino.dart';
 
 ///REVIEWED
 class SwipeToDeleteDialog extends StatelessWidget {

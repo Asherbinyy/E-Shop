@@ -1,20 +1,23 @@
-import '/layout/layout_screen.dart';
+import 'package:e_shop/modules/layout/layout_screen.dart';
+import 'package:e_shop/shared/components/reusable/spaces_and_dividers/custom_divider.dart';
+import 'package:e_shop/shared/components/reusable/spaces_and_dividers/spaces.dart';
+
 import '/shared/components/builders/myConditional_builder.dart';
-import '/shared/components/methods/navigation.dart';
 import '/shared/components/reusable/dialogue/default_dialogue.dart';
 import '/shared/components/reusable/text_field/default_text_field.dart';
 import '/shared/components/reusable/tiles/expandable_tile.dart';
-import '/shared/cubit/app_cubit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import '/layout/cubit/home_cubit.dart';
-import '/layout/cubit/home_states.dart';
-import '/shared/components/reusable/spaces/spaces.dart';
-import '/styles/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:e_shop/modules/layout/cubit/home_cubit.dart';
+import 'package:e_shop/modules/layout/cubit/home_states.dart';
+import 'package:e_shop/services/routing/navigation.dart';
+import 'package:e_shop/shared/cubits/app_cubit/app_cubit.dart';
+import 'package:e_shop/styles/constants/constants.dart';
+
 /// Reviewed
 class RateUsDialog extends StatelessWidget {
   const RateUsDialog({Key? key}) : super(key: key);
@@ -160,11 +163,11 @@ class _SendUsFeedbackState extends State<SendUsFeedback> {
           child:
         MyConditionalBuilder(
           condition: widget.state is !RateAppLoadingState,
-          builder:  TextButton(
+          onBuild:  TextButton(
             child: Text('submit'.tr().toUpperCase()),
             onPressed: ()=> widget.cubit.rateApp(),
           ),
-          feedback: kLoadingFadingCircle,
+          onError: kLoadingFadingCircle,
         ),
         ),
       ],

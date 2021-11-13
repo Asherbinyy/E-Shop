@@ -1,19 +1,20 @@
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:e_shop/modules/layout/cubit/home_cubit.dart';
+import 'package:e_shop/modules/layout/cubit/home_states.dart';
+import 'package:e_shop/services/routing/navigation.dart';
+import 'package:e_shop/shared/cubits/app_cubit/app_cubit.dart';
+import 'package:e_shop/shared/models/api/home/home.dart';
+import 'package:e_shop/shared/models/app/pop_up_model.dart';
+import 'package:e_shop/styles/constants/constants.dart';
 import '/shared/components/builders/myConditional_builder.dart';
-import '/models/app/sites_links.dart';
-import '/modules/offer_details/offer_details_screen.dart';
+import '../../offer_details/view/offer_details_screen.dart';
 import '/shared/components/builders/product_card.dart';
 import '/shared/components/builders/product_header_builder.dart';
-import '/shared/components/methods/navigation.dart';
 import '/shared/components/reusable/dialogue/default_dialogue.dart';
 import '/shared/components/reusable/popup_menu_button/custom_popup_button.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import '../../../models/api/home/home.dart';
-import '/shared/cubit/app_cubit.dart';
-import '/layout/cubit/home_cubit.dart';
-import '/layout/cubit/home_states.dart';
-import '/styles/constants.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -75,7 +76,7 @@ class AllScreen extends StatelessWidget {
                 // popular Products
                 MyConditionalBuilder(
                   condition: cubit.homeModel?.data != null && cubit.defaultHomeProduct !=null,
-                  builder: Padding(
+                  onBuild: Padding(
                     padding: const EdgeInsets.only(top: 8.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -86,7 +87,7 @@ class AllScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  feedback:const Padding(
+                  onError:const Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10.0),
                       child: kLoadingFadingCircle),
                 ),
@@ -226,8 +227,8 @@ class _ProductBuilder extends StatelessWidget {
     double width = MediaQuery.of(context).size.width;
     return MyConditionalBuilder(
       condition: isGrid,
-      builder: _gridBuilder(products, width, height, cubit),
-      feedback: _listBuilder(products, height, cubit),
+      onBuild: _gridBuilder(products, width, height, cubit),
+      onError: _listBuilder(products, height, cubit),
     );
   }
   Widget _gridBuilder

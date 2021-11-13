@@ -1,11 +1,12 @@
+import 'package:e_shop/modules/layout/cubit/home_cubit.dart';
+import 'package:e_shop/modules/layout/cubit/home_states.dart';
+import 'package:e_shop/services/routing/navigation.dart';
+import 'package:e_shop/shared/components/reusable/spaces_and_dividers/spaces.dart';
+import 'package:e_shop/shared/cubits/app_cubit/app_cubit.dart';
+import 'package:e_shop/styles/constants/constants.dart';
 import 'package:flutter/cupertino.dart';
-import '/modules/product_details/product_details.dart';
-import '/shared/components/methods/navigation.dart';
-import '/shared/cubit/app_cubit.dart';
-import '/styles/constants.dart';
-import '/layout/cubit/home_cubit.dart';
-import '/layout/cubit/home_states.dart';
-import '/shared/components/reusable/spaces/spaces.dart';
+import '../../../modules/product_details/view/product_details.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -239,8 +240,8 @@ class ProductCard extends StatelessWidget {
         // SizedBox(height:height*0.006),
        MyConditionalBuilder (
          condition: isCartScreen,
-         builder: _buildCartAmount(textTheme, height, isDark,cubit),
-         feedback:  _addToCartButton(cubit, width, height, textTheme,theme),
+         onBuild: _buildCartAmount(textTheme, height, isDark,cubit),
+         onError:  _addToCartButton(cubit, width, height, textTheme,theme),
        ),
       ],
     ),

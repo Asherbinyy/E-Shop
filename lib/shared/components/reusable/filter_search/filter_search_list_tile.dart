@@ -1,14 +1,15 @@
-import '/shared/cubit/app_cubit.dart';
-import '/layout/cubit/home_states.dart';
+import 'package:e_shop/modules/layout/cubit/home_cubit.dart';
+import 'package:e_shop/modules/layout/cubit/home_states.dart';
+import 'package:e_shop/shared/components/reusable/spaces_and_dividers/spaces.dart';
+import 'package:e_shop/shared/cubits/app_cubit/app_cubit.dart';
+import 'package:e_shop/shared/models/app/pop_up_model.dart';
+import 'package:e_shop/styles/constants/constants.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '/models/app/sites_links.dart';
-import '/modules/sort/sort_items_screen.dart';
-import '/shared/components/reusable/popup_menu_button/custom_popup_button.dart';
-import '/shared/components/reusable/spaces/spaces.dart';
-import '/styles/constants.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import '/layout/cubit/home_cubit.dart';
 import 'package:flutter/material.dart';
+import '../../../../modules/sort/view/sort_items_screen.dart';
+import '/shared/components/reusable/popup_menu_button/custom_popup_button.dart';
 
 class FilterSearchListTile extends StatelessWidget {
   const FilterSearchListTile({

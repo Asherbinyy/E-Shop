@@ -1,14 +1,13 @@
 import 'package:bloc/bloc.dart';
-import 'package:e_shop/network/local/cache_helper.dart';
-import 'package:e_shop/network/local/cached_values.dart';
-import 'package:e_shop/styles/constants.dart';
-import 'package:easy_localization/src/public_ext.dart';
-import '/models/app/landing.dart';
+import '../../../helpers/local/shared_pref/cache_helper.dart';
+import '../../../helpers/local/shared_pref/cached_values.dart';
+import '../model/landing_model.dart';
+import '../../../styles/constants/constants.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'landing_states.dart';
 
-///REVIEWED
 
 class LandingCubit extends Cubit<LandingStates> {
   LandingCubit() : super(LandingInitialState());
@@ -17,7 +16,6 @@ class LandingCubit extends Cubit<LandingStates> {
 
  /// if true previewer screen is represented instead of welcome screen
  bool isWelcomeDone = false ;
-
  bool isLangChoosed = false ;
  bool isArabic = false ;
  bool isEnglish = false ;
@@ -43,7 +41,7 @@ void chooseLanguage (String lang){
 
 }
 
-/// This changes the UI from welcome to onBoarding previewer
+/// This changes the UI from welcomeBuilder to onBoarding previewerBuilder
 void switchToPreviewer (BuildContext context)async{
   if (isArabic||isEnglish){
     isLangChoosed = true ;
@@ -80,7 +78,7 @@ bool isGetStartedTitleShown = false ;
 bool isLastScreen = false ;
 
 void onPageChanged (int index){
-  isLastScreen = (index == LandingModel.getLandingList.length-1);
+  isLastScreen = (index == LandingData.getLandingList.length-1);
  if (isLastScreen) {
    isGetStartedTitleShown = true ;
  }

@@ -1,4 +1,3 @@
-import 'package:e_shop/shared/cubit/app_cubit.dart';
 import 'package:flutter/material.dart';
 ///reviewed
 

@@ -1,5 +1,6 @@
-import '/shared/cubit/app_cubit.dart';
-import '/styles/constants.dart';
+
+import 'package:e_shop/shared/cubits/app_cubit/app_cubit.dart';
+import 'package:e_shop/styles/constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:photo_view/photo_view.dart';
 
