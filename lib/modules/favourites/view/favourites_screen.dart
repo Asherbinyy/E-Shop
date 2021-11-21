@@ -21,21 +21,21 @@ class FavouritesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<HomeCubit, HomeStates>(
+    return BlocConsumer<LayoutCubit, LayoutStates>(
       listener: (context, state) {
-        if (state is GetFavouritesSuccessState && HomeCubit.get(context).showFavouritesDialogue) showDialog(context: context, builder: (context){
+        if (state is GetFavouritesSuccessState && LayoutCubit.get(context).showFavouritesDialogue) showDialog(context: context, builder: (context){
           return const SwipeToDeleteDialog();
         });
         if (state is ChangeFavouritesSuccessState){
           if (state.changeFavouritesModel?.status==true)
-            DefaultDialogue.showSnackBar(
+            Utils.showSnackBar(
                 context, '${state.changeFavouritesModel?.message}',
                 labelColor: AppCubit.get(context).isDark ? Colors.white : Colors.black, dialogueStates: DialogueStates.NONE, isDark: AppCubit.get(context).isDark);
-          else DefaultDialogue.showSnackBar(context, '${state.changeFavouritesModel?.message}', dialogueStates: DialogueStates.ERROR,);
+          else Utils.showSnackBar(context, '${state.changeFavouritesModel?.message}', dialogueStates: DialogueStates.ERROR,);
         }
       },
       builder: (context, state) {
-        HomeCubit cubit = HomeCubit.get(context);
+        LayoutCubit cubit = LayoutCubit.get(context);
        var favouritesProducts = cubit.getFavouritesModel?.data?.data;
         return MyConditionalBuilder(
           condition: favouritesProducts != null,

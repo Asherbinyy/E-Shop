@@ -8,8 +8,7 @@ class LoginScreen extends StatelessWidget {
     return LoginWrapper(
       screen: Scaffold(
         // backgroundColor: isDark ? kDarkPrimaryColor : Colors.white,
-        body: Padding(
-          padding: const EdgeInsets.all(20.0),
+        body: MainPadding(
           child: ListView(
             physics: const BouncingScrollPhysics(),
             children: [

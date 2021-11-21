@@ -1,8 +1,10 @@
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:e_shop/modules/cart/controller/cart_cubit.dart';
 import 'package:e_shop/modules/layout/cubit/home_cubit.dart';
 import 'package:e_shop/modules/layout/cubit/home_states.dart';
 import 'package:e_shop/services/routing/navigation.dart';
+import 'package:e_shop/shared/components/reusable/dialogue/swipe_to_delete_dialog.dart';
 import 'package:e_shop/shared/cubits/app_cubit/app_cubit.dart';
 import 'package:e_shop/shared/models/api/home/home.dart';
 import 'package:e_shop/shared/models/app/pop_up_model.dart';
@@ -26,85 +28,136 @@ class AllScreen extends StatelessWidget {
   const AllScreen({Key? key}) : super(key: key);
 
   Widget build(BuildContext context) {
-    return BlocConsumer<HomeCubit, HomeStates>(
-      listener: (context, state) {
-        if (state is ChangeFavouritesSuccessState) {
-          if (state.changeFavouritesModel?.status == true)
-            DefaultDialogue.showSnackBar(
-                context, '${state.changeFavouritesModel?.message}',
-                labelColor:
-                    AppCubit.get(context).isDark ? Colors.white : Colors.black,
-                dialogueStates: DialogueStates.NONE,
-                isDark: AppCubit.get(context).isDark);
-          else
-            DefaultDialogue.showSnackBar(
-              context,
-              '${state.changeFavouritesModel?.message}',
-              dialogueStates: DialogueStates.ERROR,
-            );
-        }
-        if (state is ChangeCartSuccessState) {
-          if (state.changeCartModel?.status == true)
-            DefaultDialogue.showSnackBar(
-                context, '${state.changeCartModel?.message}',
-                labelColor:
-                    AppCubit.get(context).isDark ? Colors.white : Colors.black,
-                dialogueStates: DialogueStates.NONE,
-                isDark: AppCubit.get(context).isDark);
-          else
-            DefaultDialogue.showSnackBar(
-              context,
-              '${state.changeCartModel?.message}',
-              dialogueStates: DialogueStates.ERROR,
-            );
-        }
-      },
-      builder: (context, state) {
-        var cubit = HomeCubit.get(context);
-        var products = cubit.defaultHomeProduct;
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<LayoutCubit, LayoutStates>(
+          listener: (context, state) {
+            if (state is ChangeCartSuccessState) {
+              if (state.changeCartModel?.status == true)
+                Utils.showSnackBar(context, '${state.changeCartModel?.message}',
+                    labelColor: AppCubit.get(context).isDark
+                        ? Colors.white
+                        : Colors.black,
+                    dialogueStates: DialogueStates.NONE,
+                    isDark: AppCubit.get(context).isDark);
+              else
+                Utils.showSnackBar(
+                  context,
+                  '${state.changeCartModel?.message}',
+                  dialogueStates: DialogueStates.ERROR,
+                );
+            }
+            if (state is ChangeFavouritesSuccessState) {
+              if (state.changeFavouritesModel?.status == true)
+                Utils.showSnackBar(
+                    context, '${state.changeFavouritesModel?.message}',
+                    labelColor: AppCubit.get(context).isDark
+                        ? Colors.white
+                        : Colors.black,
+                    dialogueStates: DialogueStates.NONE,
+                    isDark: AppCubit.get(context).isDark);
+              else
+                Utils.showSnackBar(
+                  context,
+                  '${state.changeFavouritesModel?.message}',
+                  dialogueStates: DialogueStates.ERROR,
+                );
+            }
+            if (state is GetCartSuccessState &&
+                LayoutCubit.get(context).showCartsDialogue)
+              Utils.showBasicDialog(context,
+                  child: const SwipeToDeleteDialog());
+            if (state is ChangeCartSuccessState) {
+              if (state.changeCartModel?.status == true)
+                Utils.showSnackBar(
+                  context,
+                  '${state.changeCartModel?.message}',
+                  labelColor: AppCubit.get(context).isDark
+                      ? Colors.white
+                      : Colors.black,
+                  dialogueStates: DialogueStates.NONE,
+                  isDark: AppCubit.get(context).isDark,
+                );
+              else
+                Utils.showSnackBar(
+                  context,
+                  '${state.changeCartModel?.message}',
+                  dialogueStates: DialogueStates.ERROR,
+                );
+            }
 
-        return SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Banner Slider
-                if (cubit.banners.isNotEmpty && cubit.isBannerShown)
-                  _BannerBuilder(cubit),
-                // popular Products
-                MyConditionalBuilder(
-                  condition: cubit.homeModel?.data != null && cubit.defaultHomeProduct !=null,
-                  onBuild: Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
+            if (state is UpdateCartLoadingState) {
+              LayoutCubit.get(context).showSpinner = true;
+            } else {
+              LayoutCubit.get(context).showSpinner = false;
+            }
+            if (state is UpdateCartErrorState) {
+              Utils.showSnackBar(
+                context,
+                'error_try_again'.tr(),
+                dialogueStates: DialogueStates.ERROR,
+              );
+            }
+            if (state is UpdateCartSuccessState) if (!state
+                .updateCartModel!.status!)
+              Utils.showSnackBar(context, state.updateCartModel!.message!,
+                  dialogueStates: DialogueStates.ERROR);
+          },
+        ),
+      ],
+      child: BlocBuilder<LayoutCubit, LayoutStates>(
+        builder: (context, state) {
+          final cubit = LayoutCubit.get(context);
+          final products = cubit.defaultHomeProduct;
+
+          return SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Banner Slider
+                  if (cubit.banners.isNotEmpty && cubit.isBannerShown)
+                    _BannerBuilder(cubit),
+                  // popular Products
+                  MyConditionalBuilder(
+                    condition: cubit.homeModel?.data != null &&
+                        cubit.defaultHomeProduct != null,
+                    onBuild: Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
                           ProductHeaderWidget(title: 'popular_products'.tr()),
-                      state is !GetHomeDataLoadingState ? _ProductBuilder(cubit,products,isGrid: cubit.isGrid): kLoadingWanderingCubes,
-                      ],
+                          state is! GetHomeDataLoadingState
+                              ? _ProductBuilder(cubit, products,
+                                  isGrid: cubit.isGrid)
+                              : kLoadingWanderingCubes,
+                        ],
+                      ),
                     ),
+                    onError: const Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10.0),
+                        child: kLoadingFadingCircle),
                   ),
-                  onError:const Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10.0),
-                      child: kLoadingFadingCircle),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }
+
 class _BannerBuilder extends StatelessWidget {
-  final HomeCubit cubit;
+  final LayoutCubit cubit;
   const _BannerBuilder(
-      this.cubit, {
-        Key? key,
-      }) : super(key: key);
+    this.cubit, {
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -123,7 +176,7 @@ class _BannerBuilder extends StatelessWidget {
               color: kPrimaryColor.withOpacity(0.9),
               offset: Offset(0, 0),
               blurRadius: 5,
-              spreadRadius: AppCubit.get(context).isDark? 1:0,
+              spreadRadius: AppCubit.get(context).isDark ? 1 : 0,
             ),
           ],
         ),
@@ -138,9 +191,10 @@ class _BannerBuilder extends StatelessWidget {
                   CarouselSlider(
                     items: cubit.banners.map((e) {
                       return InkWell(
-                        onTap: (){
+                        onTap: () {
                           if (e.image != null)
-                            navigateTo(context, OfferDetailsScreen(e.image,e.id));
+                            navigateTo(
+                                context, OfferDetailsScreen(e.image, e.id));
                         },
                         child: Hero(
                           tag: '${e.id}',
@@ -152,10 +206,15 @@ class _BannerBuilder extends StatelessWidget {
                                   width: double.infinity,
                                   clipBehavior: Clip.antiAliasWithSaveLayer,
                                   decoration: BoxDecoration(
-                                    borderRadius: BorderRadiusDirectional.circular(10.0),
+                                    borderRadius:
+                                        BorderRadiusDirectional.circular(10.0),
                                     color: Colors.transparent,
                                   ),
-                                  child: Image.network('${e.image != null?e.image:kNoImageFound}', fit: BoxFit.cover,width: width,)),
+                                  child: Image.network(
+                                    '${e.image != null ? e.image : kNoImageFound}',
+                                    fit: BoxFit.cover,
+                                    width: width,
+                                  )),
                               // see offer
                             ],
                           ),
@@ -170,7 +229,8 @@ class _BannerBuilder extends StatelessWidget {
                       enlargeCenterPage: true,
                       autoPlayCurve: Curves.easeInOutCubic,
                       viewportFraction: 1,
-                      onPageChanged: (index, reason) => cubit.changeBannerSlide(index),
+                      onPageChanged: (index, reason) =>
+                          cubit.changeBannerSlide(index),
                     ),
                   ),
                   _bannerPopup(),
@@ -185,41 +245,43 @@ class _BannerBuilder extends StatelessWidget {
   }
 
   Widget _bannerPopup() => Padding(
-    padding: const EdgeInsets.all(2.0),
-    child: CircleAvatar(
-      backgroundColor: Colors.black45,
-      child: CustomPopUpButton(
-        popUps: PopUpModel.bannerOptions,
-        icon: Icons.more_vert,
-        onSelected: (_) => cubit.hideBanners(),
-      ),
-    ),
-  );
-  Widget _bannerIndicator(double height) => Padding(
-    padding: const EdgeInsets.all(5.0),
-    child: Container(
-      padding:const EdgeInsets.all(10.0),
-      decoration: BoxDecoration(
-        borderRadius:  BorderRadius.circular(20.0),
-        color: Colors.black45,
-      ),
-      child: AnimatedSmoothIndicator(
-        effect:  SwapEffect(
-          dotHeight: height*0.006 ,
-          activeDotColor: kPrimaryColor,
+        padding: const EdgeInsets.all(2.0),
+        child: CircleAvatar(
+          backgroundColor: Colors.black45,
+          child: CustomPopUpButton(
+            popUps: PopUpModel.bannerOptions,
+            icon: Icons.more_vert,
+            onSelected: (_) => cubit.hideBanners(),
+          ),
         ),
-        activeIndex: cubit.bannerSlideIndex,
-        count: cubit.banners.length,
-      ),
-    ),
-  );
+      );
+  Widget _bannerIndicator(double height) => Padding(
+        padding: const EdgeInsets.all(5.0),
+        child: Container(
+          padding: const EdgeInsets.all(10.0),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20.0),
+            color: Colors.black45,
+          ),
+          child: AnimatedSmoothIndicator(
+            effect: SwapEffect(
+              dotHeight: height * 0.006,
+              activeDotColor: kPrimaryColor,
+            ),
+            activeIndex: cubit.bannerSlideIndex,
+            count: cubit.banners.length,
+          ),
+        ),
+      );
 }
 
 class _ProductBuilder extends StatelessWidget {
-  final HomeCubit cubit;
+  final LayoutCubit cubit;
   final List<HomeProducts>? products;
-  final bool isGrid ;
-  const _ProductBuilder(this.cubit,this.products,{Key? key,required this.isGrid}) : super(key: key);
+  final bool isGrid;
+  const _ProductBuilder(this.cubit, this.products,
+      {Key? key, required this.isGrid})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -231,8 +293,9 @@ class _ProductBuilder extends StatelessWidget {
       onError: _listBuilder(products, height, cubit),
     );
   }
-  Widget _gridBuilder
-      (List<HomeProducts> ? products, double width, double height, HomeCubit cubit) {
+
+  Widget _gridBuilder(List<HomeProducts>? products, double width, double height,
+      LayoutCubit cubit) {
     return GridView.builder(
       physics: NeverScrollableScrollPhysics(),
       shrinkWrap: true,
@@ -243,27 +306,42 @@ class _ProductBuilder extends StatelessWidget {
         // childAspectRatio: width / height * 0.9, // was 1.07
       ),
       itemBuilder: (context, index) {
-        HomeProducts ? product = products?[index];
-        return ProductCard(isGrid: cubit.isGrid, name: product!.name!, seller: 'e_shop'.tr(), image: product.image!, price: product.price!, id: product.id!, oldPrice: product.oldPrice!, discount: product.discount!);
+        HomeProducts? product = products?[index];
+        return ProductCard(
+            isGrid: cubit.isGrid,
+            name: product!.name!,
+            seller: 'e_shop'.tr(),
+            image: product.image!,
+            price: product.price!,
+            id: product.id!,
+            oldPrice: product.oldPrice!,
+            discount: product.discount!);
       },
     );
   }
-  ListView _listBuilder(List<HomeProducts>? products, double height, HomeCubit cubit) =>
+
+  ListView _listBuilder(
+          List<HomeProducts>? products, double height, LayoutCubit cubit) =>
       ListView.builder(
-        physics:const  NeverScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
         itemCount: products?.length,
         itemBuilder: (context, index) {
-          HomeProducts ? product = products?[index];
+          HomeProducts? product = products?[index];
           return SizedBox(
             height: height * 0.2,
-            child: ProductCard(isGrid: cubit.isGrid, name: product!.name!, seller: 'e_shop'.tr(), image: product.image!, price: product.price!, id: product.id!, oldPrice: product.oldPrice!, discount: product.discount!),
-
+            child: ProductCard(
+                isGrid: cubit.isGrid,
+                name: product!.name!,
+                seller: 'e_shop'.tr(),
+                image: product.image!,
+                price: product.price!,
+                id: product.id!,
+                oldPrice: product.oldPrice!,
+                discount: product.discount!),
           );
         },
       );
-
-
 }
 
 // SizedBox(

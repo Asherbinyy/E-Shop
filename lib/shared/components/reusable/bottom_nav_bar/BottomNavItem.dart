@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 
 ///reviewed
 class CustomBottomNavBar extends StatelessWidget {
-  final HomeCubit cubit;
+  final LayoutCubit cubit;
   final bool isDark;
   final double height;
   const CustomBottomNavBar( this.cubit, this.isDark,{Key? key,required this.height}) : super(key: key);
@@ -53,10 +53,10 @@ class BottomNavItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  BlocConsumer <HomeCubit,HomeStates>(
+    return  BlocConsumer <LayoutCubit,LayoutStates>(
       listener: (context,state){},
       builder: (context,state){
-        HomeCubit cubit = HomeCubit.get(context);
+        LayoutCubit cubit = LayoutCubit.get(context);
         return MaterialButton(
           elevation: 0.0,
           minWidth: MediaQuery.of(context).size.width/4,

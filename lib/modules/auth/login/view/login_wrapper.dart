@@ -31,7 +31,7 @@ class LoginWrapper extends StatelessWidget {
                 navigateToAndFinish(context,const WelcomeMessageScreen());
               }
             } else {
-              DefaultDialogue.showSnackBar(context, state.loginModel.message!,
+              Utils.showSnackBar(context, state.loginModel.message!,
                   dialogueStates: DialogueStates.ERROR,
                   isDark: AppCubit.get(context).isDark);
             }

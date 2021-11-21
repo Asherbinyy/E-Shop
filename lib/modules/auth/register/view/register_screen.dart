@@ -9,8 +9,7 @@ class RegisterScreen extends StatelessWidget {
     final _isDark = AppCubit.get(context).isDark;
     return RegisterWrapper(
       screen: Scaffold(
-        body: Padding(
-          padding: const EdgeInsets.all(20.0),
+        body: MainPadding(
           child: ListView(
             physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
             children: [

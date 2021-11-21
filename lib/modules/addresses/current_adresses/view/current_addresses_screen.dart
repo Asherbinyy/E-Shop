@@ -41,22 +41,22 @@ class AddressesScreenState extends State<AddressesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<HomeCubit, HomeStates>(
+    return BlocConsumer<LayoutCubit, LayoutStates>(
       listener: (context, state) {
         if (state is DeleteAddressSuccessState) {
-          HomeCubit.get(context).getAddresses();
+          LayoutCubit.get(context).getAddresses();
           if (state.deleteAddressModel!.status!)
-            DefaultDialogue.showSnackBar(
+            Utils.showSnackBar(
                 context, state.deleteAddressModel!.message!,
                 dialogueStates: DialogueStates.SUCCESS);
           else
-            DefaultDialogue.showSnackBar(
+            Utils.showSnackBar(
                 context, state.deleteAddressModel!.message!,
                 dialogueStates: DialogueStates.ERROR);
         }
       },
       builder: (context, state) {
-        HomeCubit cubit = HomeCubit.get(context);
+        LayoutCubit cubit = LayoutCubit.get(context);
         var isDark = AppCubit.get(context).isDark;
         var addressModel = cubit.addressModel?.data?.data;
 
@@ -189,7 +189,7 @@ class _AddNewAddress extends StatelessWidget {
 }
 
 class _AddressItem extends StatelessWidget {
-  final HomeCubit cubit;
+  final LayoutCubit cubit;
   final bool isDark ;
   final int index ;
   final AddressData address ;
@@ -283,7 +283,7 @@ class _AddressItem extends StatelessWidget {
                   Tooltip(
                     message: 'delete address',
                     child: IconButton(
-                      onPressed: () => DefaultDialogue
+                      onPressed: () => Utils
                           .showAlertDialog(
                         context,
                         title: 'Delete addresses  ',

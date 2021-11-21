@@ -24,15 +24,15 @@ class RateUsDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<HomeCubit,HomeStates>(
+    return BlocConsumer<LayoutCubit,LayoutStates>(
         listener: (context,state){
           if (state is RateAppSuccessState) {
             navigateToAndFinish(context, LayoutScreen());
-            DefaultDialogue.showSnackBar(context, 'thanks_for_feedback'.tr()+' 🥰', dialogueStates: DialogueStates.SUCCESS);
+            Utils.showSnackBar(context, 'thanks_for_feedback'.tr()+' 🥰', dialogueStates: DialogueStates.SUCCESS);
           }
         },
         builder: (context,state){
-          var cubit = HomeCubit.get(context);
+          var cubit = LayoutCubit.get(context);
           var isDark = AppCubit.get(context).isDark;
           return Hero(
             tag: ValueKey<String>('RateUs'),
@@ -118,8 +118,8 @@ class RateUsDialog extends StatelessWidget {
 }
 class SendUsFeedback extends StatefulWidget {
   final bool isDark ;
-  final HomeCubit cubit ;
-  final HomeStates state;
+  final LayoutCubit cubit ;
+  final LayoutStates state;
   const SendUsFeedback(this.cubit,this.state,this.isDark,{Key? key, }) : super(key: key);
 
   @override

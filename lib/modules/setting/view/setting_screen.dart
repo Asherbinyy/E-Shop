@@ -28,7 +28,7 @@ class SettingScreen extends StatelessWidget {
     return BlocConsumer<AppCubit, AppStates>(
       listener: (context, state) {
         if (state is ChangeAppColorsSuccessState) {
-            DefaultDialogue.showAlertDialog(
+            Utils.showAlertDialog(
                 context,
                 title:'changed_successfully'.tr(),
               content: 'restart_app'.tr(),
@@ -39,17 +39,17 @@ class SettingScreen extends StatelessWidget {
 
         }
          if (state is ChangeAppColorsErrorState) {
-           DefaultDialogue.showSnackBar(
+           Utils.showSnackBar(
              context, 'something_went_wrong'.tr(),
              dialogueStates: DialogueStates.ERROR,);
          }
         if (state is ChangeLanguageErrorState) {
-          DefaultDialogue.showSnackBar(
+          Utils.showSnackBar(
             context, 'something_went_wrong'.tr(),
             dialogueStates: DialogueStates.ERROR,);
         }
         if (state is ChangeLanguageSuccessState){
-          DefaultDialogue.showSnackBar(
+          Utils.showSnackBar(
             context, 'restart_app'.tr(),
             dialogueStates: DialogueStates.WARNING,);
 
@@ -238,10 +238,10 @@ class _DarkModeSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<HomeCubit, HomeStates>(
+    return BlocConsumer<LayoutCubit, LayoutStates>(
       listener: (context, state) {},
       builder: (context, state) {
-        var cubit = HomeCubit.get(context);
+        var cubit = LayoutCubit.get(context);
         return Column(
           children: [
             _SettingSection(

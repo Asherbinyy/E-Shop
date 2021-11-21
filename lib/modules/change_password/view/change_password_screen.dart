@@ -35,7 +35,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
     _newPasswordController.text='';
     super.initState();
     timer = Timer.periodic(Duration(seconds: 4), (Timer t) {
-      HomeCubit.get(context).checkUpdateButtonDisable(
+      LayoutCubit.get(context).checkUpdateButtonDisable(
           _currentPasswordController.text,
           _newPasswordController.text,
       );
@@ -51,23 +51,23 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   }
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<HomeCubit, HomeStates>(
+    return BlocConsumer<LayoutCubit, LayoutStates>(
       listener: (context, state) {
         if (state is ChangePasswordSuccessState){
           if (state.changePasswordModel!.status!){
-            DefaultDialogue.showSnackBar(context, state.changePasswordModel!.message!, dialogueStates: DialogueStates.SUCCESS);
+            Utils.showSnackBar(context, state.changePasswordModel!.message!, dialogueStates: DialogueStates.SUCCESS);
            navigateBack(context);
           }
-          else  DefaultDialogue.showSnackBar(context, state.changePasswordModel!.message!, dialogueStates: DialogueStates.ERROR);
+          else  Utils.showSnackBar(context, state.changePasswordModel!.message!, dialogueStates: DialogueStates.ERROR);
 
           _currentPasswordController.clear();
           _newPasswordController.clear();
-          HomeCubit.get(context).checkUpdateButtonDisable(_currentPasswordController.text, _newPasswordController.text);
+          LayoutCubit.get(context).checkUpdateButtonDisable(_currentPasswordController.text, _newPasswordController.text);
 
         }
       },
       builder: (context, state) {
-        HomeCubit cubit = HomeCubit.get(context);
+        LayoutCubit cubit = LayoutCubit.get(context);
         bool isDark= AppCubit.get(context).isDark;
         return Scaffold(
          appBar: SecondaryAppBar(title: 'change_password'.tr(),),

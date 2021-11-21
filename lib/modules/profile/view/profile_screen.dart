@@ -30,14 +30,14 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<HomeCubit, HomeStates>(
+    return BlocConsumer<LayoutCubit, LayoutStates>(
       listener: (context, state) {
         if (state is UpdateProfileSuccessState)
-          DefaultDialogue.showSnackBar(context, state.updatedProfile.message!,
+          Utils.showSnackBar(context, state.updatedProfile.message!,
               dialogueStates: DialogueStates.SUCCESS);
 
         if (state is UpdateProfileErrorState)
-          DefaultDialogue.showSnackBar(context, state.error,
+          Utils.showSnackBar(context, state.error,
               dialogueStates: DialogueStates.ERROR);
         if (state is SignOutSuccessState) {
           if (state.signOutModel.status!) {
@@ -47,7 +47,7 @@ class ProfileScreen extends StatelessWidget {
               }
             });
           } else {
-            DefaultDialogue.showSnackBar(context, state.signOutModel.message!,
+            Utils.showSnackBar(context, state.signOutModel.message!,
                 dialogueStates: DialogueStates.ERROR,
                 isDark: AppCubit.get(context).isDark);
             Navigator.pop(context);
@@ -55,13 +55,13 @@ class ProfileScreen extends StatelessWidget {
         }
         if (state is SignOutErrorState) {
           Navigator.pop(context);
-          DefaultDialogue.showSnackBar(context, 'Something went Wrong',
+          Utils.showSnackBar(context, 'Something went Wrong',
               dialogueStates: DialogueStates.ERROR,
               isDark: AppCubit.get(context).isDark);
         }
       },
       builder: (context, state) {
-        HomeCubit cubit = HomeCubit.get(context);
+        LayoutCubit cubit = LayoutCubit.get(context);
         bool isDark = AppCubit.get(context).isDark;
         ProfileData? profile = cubit.profileModel?.data;
 
@@ -127,7 +127,7 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget _signOutButton(bool isDark, HomeCubit cubit) =>
+  Widget _signOutButton(bool isDark, LayoutCubit cubit) =>
         RoundedButton.icon(
            label: 'log out',
             icon: Icons.logout,
@@ -146,7 +146,7 @@ class ProfileScreen extends StatelessWidget {
       //   },
       // );
 
-  Widget _updateButton(bool isDark, HomeCubit cubit) =>
+  Widget _updateButton(bool isDark, LayoutCubit cubit) =>
 
       RoundedButton.icon(
         label: 'Update Profile',
@@ -171,7 +171,7 @@ class ProfileScreen extends StatelessWidget {
         child: const LinearProgressIndicator(color: kSecondaryColor),
       );
 
-  Widget _editProfileButton(HomeCubit cubit) => TextButton(
+  Widget _editProfileButton(LayoutCubit cubit) => TextButton(
         style: TextButton.styleFrom(primary: kSecondaryColor),
         onPressed: () {
           cubit.toggleEditProfile();
@@ -197,7 +197,7 @@ class _ProfileImageStack extends StatelessWidget {
   }) : super(key: key);
 
   final ProfileData? profile;
-  final HomeCubit cubit;
+  final LayoutCubit cubit;
 
   @override
   Widget build(BuildContext context) {
@@ -325,7 +325,7 @@ class _TextFieldBloc extends StatelessWidget {
   }) : super(key: key);
 
   final bool isDark;
-  final HomeCubit cubit;
+  final LayoutCubit cubit;
 
   @override
   Widget build(BuildContext context) {

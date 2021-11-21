@@ -1,5 +1,6 @@
 import 'package:e_shop/modules/layout/cubit/home_cubit.dart';
 import 'package:e_shop/modules/layout/cubit/home_states.dart';
+import 'package:e_shop/shared/components/reusable/container/curved_bottom_sheet_container.dart';
 import 'package:e_shop/shared/components/reusable/spaces_and_dividers/spaces.dart';
 import 'package:e_shop/shared/cubits/app_cubit/app_cubit.dart';
 import 'package:e_shop/shared/models/app/pop_up_model.dart';
@@ -21,10 +22,10 @@ class FilterSearchListTile extends StatelessWidget {
     return Builder(
         builder: (context){
          bool isDark = AppCubit.get(context).isDark;
-      return BlocConsumer<HomeCubit,HomeStates>(
+      return BlocConsumer<LayoutCubit,LayoutStates>(
       listener: (context,state){},
       builder: (context,state){
-        HomeCubit cubit =HomeCubit.get(context);
+        LayoutCubit cubit =LayoutCubit.get(context);
         return Card(
           elevation: 1.0,
           shadowColor: kSecondaryColor.withOpacity(0.5),
@@ -36,8 +37,8 @@ class FilterSearchListTile extends StatelessWidget {
                   child: InkWell(
                     onTap: ()=>showModalBottomSheet(
                       context: context,
-                      builder: (context)=>curvedBottomSheetDecoration(
-                        isDark,
+                      builder: (context)=>CurvedBottomSheetContainer(
+                       isDark: isDark,
                         child: SortItemsScreen(cubit),
                       ),
                     ),

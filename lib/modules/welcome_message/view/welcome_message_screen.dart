@@ -25,7 +25,7 @@ class _WelcomeMessageScreenState extends State<WelcomeMessageScreen>
       setState(() {
         if(_animation!.isCompleted){
           Future.delayed(Duration(seconds: 2)).then((value) {
-            HomeCubit.get(context).hideWelcomeMessage();
+            LayoutCubit.get(context).hideWelcomeMessage();
             navigateToAndFinish(context, LayoutScreen());
           });
         }
@@ -44,14 +44,15 @@ class _WelcomeMessageScreenState extends State<WelcomeMessageScreen>
    return Builder(
        builder: (context){
          final height = MediaQuery.of(context).size.height;
-    return BlocConsumer<HomeCubit,HomeStates>(
+    return BlocConsumer<LayoutCubit,LayoutStates>(
       listener: (context,state){},
       builder: (context,state){
-        final cubit = HomeCubit.get(context);
+        final cubit = LayoutCubit.get(context);
         final profile = cubit.profileModel?.data;
         final _welcomeMessage = WelcomeMessagesProvider.messageData(
             '${profile?.name?.toUpperCase() ?? ' ' }');
         return Scaffold(
+          backgroundColor: _welcomeMessage.cardShadow,
           appBar:SecondaryAppBar(systemOverlayStyle:const SystemUiOverlayStyle(statusBarColor: Colors.transparent) ,),
           extendBodyBehindAppBar: true,
           body:  Center(
@@ -76,15 +77,15 @@ class _WelcomeMessageScreenState extends State<WelcomeMessageScreen>
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             FittedBox(
-                              child: Text('${_welcomeMessage.message}',
-                                  style:const TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.white)),
+                              child: CustomText('${_welcomeMessage.message}',
+                                  fontSize: 18,
+                            color: Colors.white
+                              ),
                             ),
                             FittedBox(
-                              child: Text('${_welcomeMessage.subMessage}',
-                                  style:const TextStyle(color: Colors.white70)),
+                              child: CustomText.subtitle('${_welcomeMessage.subMessage}',
+                                 isBold: true,
+                                 color: Colors.white70),
                             ),
                           ],
                         ),

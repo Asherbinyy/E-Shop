@@ -1,12 +1,11 @@
 import 'package:e_shop/helpers/local/shared_pref/cache_helper.dart';
 import 'package:e_shop/helpers/local/shared_pref/cached_values.dart';
 import 'package:e_shop/modules/auth/login/view/login_imports.dart';
+import 'package:e_shop/modules/faq/view/faq_imports.dart';
 import 'package:e_shop/shared/components/reusable/spaces_and_dividers/custom_divider.dart';
 import 'package:e_shop/shared/components/reusable/spaces_and_dividers/spaces.dart';
 import 'package:e_shop/shared/models/api/user/profile.dart';
 import '../../../../modules/contact_us/view/contact_us_screen.dart';
-
-import '../../../../modules/faq/view/faq_screen.dart';
 import '../../../../modules/notification/view/notification_screen.dart';
 import '../../../../modules/payment/view/payment_screen.dart';
 import '../../../../modules/promo_codes/view/promo_code_screen.dart';
@@ -30,7 +29,7 @@ class CustomDrawerScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<HomeCubit, HomeStates>(
+    return BlocConsumer<LayoutCubit, LayoutStates>(
       listener: (context, state) {
         if (state is SignOutSuccessState) {
           if (state.signOutModel.status!) {
@@ -40,7 +39,7 @@ class CustomDrawerScreen extends StatelessWidget {
               }
             });
           } else {
-            DefaultDialogue.showSnackBar(context, state.signOutModel.message!,
+            Utils.showSnackBar(context, state.signOutModel.message!,
                 dialogueStates: DialogueStates.ERROR,
                 isDark: AppCubit.get(context).isDark);
             navigateBack(context);
@@ -48,13 +47,13 @@ class CustomDrawerScreen extends StatelessWidget {
         }
         if (state is SignOutErrorState) {
           navigateBack(context);
-          DefaultDialogue.showSnackBar(context, 'something_went_wrong'.tr(),
+          Utils.showSnackBar(context, 'something_went_wrong'.tr(),
               dialogueStates: DialogueStates.ERROR,
               isDark: AppCubit.get(context).isDark);
         }
       },
       builder: (context, state) {
-        HomeCubit cubit = HomeCubit.get(context);
+        LayoutCubit cubit = LayoutCubit.get(context);
         ProfileData? profile = cubit.profileModel?.data;
 
         return SizedBox(
@@ -174,7 +173,7 @@ class _ViewProfileWidget extends StatelessWidget {
 }
 
 class _MenuOptions extends StatelessWidget {
-  final HomeCubit cubit;
+  final LayoutCubit cubit;
   const _MenuOptions(this.cubit, {Key? key}) : super(key: key);
 
   @override

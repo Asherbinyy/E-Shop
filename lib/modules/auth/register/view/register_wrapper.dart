@@ -24,10 +24,10 @@ class RegisterWrapper extends StatelessWidget {
                 });
               } else {
                 token = state.registerModel.data?.token;
-                DefaultDialogue.showSnackBar(context, "You should agree with our Terms and conditions to keep going", dialogueStates: DialogueStates.ERROR);
+                Utils.showSnackBar(context, "You should agree with our Terms and conditions to keep going", dialogueStates: DialogueStates.ERROR);
               }
             } else
-              DefaultDialogue.showSnackBar(context, state.registerModel.message!,
+              Utils.showSnackBar(context, state.registerModel.message!,
                   dialogueStates: DialogueStates.ERROR,
                   isDark: AppCubit.get(context).isDark);
           }

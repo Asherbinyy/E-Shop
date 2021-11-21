@@ -1,3 +1,8 @@
+import 'package:e_shop/modules/cart/controller/cart_cubit.dart';
+import 'package:e_shop/modules/cart/models/get_carts.dart';
+import 'package:e_shop/modules/cart/widgets/cart_scaffold.dart';
+import 'package:e_shop/shared/components/builders/product_card.dart';
+
 import '../../layout/cubit/home_cubit.dart';
 import '../../layout/cubit/home_states.dart';
 import '../../../shared/cubits/app_cubit/app_cubit.dart';
@@ -14,3 +19,4 @@ import '../widgets/widgets_cart_imports.dart';
 
 
 part 'cart_screen.dart';
+part 'cart_wrapper.dart';

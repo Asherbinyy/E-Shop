@@ -8,14 +8,14 @@ class SearchItem extends StatelessWidget {
         Key? key,
       }) : super(key: key);
   final int index;
-  final HomeCubit cubit;
+  final LayoutCubit cubit;
   final ProductSearchData? product;
 
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
-    return BlocConsumer<HomeCubit, HomeStates>(
+    return BlocConsumer<LayoutCubit, LayoutStates>(
         listener: (context, state) {},
         builder: (context, state) {
           return BlocConsumer<AppCubit, AppStates>(

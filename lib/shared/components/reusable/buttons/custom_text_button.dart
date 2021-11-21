@@ -1,4 +1,5 @@
 
+import 'package:e_shop/shared/components/reusable/text/custom_text.dart';
 import 'package:flutter/material.dart';
 import '../../../../styles/constants/constants.dart';
 
@@ -96,7 +97,6 @@ class CustomTextButton extends StatelessWidget {
         primary: primaryColor??kPrimaryColor,
         shape: isCurvedBorders ? const StadiumBorder() : null,
         backgroundColor: backgroundColor,
-
       ),
     );
   }
@@ -122,9 +122,9 @@ class _IconOutlinedChild extends StatelessWidget {
       children: [
         Icon(icon,color: color,),
         Expanded(
-          child: Text(isUpperCase?label.toUpperCase():label,
+          child: CustomText(isUpperCase?label.toUpperCase():label,
             textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.button?.copyWith(color: color),
+           color: color,
           ),
         ),
       ],
@@ -154,9 +154,9 @@ class _ImageOutlinedChild extends StatelessWidget {
       children: [
         Image(image: image,width: side,height: side,),
         Expanded(
-          child: Text(isUpperCase?label.toUpperCase():label,
+          child: CustomText(isUpperCase?label.toUpperCase():label,
             textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.button?.copyWith(color: color),
+            color: color,
           ),
         ),
       ],

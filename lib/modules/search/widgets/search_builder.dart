@@ -12,7 +12,7 @@ class SearchBuilder extends StatelessWidget {
 
   final TextEditingController controller;
   final List<ProductSearchData>? searchedProducts;
-  final HomeCubit cubit;
+  final LayoutCubit cubit;
   final double height;
 
   @override

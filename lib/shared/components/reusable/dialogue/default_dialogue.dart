@@ -1,7 +1,11 @@
+import 'dart:io';
+
 import 'package:e_shop/services/methods/operating_system_options.dart';
 import 'package:e_shop/services/routing/navigation.dart';
+import 'package:e_shop/shared/components/reusable/text/custom_text.dart';
 import 'package:e_shop/shared/cubits/app_cubit/app_cubit.dart';
 import 'package:e_shop/styles/constants/constants.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -12,15 +16,16 @@ enum DialogueStates {
   ERROR,
   NONE,
 }
+
 /// very short lasts for : 500 millisecond
 ///short lasts for : 1 sec
 /// normal lasts for :  3 sec
 /// average lasts for : 5 sec
 /// long lasts for :  7 sec
-enum SnackBarDuration{ veryShort,short,normal,average,long}
+enum SnackBarDuration { veryShort, short, normal, average, long }
 
-class DefaultDialogue {
-  DefaultDialogue._();
+class Utils {
+  Utils._();
 
   /// This method changes the dialogue background according to it's state
   static Color _backgroundColor(DialogueStates dialogueStates, bool isDark) {
@@ -41,24 +46,25 @@ class DefaultDialogue {
     }
     return _color;
   }
+
   /// This method gets snackBar duration
-  static _getDuration (SnackBarDuration duration){
-    Duration _duration ;
-    switch (duration){
+  static _getDuration(SnackBarDuration duration) {
+    Duration _duration;
+    switch (duration) {
       case SnackBarDuration.veryShort:
-        _duration =const Duration(milliseconds: 500);
+        _duration = const Duration(milliseconds: 500);
         break;
       case SnackBarDuration.short:
-        _duration =const Duration(seconds: 1);
+        _duration = const Duration(seconds: 1);
         break;
       case SnackBarDuration.normal:
-        _duration =const Duration(seconds: 3);
+        _duration = const Duration(seconds: 3);
         break;
       case SnackBarDuration.average:
-        _duration =const Duration(seconds: 5);
+        _duration = const Duration(seconds: 5);
         break;
       case SnackBarDuration.long:
-        _duration =const Duration(seconds: 7);
+        _duration = const Duration(seconds: 7);
         break;
     }
     return _duration;
@@ -90,8 +96,9 @@ class DefaultDialogue {
     final Color labelColor = Colors.white,
     final bool isFloating = true,
     final bool isAction = false,
+
     /// Duration the snackBar appears on screen
-    final SnackBarDuration snackBarDuration = SnackBarDuration.short ,
+    final SnackBarDuration snackBarDuration = SnackBarDuration.short,
 
     /// Used in case we want user to interact with snackBar
     final String? actionLabel,
@@ -99,7 +106,7 @@ class DefaultDialogue {
   }) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        duration:_getDuration(snackBarDuration),
+        duration: _getDuration(snackBarDuration),
         content: Text(
           label,
           style: TextStyle(color: labelColor),
@@ -129,7 +136,7 @@ class DefaultDialogue {
         height: 50,
         width: 50,
       ),
-      applicationLegalese: 'app_legalese',
+      applicationLegalese: 'app_legalese'.tr(),
       applicationVersion: '${'version'} : ${'beta version'}',
     );
   }
@@ -202,5 +209,62 @@ class DefaultDialogue {
           });
   }
 
+  static void showIOSModalSheet(
+    BuildContext context, {
+    Key? key,
+    String? title,
+    String? message,
+    String? mainButtonLabel,
+    VoidCallback? onMainPressed,
+    List<Widget>? actions,
+  }) {
 
+      showCupertinoModalPopup(
+          context: context,
+          builder: (context) {
+            return CupertinoActionSheet(
+              cancelButton: CupertinoButton(
+                pressedOpacity: 0.5,
+                child: CustomText(
+                  mainButtonLabel ?? "cancel",
+                  isUpperCase: true,
+                ),
+                onPressed: () => onMainPressed ?? navigateBack(context),
+              ),
+              title: title != null ? CustomText(title) : null,
+              key: key,
+              actions: actions,
+              message: CustomText(message ?? "..",textAlign: TextAlign.left,textHeight: 1.2,),
+            );
+          });
+
+  }
+
+  static void showAndroidBottomSheet(
+    BuildContext context, {
+    required Widget child,
+        ShapeBorder ? shape,
+        Color ? backgroundColor,
+        bool ? enableDrag,
+        bool ? isScrollControlled,
+        bool ? isDismissible,
+  }) {
+    showModalBottomSheet(
+        context: context,
+        shape: shape ,
+        backgroundColor: backgroundColor,
+        enableDrag: enableDrag??true,
+        isScrollControlled:isScrollControlled??false ,
+        isDismissible: isDismissible ?? true,
+        builder: (context) {
+          return child;
+        });
+  }
+
+
+  static void showBasicDialog (BuildContext context, {required Widget child}){
+    showDialog(context: context, builder: (context){
+      return child;
+    });
+  }
 }

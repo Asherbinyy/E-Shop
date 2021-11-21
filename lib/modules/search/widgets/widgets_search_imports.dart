@@ -1,3 +1,4 @@
+import 'package:e_shop/modules/cart/controller/cart_cubit.dart';
 import 'package:e_shop/modules/layout/cubit/home_cubit.dart';
 import 'package:e_shop/modules/layout/cubit/home_states.dart';
 import 'package:e_shop/modules/product_details/view/product_details.dart';

@@ -224,28 +224,12 @@ Decoration defaultCardDecoration(bool isDark) => BoxDecoration(
   //
   // )
 );
-Widget curvedBottomSheetDecoration (bool isDark,{Widget ? child}){
-  return Container(
-    decoration: BoxDecoration(
-      color: isDark?Color(0xff001414):Color(0xff757575),
-    ),
-    child: Container(
-      decoration: BoxDecoration(
-        color: isDark?kDarkSecondaryColor:kLightSecondaryColor,
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(20.0),
-          topRight: Radius.circular(20.0),
-        ),
-      ),
-      child: child?? null,
-    ),
-  );
-}
+
 
 /// location
 /// Egypt co-ordinates used if no previous address provided
 const LatLng kDefaultLatLng = LatLng(30.346642654529937, 31.17326803807425);
 
-// ******* My Account **********
-// username : ahmedshiko@gmail.com
+// ******* Test Account **********
+// username : Testtset@gmail.com
 // password : 123456

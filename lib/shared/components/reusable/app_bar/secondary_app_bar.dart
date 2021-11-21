@@ -11,18 +11,17 @@ class SecondaryAppBar extends StatelessWidget implements PreferredSizeWidget {
         ),
       );
 
-
   final List<Widget>? actions;
   final String? title;
   final Color? backgroundColor;
   final Color? leadingIconColor;
   final bool isFirst;
   final SystemUiOverlayStyle? systemOverlayStyle;
-  SecondaryAppBar(
+ const SecondaryAppBar(
       {Key? key,
       this.actions,
       this.title,
-      this.backgroundColor=Colors.transparent,
+      this.backgroundColor = Colors.transparent,
       this.systemOverlayStyle,
       this.isFirst = false,
       this.leadingIconColor});

@@ -1,5 +1,4 @@
-
-part of'widgets_register_imports.dart';
+part of 'widgets_register_imports.dart';
 
 class RegisterAgreeWithMe extends StatelessWidget {
   final bool isDark;
@@ -17,30 +16,36 @@ class RegisterAgreeWithMe extends StatelessWidget {
           children: [
             Theme(
               data: ThemeData(unselectedWidgetColor: Colors.grey),
-              child: Checkbox(
-                  activeColor: kSecondaryColorLight.withRed(1),
-                  value: RegisterCubit.get(context).isCheckBox,
-                  onChanged: (isCheckBox) {
-                    RegisterCubit.get(context).checkBox();
-                  }),
+              child: BlocBuilder<RegisterCubit, RegisterStates>(
+                builder: (context, state) {
+                  final cubit = RegisterCubit.get(context);
+                  return Checkbox(
+                    activeColor: kSecondaryColorLight.withRed(1),
+                    value: cubit.isCheckBox,
+                    onChanged: (isCheckBox) => cubit.checkBox(),
+                  );
+                },
+              ),
             ),
             Text('i_agree_with'.tr(),
                 style: Theme.of(context).textTheme.subtitle2),
-            TextButton(
-              child: Text(
-                'terms_and_conditions'.tr(),
-                style: Theme.of(context).textTheme.bodyText2!.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: kSecondaryColorLight.withRed(0)),
-              ),
+            CustomTextButton(
+              child: CustomText('terms_and_conditions'.tr(),
+                  isBold: true, color: kSecondaryColorLight.withRed(0)),
               onPressed: () {
-                showModalBottomSheet(
-                    context: context,
-                    builder: (context) {
-                      return curvedBottomSheetDecoration(
-                        isDark,
-                        child: Padding(
+                Platform.isIOS
+                    ? Utils.showIOSModalSheet(context,
+                        title: 'terms_and_conditions'.tr(),
+                        actions: [
+                          TextButton(
+                              onPressed: () => navigateBack(context),
+                              child: Text('i_understand'.tr())),
+                        ],
+                        message: 'dummy_text'.tr())
+                    : Utils.showAndroidBottomSheet(context,
+                        child: CurvedBottomSheetContainer(
                           padding: const EdgeInsets.all(16.0),
+                          isDark: isDark,
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
@@ -53,9 +58,7 @@ class RegisterAgreeWithMe extends StatelessWidget {
                               ),
                             ],
                           ),
-                        ),
-                      );
-                    });
+                        ));
               },
             ),
           ],

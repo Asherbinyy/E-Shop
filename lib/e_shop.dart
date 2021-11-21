@@ -1,5 +1,6 @@
 import 'package:e_shop/modules/auth/login/view/login_imports.dart';
 import 'package:e_shop/modules/auth/register/view/register_imports.dart';
+import 'package:e_shop/modules/cart/controller/cart_cubit.dart';
 import 'package:e_shop/modules/cart/view/cart_imports.dart';
 import 'package:e_shop/modules/home/all/all_screen.dart';
 import 'package:e_shop/modules/profile/view/profile_screen.dart';
@@ -49,7 +50,7 @@ class EShop extends StatelessWidget {
                     ..changeFontSize(cachedFontSize: settings.appFontSize),
                 ),
                 BlocProvider(
-                  create: (context) => HomeCubit()
+                  create: (context) => LayoutCubit()
                     ..getHomeData()
                     ..getProfile()
                     ..getFavourites()

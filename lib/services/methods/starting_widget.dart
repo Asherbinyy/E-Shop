@@ -5,9 +5,7 @@ import 'package:e_shop/modules/welcome_message/view/import_welcome_messages.dart
 import 'package:e_shop/styles/constants/constants.dart';
 import 'package:flutter/material.dart';
 /// Returns home Widget depends on the value of token & cached memory
-class OnStarting {
 
-}
 
 Widget getStartingWidget(bool ? isLanding) {
   Widget _widget;
