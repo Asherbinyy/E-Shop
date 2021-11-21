@@ -23,12 +23,11 @@ class RegisterCubit extends Cubit<RegisterStates> {
   final registerEmailController = TextEditingController();
   final registerPasswordController = TextEditingController();
   final registerConfirmPasswordController = TextEditingController();
-  GlobalKey<FormState> registerFormKey = GlobalKey<FormState>();
+  var registerFormKey = GlobalKey<FormState>();
 
   // register
   AuthModel? get authModel=> _authModel;
   AuthModel? _authModel;
-
 
   void _signUpUser({
     required final String name,
@@ -57,12 +56,14 @@ class RegisterCubit extends Cubit<RegisterStates> {
   }
 // firebase
   Future<void> signUpWithEmailAndPassword() async {
+    print('step 0');
     emit(SignUpLoadingState());
     _auth.createUserWithEmailAndPassword(
       email: registerEmailController.text,
       password: registerPasswordController.text,
     ).then((credential)async {
       print('Credential from fireAuth => ${credential.user}');
+      print('step 1');
       final user = credential.user;
       _signUpUser(
           name: registerNameController.text,
@@ -70,12 +71,18 @@ class RegisterCubit extends Cubit<RegisterStates> {
           password: registerPasswordController.text,
           phone: registerPhoneController.text,
       );
+      print('step 2');
+
       await CacheHelper.saveData(UID, credential.user!.uid).then((value) {
         if (value){
           uId=credential.user!.uid;
         }
       });
-       _createFireStoreUser(user);
+      print('step 3');
+
+      _createFireStoreUser(user);
+      print('step 4');
+
     }).catchError((error){
       print('Error when Signing up user is : ${error.toString()}');
       emit(SignUpErrorState(error.toString()));

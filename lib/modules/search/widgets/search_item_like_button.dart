@@ -7,7 +7,7 @@ class SearchItemLikeButton extends StatelessWidget {
     required this.isDark,
   }) : super(key: key);
 
-  final HomeCubit cubit;
+  final LayoutCubit cubit;
   final ProductSearchData? product;
   final bool isDark;
 

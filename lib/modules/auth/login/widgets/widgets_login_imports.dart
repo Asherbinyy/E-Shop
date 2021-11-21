@@ -1,4 +1,5 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:e_shop/modules/auth/forgot_password/view/forgot_password_imports.dart';
 import 'package:e_shop/modules/auth/login/controller/login_cubit.dart';
 import 'package:e_shop/modules/auth/login/controller/login_states.dart';
 import 'package:e_shop/modules/auth/login/view/login_imports.dart';

@@ -4,6 +4,7 @@ import 'package:e_shop/modules/auth/register/view/register_imports.dart';
 import 'package:e_shop/modules/change_password/view/change_password_screen.dart';
 import 'package:e_shop/shared/components/builders/myConditional_builder.dart';
 import 'package:e_shop/shared/components/reusable/buttons/signing_button.dart';
+import 'package:e_shop/shared/components/reusable/padding/main_padding.dart';
 import 'package:e_shop/shared/components/reusable/spaces_and_dividers/spaces.dart';
 import 'package:e_shop/shared/components/reusable/text_field/signing_text_field.dart';
 import 'package:easy_localization/easy_localization.dart';

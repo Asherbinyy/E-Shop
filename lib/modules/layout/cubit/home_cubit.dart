@@ -1,42 +1,43 @@
 import 'dart:io';
 import 'package:bloc/bloc.dart';
-import 'package:e_shop/helpers/local/shared_pref/cache_helper.dart';
-import 'package:e_shop/helpers/local/shared_pref/cached_values.dart';
-import 'package:e_shop/helpers/remote/dio_helper.dart';
-import 'package:e_shop/helpers/remote/end_points.dart';
-import 'package:e_shop/modules/auth/models/auth_model.dart';
-import 'package:e_shop/shared/models/api/addresses/delete_address.dart';
-import 'package:e_shop/shared/models/api/addresses/get_addresses.dart';
-import 'package:e_shop/shared/models/api/banners/banners.dart';
-import 'package:e_shop/shared/models/api/carts/change_cart.dart';
-import 'package:e_shop/shared/models/api/carts/get_carts.dart';
-import 'package:e_shop/shared/models/api/carts/update_cart.dart';
-import 'package:e_shop/shared/models/api/categories/categories.dart';
-import 'package:e_shop/shared/models/api/categories/category_products.dart';
-import 'package:e_shop/shared/models/api/favourites/change_favourites.dart';
-import 'package:e_shop/shared/models/api/favourites/get_favourites.dart';
-import 'package:e_shop/shared/models/api/home/home.dart';
-import 'package:e_shop/shared/models/api/products/product_details.dart';
-import 'package:e_shop/shared/models/api/search/search.dart';
-import 'package:e_shop/shared/models/api/user/change_password.dart';
-import 'package:e_shop/shared/models/api/user/email_verification.dart';
-import 'package:e_shop/shared/models/api/user/profile.dart';
-import 'package:e_shop/shared/models/api/user/sign_out.dart';
-import 'package:e_shop/shared/models/api/user/verify_code.dart';
-import 'package:e_shop/shared/models/app/sort_by.dart';
-import 'package:e_shop/shared/models/app/tab_bar.dart';
-import 'package:e_shop/styles/constants/constants.dart';
+import 'package:e_shop/modules/cart/models/change_cart.dart';
+import 'package:e_shop/modules/cart/models/get_carts.dart';
+import 'package:e_shop/modules/cart/models/update_cart.dart';
+import '../../../helpers/local/shared_pref/cache_helper.dart';
+import '../../../helpers/local/shared_pref/cached_values.dart';
+import '../../../helpers/remote/dio_helper.dart';
+import '../../../helpers/remote/end_points.dart';
+import '../../auth/models/auth_model.dart';
+import '../../../shared/models/api/addresses/delete_address.dart';
+import '../../../shared/models/api/addresses/get_addresses.dart';
+import '../../../shared/models/api/banners/banners.dart';
+
+import '../../../shared/models/api/categories/categories.dart';
+import '../../../shared/models/api/categories/category_products.dart';
+import '../../../shared/models/api/favourites/change_favourites.dart';
+import '../../../shared/models/api/favourites/get_favourites.dart';
+import '../../../shared/models/api/home/home.dart';
+import '../../../shared/models/api/products/product_details.dart';
+import '../../../shared/models/api/search/search.dart';
+import '../../../shared/models/api/user/change_password.dart';
+import '../../../shared/models/api/user/email_verification.dart';
+import '../../../shared/models/api/user/profile.dart';
+import '../../../shared/models/api/user/sign_out.dart';
+import '../../../shared/models/api/user/verify_code.dart';
+import '../../../shared/models/app/sort_by.dart';
+import '../../../shared/models/app/tab_bar.dart';
+import '../../../styles/constants/constants.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import '/modules/home/category/categories_screen.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'home_states.dart';
+class LayoutCubit extends Cubit<LayoutStates> {
+  LayoutCubit() : super(LayoutInitialState());
 
-class HomeCubit extends Cubit<HomeStates> {
-  HomeCubit() : super(HomeInitialState());
+  static LayoutCubit get(BuildContext context) => BlocProvider.of(context);
 
-  static HomeCubit get(BuildContext context) => BlocProvider.of(context);
 
 
   /// LAYOUT : --------------------------------------------------------------------------------------------------------------------
@@ -120,13 +121,13 @@ class HomeCubit extends Cubit<HomeStates> {
     });
   }
 
-  // expand  cart tiles
-  bool isExpandedCarts=false;
-  void toggleExpandedCarts(){
-    isExpandedCarts = !isExpandedCarts;
-    emit(ToggleExpandedCartsState());
-
-  }
+  // // expand  cart tiles
+  // bool isExpandedCarts=false;
+  // void toggleExpandedCarts(){
+  //   isExpandedCarts = !isExpandedCarts;
+  //   emit(ToggleExpandedCartsState());
+  //
+  // }
   /// METHODS : ----------------------------------------------------------------
   List<HomeProducts>? shuffleHomeLists(List<HomeProducts>? list) {
     list?.shuffle();
@@ -192,7 +193,7 @@ class HomeCubit extends Cubit<HomeStates> {
         homeModel = HomeModel.fromJson(value.data);
         homeModel?.data?.products?.forEach((element) {
           _fillFavourites(element);
-          _fillCarts(element);
+          _fillCarts(element) ;
           _fillProductLists(element);
           defaultHomeProduct?.add(element); // same as popular products
         });
@@ -335,10 +336,11 @@ class HomeCubit extends Cubit<HomeStates> {
           .then((value) => showCartsDialogue = false);
     }).catchError((error) {
       print('Error in Getting Carts is : $error');
-      emit(GetFavouritesErrorState(error.toString()));
+      emit(GetCartErrorState(error.toString()));
     });
   }
 
+  bool showSpinner=false;
   /// Updates the cart one by one using the GetCartsModel and queries / cartID
    UpdateCartModel ? updateCartModel;
    void updateCart (int cartID,CartOperation operation,{int ? dropDownAmount}){
@@ -725,3 +727,5 @@ void deleteAddress(int addressId){
 }
 
 enum CartOperation{INCREMENT,DECREMENT,ONCHANGE}
+
+// 730 code line in 13 / 11 / 2021

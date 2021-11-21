@@ -9,8 +9,8 @@ void navigateTo(BuildContext context, Widget widget) =>
     );
 
 void navigateToAndFinish(BuildContext context, Widget widget,
-        {bool routeIs = false}) =>
-    Navigator.pushAndRemoveUntil(
+        {bool routeIs = false}) async=>
+    await Navigator.pushAndRemoveUntil(
       context, MaterialPageRoute(builder: (context) => widget),
       (route) => routeIs, // removes the last route if false
     );

@@ -1,8 +1,3 @@
-import 'package:e_shop/services/firebase_service/firestore_user_service.dart';
-import 'package:e_shop/styles/constants/constants.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-
-import 'modules/auth/models/user_model.dart';
 import 'services/methods/app_initializer_service.dart';
 import 'shared/models/app/cached_settings.dart';
 import 'package:flutter/material.dart';

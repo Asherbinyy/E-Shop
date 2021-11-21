@@ -25,10 +25,10 @@ class CategoryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<HomeCubit, HomeStates>(
+    return BlocConsumer<LayoutCubit, LayoutStates>(
       listener: (context, state) {},
       builder: (context, state) {
-        var cubit = HomeCubit.get(context);
+        var cubit = LayoutCubit.get(context);
         var isDark = AppCubit.get(context).isDark;
         var height = MediaQuery.of(context).size.height;
         var textTheme = Theme.of(context).textTheme;
@@ -119,7 +119,7 @@ class CategoryScreen extends StatelessWidget {
   }
 }
 class _ProductBuilder extends StatelessWidget {
-  final HomeCubit cubit;
+  final LayoutCubit cubit;
   final List<ProductCategoryData>? products;
   const _ProductBuilder(this.cubit, this.products, {Key? key})
       : super(key: key);

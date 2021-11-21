@@ -4,6 +4,7 @@ import 'package:e_shop/modules/layout/layout_screen.dart';
 import 'package:e_shop/modules/welcome_message/provider/welcome_messages_provider.dart';
 import 'package:e_shop/services/routing/navigation.dart';
 import 'package:e_shop/shared/components/reusable/app_bar/secondary_app_bar.dart';
+import 'package:e_shop/shared/components/reusable/text/custom_text.dart';
 import 'package:e_shop/styles/constants/constants.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

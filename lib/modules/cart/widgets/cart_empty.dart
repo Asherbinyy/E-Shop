@@ -1,7 +1,7 @@
 part of 'widgets_cart_imports.dart';
 
-class NoItemsAdded extends StatelessWidget {
-  const NoItemsAdded({Key? key}) : super(key: key);
+class CartEmpty extends StatelessWidget {
+  const CartEmpty({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

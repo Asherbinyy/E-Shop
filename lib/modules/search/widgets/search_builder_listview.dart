@@ -7,7 +7,7 @@ class SearchBuilderListView extends StatelessWidget {
     required this.height,
   }) : super(key: key);
 
-  final HomeCubit cubit;
+  final LayoutCubit cubit;
   final double height;
 
   @override

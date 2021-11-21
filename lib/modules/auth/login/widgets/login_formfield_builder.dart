@@ -6,11 +6,6 @@ class LoginFormFieldsBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget _loading() => const Center(
-          child: CircularProgressIndicator(
-            color: kPrimaryColor,
-          ),
-        );
     return BlocBuilder<LoginCubit, LoginStates>(builder: (context, state) {
       final cubit = LoginCubit.get(context);
       return Form(
@@ -53,11 +48,11 @@ class LoginFormFieldsBuilder extends StatelessWidget {
                   color: kPrimaryColor,
                 ),
                 onPressed: () =>
-                    navigateTo(context, const ChangePasswordScreen()),
+                    navigateTo(context, const ForgotPasswordScreen()),
               ),
             ),
-            LoginSignInButton(),
-            LoginRememberMeLisTile(),
+           const LoginSignInButton(),
+            const LoginRememberMeLisTile(),
           ],
         ),
       );

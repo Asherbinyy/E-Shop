@@ -1,21 +1,30 @@
 part of 'widgets_landing_imports.dart';
 
-class SkipButton extends StatelessWidget {
-  final TextTheme textTheme;
-  final LandingCubit cubit;
-  const SkipButton(this.textTheme, this.cubit, {Key? key}) : super(key: key);
+class LandingSkipButton extends StatelessWidget {
+  const LandingSkipButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: TextButton(
-        child: Text(
-          'skip'.tr().toUpperCase(),
-          style: textTheme.subtitle2!.copyWith(color: kLightSecondaryColor),
-        ),
-        onPressed: () => cubit.onSkipChanged(),
-      ),
+    return BlocBuilder<LandingCubit, LandingStates>(
+      key: key,
+      builder: (context, state) {
+        final cubit = LandingCubit.get(context);
+        return MyConditionalBuilder(
+            condition: cubit.isLangChoosed,
+            onBuild: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextButton(
+                child: CustomText(
+                  'skip'.tr(),
+                  isUpperCase: true,
+                  color: kLightSecondaryColor,
+                ),
+                onPressed: () => cubit.onSkipChanged(),
+              ),
+            ),
+              onError:const SizedBox() ,
+        );
+      },
     );
   }
 }

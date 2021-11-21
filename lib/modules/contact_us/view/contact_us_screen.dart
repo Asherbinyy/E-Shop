@@ -41,7 +41,7 @@ class ContactUsScreen extends StatelessWidget {
               RoundedButton(
                 backgroundColor: Theme.of(context).primaryColor,
                 child: Text('our_licence'.tr().toUpperCase()),
-                onPressed: () => DefaultDialogue.showMyAboutDialog(context),
+                onPressed: () => Utils.showMyAboutDialog(context),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),

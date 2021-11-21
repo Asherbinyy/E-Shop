@@ -9,7 +9,7 @@ import 'package:e_shop/shared/models/app/bottom_nav.dart';
 import '/shared/components/builders/myConditional_builder.dart';
 import '/shared/components/builders/shop_shimmer_builder.dart';
 import '/shared/components/adaptive/adaptive_search_bar.dart';
-import '/shared/components/reusable/app_bar/primary_sliver_appbar.dart';
+import '../../shared/components/reusable/app_bar/primary_sliver_appbar.dart';
 import '/shared/components/reusable/bottom_nav_bar/BottomNavItem.dart';
 import '/shared/components/reusable/drawer/custom_drawer.dart';
 import 'package:flutter/cupertino.dart';
@@ -33,10 +33,10 @@ class LayoutScreen extends StatelessWidget {
       builder: (context, state) {
         AppCubit appCubit = AppCubit.get(context);
         OperatingSystemOptions.showStatusBar();
-        return BlocConsumer<HomeCubit, HomeStates>(
+        return BlocConsumer<LayoutCubit, LayoutStates>(
           listener: (context, state) {},
           builder: (context, state) {
-            var cubit = HomeCubit.get(context);
+            var cubit = LayoutCubit.get(context);
             var height = MediaQuery.of(context).size.height;
 
             return Scaffold(
@@ -58,7 +58,7 @@ class LayoutScreen extends StatelessWidget {
                     floatHeaderSlivers: true,
                     physics:const BouncingScrollPhysics(),
                     headerSliverBuilder: (context, value) => [
-                       PrimarySliverAppBar( tabHeight: height * 0.04),
+                       PrimarySliverAppBar( cubit,tabHeight: height * 0.04),
                       if(!cubit.hideSearchBar) SliverToBoxAdapter(
                         child: AdaptiveSearchBar(
                           _searchController,

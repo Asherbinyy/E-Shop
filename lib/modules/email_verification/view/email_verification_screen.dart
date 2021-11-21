@@ -22,18 +22,18 @@ class EmailVerificationScreen extends StatelessWidget {
   @override
 
   Widget build(BuildContext context) {
-    return BlocConsumer<HomeCubit, HomeStates>(
+    return BlocConsumer<LayoutCubit, LayoutStates>(
       listener: (context, state) {
         if (state is SendVerificationSuccessState) {
           PlayAnimation.animationDialog(context, PlayedAnimationStyle.SUCCESS,msg: state.verifyEmailModel.message);
         }
         if (state is VerifyCodeSuccessState) {
-          if (state.verifyCodeModel!.status!)  DefaultDialogue.showSnackBar(context, 'mail_verified_success'.tr(), dialogueStates: DialogueStates.SUCCESS, isDark: AppCubit.get(context).isDark);
-        else DefaultDialogue.showSnackBar(context, 'error_try_again'.tr(), dialogueStates: DialogueStates.ERROR, isDark: AppCubit.get(context).isDark);
+          if (state.verifyCodeModel!.status!)  Utils.showSnackBar(context, 'mail_verified_success'.tr(), dialogueStates: DialogueStates.SUCCESS, isDark: AppCubit.get(context).isDark);
+        else Utils.showSnackBar(context, 'error_try_again'.tr(), dialogueStates: DialogueStates.ERROR, isDark: AppCubit.get(context).isDark);
         }
       },
       builder: (context, state) {
-        HomeCubit cubit = HomeCubit.get(context);
+        LayoutCubit cubit = LayoutCubit.get(context);
         var profile = cubit.profileModel!.data!;
         return Scaffold(
           extendBodyBehindAppBar: true,
@@ -58,7 +58,7 @@ class EmailVerificationScreen extends StatelessWidget {
 
 class _PinCodeBuilder extends StatefulWidget {
   final ProfileData profile;
-  final HomeCubit cubit;
+  final LayoutCubit cubit;
   const _PinCodeBuilder(this.cubit,this.profile, {Key? key}) : super(key: key);
 
   @override
@@ -234,8 +234,8 @@ class _PinCodeBuilderState extends State<_PinCodeBuilder>  {
 
 class _SendVerificationBuilder extends StatelessWidget {
  final ProfileData profile;
- final HomeCubit cubit;
- final HomeStates state;
+ final LayoutCubit cubit;
+ final LayoutStates state;
   const _SendVerificationBuilder(
       this.cubit,this.state,this.profile,{
     Key? key,

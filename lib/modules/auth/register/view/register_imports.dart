@@ -4,6 +4,7 @@ import 'package:e_shop/modules/auth/register/controller/register_state.dart';
 import 'package:e_shop/modules/auth/register/widgets/widgets_register_imports.dart';
 import 'package:e_shop/modules/auth/widgets/auth_imports.dart';
 import 'package:e_shop/modules/layout/layout_screen.dart';
+import 'package:e_shop/shared/components/reusable/padding/main_padding.dart';
 import '/shared/components/reusable/dialogue/default_dialogue.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

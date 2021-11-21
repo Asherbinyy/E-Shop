@@ -1,4 +1,5 @@
 import 'package:e_shop/shared/components/reusable/spaces_and_dividers/spaces.dart';
+import 'package:e_shop/shared/components/reusable/text/custom_text.dart';
 import 'package:e_shop/styles/constants/constants.dart';
 
 import 'package:expandable/expandable.dart';
@@ -54,18 +55,17 @@ class ExpandableListTile extends StatelessWidget {
               backgroundColor: primaryColor,
             ),
          if (prefixIcon != null) XSpace.extreme,
-            Text(
-              label,
-              style: Theme.of(context)
-                  .textTheme
-                  .subtitle1!
-                  .copyWith(color: primaryColor,fontSize: fontSize),
+            Expanded(
+              child: CustomText(
+                label,isBold: true,
+                color: primaryColor,fontSize: fontSize,
+              ),
             ),
           ],
         ),
         collapsed: Visibility(
           visible: false,
-          child: const Text(''),
+          child: const CustomText(''),
         ),
         expanded: child ??const SizedBox(),
       ),

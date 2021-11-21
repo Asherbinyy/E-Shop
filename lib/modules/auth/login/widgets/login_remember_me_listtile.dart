@@ -31,15 +31,15 @@ class LoginRememberMeLisTile extends StatelessWidget {
               'remember_me'.tr(),
               isBold: true,
             ),
-            CustomTextButton(
-              child: CustomText(
-                'forgot_password'.tr(),
-                color: kPrimaryColorLight.withRed(1),
-                isBold: true,
-              ),
-              onPressed: () =>
-                  navigateTo(context, const ChangePasswordScreen()),
-            ),
+            // CustomTextButton(
+            //   child: CustomText(
+            //     'forgot_password'.tr(),
+            //     color: kPrimaryColorLight.withRed(1),
+            //     isBold: true,
+            //   ),
+            //   onPressed: () =>
+            //       navigateTo(context, const ChangePasswordScreen()),
+            // ),
           ],
         ),
       ),

@@ -1,9 +1,14 @@
+import 'dart:io';
+
 import 'package:e_shop/modules/auth/register/controller/register_cubit.dart';
 import 'package:e_shop/modules/auth/register/controller/register_state.dart';
 import 'package:e_shop/modules/auth/widgets/auth_imports.dart';
 import 'package:e_shop/services/routing/navigation.dart';
 import 'package:e_shop/shared/components/builders/myConditional_builder.dart';
 import 'package:e_shop/shared/components/reusable/buttons/custom_rounded_button.dart';
+import 'package:e_shop/shared/components/reusable/buttons/custom_text_button.dart';
+import 'package:e_shop/shared/components/reusable/container/curved_bottom_sheet_container.dart';
+import 'package:e_shop/shared/components/reusable/dialogue/default_dialogue.dart';
 import 'package:e_shop/shared/components/reusable/spaces_and_dividers/custom_divider.dart';
 import 'package:e_shop/shared/components/reusable/spaces_and_dividers/spaces.dart';
 import 'package:e_shop/shared/components/reusable/text/custom_text.dart';

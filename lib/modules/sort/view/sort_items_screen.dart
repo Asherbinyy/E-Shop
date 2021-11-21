@@ -3,7 +3,7 @@ import 'package:e_shop/shared/models/app/sort_by.dart';
 import 'package:flutter/material.dart';
 
 class SortItemsScreen extends StatefulWidget {
-  final HomeCubit cubit;
+  final LayoutCubit cubit;
   const SortItemsScreen(this.cubit,{Key? key}) : super(key: key);
 
   @override
