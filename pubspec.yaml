@@ -103,6 +103,7 @@ flutter:
     - assets/google_fonts/Montserrat-Thin.ttf
     - assets/icons/typeIcons.ttf
     - assets/images/
+    - assets/images/flags/
     - assets/translations/ar.json
     - assets/translations/en.json
   fonts:

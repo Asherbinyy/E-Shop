@@ -38,7 +38,7 @@ class SettingScreen extends StatelessWidget {
             );
 
         }
-         if (state is ChangeAppColorsErrorState) {
+        if (state is ChangeAppColorsErrorState) {
            Utils.showSnackBar(
              context, 'something_went_wrong'.tr(),
              dialogueStates: DialogueStates.ERROR,);
@@ -271,6 +271,7 @@ class _DarkModeSection extends StatelessWidget {
     );
   }
 }
+
 /// 4th Section
 class _AppearanceSection extends StatelessWidget {
   final AppCubit appCubit;
@@ -330,7 +331,8 @@ class _AppearanceSection extends StatelessWidget {
     );
   }
 }
-///5th
+
+///5th Section
 class _FontSizeSection extends StatelessWidget {
   final AppCubit appCubit;
   const _FontSizeSection(this.appCubit, {Key? key}) : super(key: key);
