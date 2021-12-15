@@ -1,18 +1,17 @@
-
-import 'package:e_shop/modules/layout/cubit/home_cubit.dart';
-import 'package:e_shop/modules/layout/cubit/home_states.dart';
-import 'package:e_shop/services/routing/navigation.dart';
-import 'package:e_shop/shared/components/reusable/dialogue/default_dialogue.dart';
-import 'package:e_shop/shared/components/reusable/spaces_and_dividers/custom_divider.dart';
-import 'package:e_shop/shared/components/reusable/spaces_and_dividers/sections_divider.dart';
-import 'package:e_shop/shared/components/reusable/spaces_and_dividers/spaces.dart';
-import 'package:e_shop/shared/components/reusable/tiles/expandable_tile.dart';
-import 'package:e_shop/shared/cubits/app_cubit/app_cubit.dart';
-import 'package:e_shop/shared/cubits/app_cubit/app_state.dart';
-import 'package:e_shop/shared/models/app/countries.dart';
-import 'package:e_shop/shared/models/app/languages.dart';
-import 'package:e_shop/styles/constants/constants.dart';
-import 'package:e_shop/styles/palette.dart';
+import '../../layout/cubit/home_cubit.dart';
+import '../../layout/cubit/home_states.dart';
+import '../../../services/routing/navigation.dart';
+import '../../../shared/components/reusable/dialogue/default_dialogue.dart';
+import '../../../shared/components/reusable/spaces_and_dividers/custom_divider.dart';
+import '../../../shared/components/reusable/spaces_and_dividers/sections_divider.dart';
+import '../../../shared/components/reusable/spaces_and_dividers/spaces.dart';
+import '../../../shared/components/reusable/tiles/expandable_tile.dart';
+import '../../../shared/cubits/app_cubit/app_cubit.dart';
+import '../../../shared/cubits/app_cubit/app_state.dart';
+import '../../../shared/models/app/countries.dart';
+import '../../../shared/models/app/languages.dart';
+import '../../../styles/constants/constants.dart';
+import '../../../styles/palette.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +21,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class SettingScreen extends StatelessWidget {
   const SettingScreen({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AppCubit, AppStates>(
@@ -271,7 +269,6 @@ class _DarkModeSection extends StatelessWidget {
     );
   }
 }
-
 /// 4th Section
 class _AppearanceSection extends StatelessWidget {
   final AppCubit appCubit;
@@ -331,8 +328,7 @@ class _AppearanceSection extends StatelessWidget {
     );
   }
 }
-
-///5th Section
+///5th
 class _FontSizeSection extends StatelessWidget {
   final AppCubit appCubit;
   const _FontSizeSection(this.appCubit, {Key? key}) : super(key: key);
