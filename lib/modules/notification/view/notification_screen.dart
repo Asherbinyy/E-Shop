@@ -1,3 +1,5 @@
+import 'package:e_shop/shared/components/builders/comming_soon_builder.dart';
+
 import '/shared/components/reusable/app_bar/secondary_app_bar.dart';
 import 'package:flutter/material.dart';
 
@@ -10,20 +12,25 @@ class NotificationScreen extends StatelessWidget {
       tag: ValueKey<String>('Notification'),
       child: Scaffold(
         appBar: SecondaryAppBar(title: 'Notification Screen'),
-        body: Column(
-          children: [
-            Center(child: Text('Notification Screen')),
-          ],
+        body: ComingSoonBuilder(
+          child: Column(
+            children: [
+              // Center(
+              //     child:
+              //     Text('Notification Screen'),
+              // ),
+            ],
+          ),
         ),
       ),
     );
   }
 }
-class _SectionHeader extends StatelessWidget {
-  const _SectionHeader({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container();
-  }
-}
+// class _SectionHeader extends StatelessWidget {
+//   const _SectionHeader({Key? key}) : super(key: key);
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container();
+//   }
+// }

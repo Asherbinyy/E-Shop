@@ -13,15 +13,14 @@ import 'package:flutter/material.dart';
 
 class AppInitializer {
   AppInitializer._();
-  static Future<void> initializeApp() async {
 
+  static Future<void> initializeApp() async {
     WidgetsFlutterBinding.ensureInitialized();
     Bloc.observer = MyBlocObserver();
     await CacheHelper.init();
     await Firebase.initializeApp();
     await EasyLocalization.ensureInitialized();
     DioHelper.init();
-
     //cached Data
     landing = CacheHelper.getData(LANDING);
     stopWelcome = CacheHelper.getData(STOP_WELCOME) ?? false;
@@ -30,6 +29,5 @@ class AppInitializer {
     appLanguage = CacheHelper.getData(APP_LANGUAGE);
     // sys orientation
     await OperatingSystemOptions.fixedOrientation();
-
   }
 }

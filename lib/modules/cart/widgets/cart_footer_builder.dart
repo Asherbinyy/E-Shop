@@ -32,10 +32,9 @@ class CartFooterBuilder extends StatelessWidget {
               ),
               XSpace.normal,
               CustomTextButton(
-                child: Hero(
-                    tag: 'OrderScreen',
-                    child: CustomText('make_order'.tr(),isUpperCase: true,)),
-                onPressed: () => navigateTo(context, const OrderScreen()),
+                child: CustomText('make_order'.tr(),isUpperCase: true,),
+                onPressed: () =>
+                    navigateTo(context, const OrderScreen()),
               ),
             ],
           ),

@@ -41,7 +41,7 @@ class PrimarySliverAppBar extends StatelessWidget {
         // cart screen
         _CartActionButton(cubit),
         //dark mode
-        _DarkModeButton(appCubit),
+        // _DarkModeButton(appCubit),
         // avatar
         _AvatarButton(cubit),
       ],

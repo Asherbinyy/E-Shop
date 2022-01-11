@@ -325,20 +325,20 @@ class ProductDetailsScreen extends StatelessWidget {
                                 : Text('EGP ${product?.price ?? ''}'),
                           ),
                           // Buttons
-                          _section(
-                            'label',
-                            isCustomizable: true,
-                            child: ToggleButtons(
-                              onPressed: (index) {},
-                              children: List.generate(
-                                  3,
-                                  (index) => TextButton(
-                                        onPressed: () {},
-                                        child: Text('button'),
-                                      )),
-                              isSelected: List.generate(3, (index) => false),
-                            ),
-                          ),
+                          // _section(
+                          //   'label',
+                          //   isCustomizable: true,
+                          //   child: ToggleButtons(
+                          //     onPressed: (index) {},
+                          //     children: List.generate(
+                          //         3,
+                          //         (index) => TextButton(
+                          //               onPressed: () {},
+                          //               child: Text('button'),
+                          //             )),
+                          //     isSelected: List.generate(3, (index) => false),
+                          //   ),
+                          // ),
 
                           // RATING
                           _section(

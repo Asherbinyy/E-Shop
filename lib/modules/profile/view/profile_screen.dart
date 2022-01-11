@@ -94,11 +94,8 @@ class ProfileScreen extends StatelessWidget {
                     children: [
                       if (state is UpdateProfileLoadingState)
                         _loadingProgress(),
-
-
                       _ProfileImageStack(profile: profile, cubit: cubit),
                       YSpace.hard,
-
                       _TextFieldBloc(isDark: isDark, cubit: cubit),
                       if (cubit.isEditableProfile)
                         // change password
@@ -114,7 +111,7 @@ class ProfileScreen extends StatelessWidget {
                         ),
                       if (cubit.isEditableProfile) _updateButton(isDark, cubit),
                       YSpace.extreme,
-                      _signOutButton(isDark, cubit),
+                      // _signOutButton(isDark, cubit),
                     ],
                   ),
                 ),
@@ -127,8 +124,11 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget _signOutButton(bool isDark, LayoutCubit cubit) =>
+  Widget _signOutButton (bool isDark, LayoutCubit cubit) =>
         RoundedButton.icon(
+          onPressed: (){
+            cubit.signOut();
+          },
            label: 'log out',
             icon: Icons.logout,
             isDisabled: false,

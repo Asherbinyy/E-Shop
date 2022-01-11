@@ -1,3 +1,5 @@
+import 'package:e_shop/shared/components/builders/comming_soon_builder.dart';
+
 import '/shared/components/reusable/app_bar/secondary_app_bar.dart';
 import 'package:flutter/material.dart';
 
@@ -10,7 +12,11 @@ class PaymentScreen extends StatelessWidget {
       tag: ValueKey<String>('Payment'),
       child: Scaffold(
         appBar: SecondaryAppBar(title: 'Payment Screen'),
-        body: Center(child: Text('Payment Screen')),
+        body: ComingSoonBuilder(
+          child:  Column(
+            children: const[],
+          ),
+        ),
       ),
     );
   }

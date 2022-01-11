@@ -38,8 +38,6 @@ class LayoutCubit extends Cubit<LayoutStates> {
 
   static LayoutCubit get(BuildContext context) => BlocProvider.of(context);
 
-
-
   /// LAYOUT : --------------------------------------------------------------------------------------------------------------------
 //appbar
   /// pinned in anywhere otherwise home screen
@@ -454,6 +452,8 @@ class LayoutCubit extends Cubit<LayoutStates> {
             token: '$token')
         .then((value) {
       signOutModel = SignOutModel.formJson(value.data);
+
+      emit(SignOutSuccessState(signOutModel!));
     }).catchError((error) {
       print('Error in Signing Out user is : $error');
       emit(SignOutErrorState(error));
