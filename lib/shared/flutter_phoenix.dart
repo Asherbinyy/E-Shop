@@ -11,7 +11,7 @@ class Phoenix extends StatefulWidget {
   _PhoenixState createState() => _PhoenixState();
 
   static rebirth(BuildContext context) {
-    context.findAncestorStateOfType<_PhoenixState>()!.restartApp();
+    context.findAncestorStateOfType<_PhoenixState>()?.restartApp();
   }
 }
 

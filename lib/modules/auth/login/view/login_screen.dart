@@ -7,6 +7,7 @@ class LoginScreen extends StatelessWidget {
     final isDark = AppCubit.get(context).isDark;
     return LoginWrapper(
       screen: Scaffold(
+
         // backgroundColor: isDark ? kDarkPrimaryColor : Colors.white,
         body: MainPadding(
           child: ListView(

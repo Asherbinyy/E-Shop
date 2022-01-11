@@ -90,8 +90,7 @@ class SettingScreen extends StatelessWidget {
     );
   }
 }
-
-/// first section
+///first section
 class _LanguagePickerSection extends StatelessWidget {
   final AppCubit appCubit;
   const _LanguagePickerSection( this.appCubit,{
@@ -158,7 +157,6 @@ class _LanguagePickerSection extends StatelessWidget {
     );
   }
 }
-
 ///second section
 class _CountrySection extends StatelessWidget {
   final AppCubit appCubit;
@@ -227,7 +225,6 @@ class _CountrySection extends StatelessWidget {
     );
   }
 }
-
 ///third section
 class _DarkModeSection extends StatelessWidget {
   final bool isDark;
@@ -239,7 +236,6 @@ class _DarkModeSection extends StatelessWidget {
     return BlocConsumer<LayoutCubit, LayoutStates>(
       listener: (context, state) {},
       builder: (context, state) {
-        var cubit = LayoutCubit.get(context);
         return Column(
           children: [
             _SettingSection(
@@ -269,7 +265,7 @@ class _DarkModeSection extends StatelessWidget {
     );
   }
 }
-/// 4th Section
+///4th Section
 class _AppearanceSection extends StatelessWidget {
   final AppCubit appCubit;
   const _AppearanceSection(this.appCubit,{Key? key}) : super(key: key);
@@ -328,7 +324,7 @@ class _AppearanceSection extends StatelessWidget {
     );
   }
 }
-///5th
+///5th Section
 class _FontSizeSection extends StatelessWidget {
   final AppCubit appCubit;
   const _FontSizeSection(this.appCubit, {Key? key}) : super(key: key);
@@ -385,7 +381,6 @@ class _FontSizeSection extends StatelessWidget {
     );
   }
 }
-
 
 class _SettingSection extends StatelessWidget {
   final String label;

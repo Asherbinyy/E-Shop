@@ -15,6 +15,7 @@ class XDivider extends StatelessWidget {
     this.horizontalPadding = 0.0,
   }) : super(key: key);
 
+
   /// Normal Divider with opacity = 1
   factory XDivider.normal(
       {double height = 1.0,

@@ -132,7 +132,7 @@ class ImagePickedErrorState extends LayoutStates{}
 
 //sign out
 class SignOutSuccessState extends LayoutStates {
- final SignOutModel signOutModel;
+ final SignOutModel  signOutModel;
   SignOutSuccessState(this.signOutModel);
 
 }

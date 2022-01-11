@@ -39,7 +39,8 @@ class LoginHeaderBuilder extends StatelessWidget {
                   isBold: true,
                   color: kPrimaryColor,
                 ),
-                onPressed: () => navigateTo(context, const RegisterScreen()),
+                onPressed: () => navigateTo(
+                    context, const RegisterScreen()),
               ),
             ],
           ),
